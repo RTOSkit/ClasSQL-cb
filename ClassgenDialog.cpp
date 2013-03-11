@@ -129,6 +129,7 @@ const long ClassgenDialog::ID_TEXTCTRL3 = wxNewId();
 const long ClassgenDialog::ID_TEXTCTRL4 = wxNewId();
 const long ClassgenDialog::ID_STATICBOX5 = wxNewId();
 const long ClassgenDialog::ID_STATICTEXT5 = wxNewId();
+const long ClassgenDialog::ID_RADIOBOX1 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(ClassgenDialog,wxDialog)
@@ -152,9 +153,9 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	Create(parent, wxID_ANY, _("ClasSQL Plugin - Generator of Abstraction for SQL layering class"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxDIALOG_NO_PARENT, _T("wxID_ANY"));
 	SetClientSize(wxSize(631,577));
 	sbxClassdefinition = new wxStaticBox(this, ID_STATICBOX1, _("SQL Inspector"), wxPoint(8,128), wxSize(616,232), 0, _T("ID_STATICBOX1"));
-	sbxLibraryrules = new wxStaticBox(this, ID_STATICBOX2, _("Stuff\'s identifications "), wxPoint(8,360), wxSize(320,160), 0, _T("ID_STATICBOX2"));
-	btnCancel = new wxButton(this, ID_BUTTON1, _("Cancel"), wxPoint(424,528), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
-	btnOK = new wxButton(this, ID_BUTTON2, _("Generate Class"), wxPoint(520,528), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
+	sbxLibraryrules = new wxStaticBox(this, ID_STATICBOX2, _("Stuff\'s identifications "), wxPoint(8,360), wxSize(320,128), 0, _T("ID_STATICBOX2"));
+	btnCancel = new wxButton(this, ID_BUTTON1, _("Cancel"), wxPoint(336,496), wxSize(141,72), 0, wxDefaultValidator, _T("ID_BUTTON1"));
+	btnOK = new wxButton(this, ID_BUTTON2, _("Generate Class"), wxPoint(488,496), wxSize(136,72), 0, wxDefaultValidator, _T("ID_BUTTON2"));
 	Notebook1 = new wxNotebook(this, ID_NOTEBOOK1, wxPoint(8,8), wxSize(616,112), 0, _T("ID_NOTEBOOK1"));
 	Panel1 = new wxPanel(Notebook1, ID_PANEL1, wxDefaultPosition, wxSize(608,65), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	labDBpath = new wxStaticText(Panel1, ID_STATICTEXT2, _("DB path:"), wxPoint(8,22), wxDefaultSize, 0, _T("ID_STATICTEXT2"));
@@ -183,16 +184,22 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	gridFields->SetColLabelValue(2, _("TYPE"));
 	gridFields->SetDefaultCellFont( gridFields->GetFont() );
 	gridFields->SetDefaultCellTextColour( gridFields->GetForegroundColour() );
-	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Author:"), wxPoint(48,400), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
-	StaticText2 = new wxStaticText(this, ID_STATICTEXT3, _("Copyright:"), wxPoint(32,432), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
-	StaticText3 = new wxStaticText(this, ID_STATICTEXT4, _("License:"), wxPoint(41,464), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
-	txtAuthor = new wxTextCtrl(this, ID_TEXTCTRL1, wxEmptyString, wxPoint(112,392), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-	txtCopyright = new wxTextCtrl(this, ID_TEXTCTRL3, _("2013 ..."), wxPoint(112,424), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL3"));
-	txtLicense = new wxTextCtrl(this, ID_TEXTCTRL4, _("GPL"), wxPoint(112,456), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL4"));
-	StaticBox3 = new wxStaticBox(this, ID_STATICBOX5, _("Search directories in compiler Targets"), wxPoint(336,360), wxSize(288,160), 0, _T("ID_STATICBOX5"));
-	StaticText4 = new wxStaticText(this, ID_STATICTEXT5, _("runlibs/sqlite3/include\nrunlibs/sqlite3/api\nsqlbridges"), wxPoint(352,400), wxSize(228,54), 0, _T("ID_STATICTEXT5"));
+	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Author:"), wxPoint(49,392), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
+	StaticText2 = new wxStaticText(this, ID_STATICTEXT3, _("Copyright:"), wxPoint(32,424), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
+	StaticText3 = new wxStaticText(this, ID_STATICTEXT4, _("License:"), wxPoint(44,456), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
+	txtAuthor = new wxTextCtrl(this, ID_TEXTCTRL1, wxEmptyString, wxPoint(112,384), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	txtCopyright = new wxTextCtrl(this, ID_TEXTCTRL3, _("2013 ..."), wxPoint(112,416), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL3"));
+	txtLicense = new wxTextCtrl(this, ID_TEXTCTRL4, _("GPL"), wxPoint(112,448), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL4"));
+	StaticBox3 = new wxStaticBox(this, ID_STATICBOX5, _("Search directories in compiler Targets"), wxPoint(336,360), wxSize(288,128), 0, _T("ID_STATICBOX5"));
+	StaticText4 = new wxStaticText(this, ID_STATICTEXT5, _("runlibs/sqlite3/include\nrunlibs/sqlite3/api\nsqlbridges"), wxPoint(352,392), wxSize(228,54), 0, _T("ID_STATICTEXT5"));
 	wxFont StaticText4Font(16,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
 	StaticText4->SetFont(StaticText4Font);
+	wxString __wxRadioBoxChoices_1[2] =
+	{
+		_("use std::vector"),
+		_("use std::list")
+	};
+	rbxTDM = new wxRadioBox(this, ID_RADIOBOX1, _("Transport Data Mode"), wxPoint(8,488), wxSize(320,80), 2, __wxRadioBoxChoices_1, 2, 0, wxDefaultValidator, _T("ID_RADIOBOX1"));
 	FileDialog1 = new wxFileDialog(this, _("Select file"), wxEmptyString, wxEmptyString, wxFileSelectorDefaultWildcardStr, 0, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
 	Center();
 
@@ -423,10 +430,6 @@ void ClassgenDialog::InitProjectCfg(void)
         m_s3dbPathGlobal = _T("");
         m_prjName = m_prj->GetTitle();
 
-
-        //cbMessageBox(m_prjName,_T("ClasSQL"), wxICON_ERROR | wxOK);
-
-
         ConfigManager *  cfg = Manager::Get()->GetConfigManager(_T("ClasSQL"));
         cfg->Read(_T("m_s3dbPath"),&m_s3dbPathGlobal);
         cfg->Read(_T("m_Author"),&m_Author);
@@ -438,15 +441,12 @@ void ClassgenDialog::InitProjectCfg(void)
         txtCopyright->SetValue(m_Copyright);
         txtLicense->SetValue(m_License);
 
-        //cbMessageBox(cfg->GetDataFolder(),_T("ClasSQL"), wxICON_ERROR | wxOK);
         //    cfg->Write(_T("prjcfg"), (wxString) _T(""));
 
         m_prjCfg =  new ProjectCfg();
         wxString str_prjcfg = _T("");
         cfg->Read(_T("prjcfg"),&str_prjcfg);
 
-
-        //cbMessageBox(str_prjcfg,_T("ClasSQL"), wxICON_ERROR | wxOK);
 
         if(m_s3dbPathGlobal.IsEmpty())
            m_s3dbPathGlobal = m_prj->GetCommonTopLevelPath();
@@ -458,29 +458,18 @@ void ClassgenDialog::InitProjectCfg(void)
             {
 
                 wxString temp1 = tProjects.GetNextToken();
-               // cbMessageBox(temp1,_T("temp1"), wxICON_ERROR | wxOK);
 
                 wxStringTokenizer tProject(temp1,C_SPLIT_RVALUE);
                 if(tProject.HasMoreTokens()){
 
                     wxString baneCtrl = tProject.GetNextToken();
-                  //  cbMessageBox( baneCtrl + wxString::Format(_T("   %d"),m_prjName.CompareTo(baneCtrl)),_T("ClasSQL"), wxICON_ERROR | wxOK);
-
 
                     if(m_prjName.CompareTo(baneCtrl)==0){
-                            wxString temp2 = tProject.GetNextToken();
-                        //    cbMessageBox(temp2,_T("temp2"), wxICON_ERROR | wxOK);
-
-
-
-                        //cbMessageBox(baneCtrl,_T("ClasSQL"), wxICON_ERROR | wxOK);
-                       m_prjCfg->RecordToFields(temp2,C_SPLIT_FIELD,C_SPLIT_FVALUE);
+                        wxString temp2 = tProject.GetNextToken();
+                        m_prjCfg->RecordToFields(temp2,C_SPLIT_FIELD,C_SPLIT_FVALUE);
                     }
                 }
             }
-
-          //  cbMessageBox(m_prjCfg->GetValue(ProjectCfg::E_s3dbPath),_T("ClasSQL"), wxICON_ERROR | wxOK);
-
 
             if(!m_prjCfg->GetValue(ProjectCfg::E_s3dbPath).IsEmpty())
             {
@@ -710,6 +699,7 @@ bool ClassgenDialog::DoFiles(void)
           m_License = txtLicense->GetValue();
 
 
+          dataTransport.isVector = !rbxTDM->GetSelection();
           dataTransport.Author = m_Author;
           dataTransport.Copyright = m_Copyright;
           dataTransport.License = m_License;
@@ -846,6 +836,7 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
       wxString license = dataTransport.License;
       wxString classql_version = dataTransport.ClasSQL_version;
       wxString default_dbpath = dataTransport.DBpath;
+      wxString tdm = (dataTransport.isVector)?_T("vector"):_T("list");
       wxString date;
       wxDateTime dt = wxDateTime::Today();
       date.sprintf(_("%s"),dt.FormatISODate().c_str());
@@ -1035,12 +1026,14 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
              wxRegEx rule_copyright( _T("(<copyright>)"));
              wxRegEx rule_license( _T("(<license>)"));
              wxRegEx rule_classql_version( _T("(<classql_version>)"));
+             wxRegEx rule_tdm( _T("(<tdm>)"));
 
              rule_author.ReplaceAll(&wxsH_CHUNK_1,author);
              rule_date.ReplaceAll(&_wxsH_CHUNK_1,date);
              rule_copyright.ReplaceAll(&_wxsH_CHUNK_1,copyright);
              rule_license.ReplaceAll(&_wxsH_CHUNK_1,license);
              rule_classql_version.ReplaceAll(&_wxsH_CHUNK_1,classql_version);
+             rule_tdm.ReplaceAll(&_wxsH_CHUNK_1,tdm);
 
              rule_tnu.ReplaceAll(&_wxsH_CHUNK_1,tablename_upper);
              rule_tnc.ReplaceAll(&_wxsH_CHUNK_1,tablename_capital);
@@ -1499,7 +1492,7 @@ _T("\n\
 /**\n\
  * DELETE STATEMENT\n\
  */\n\
-wxString Bridge<tablename_capital>::DeleteRecordsQueryWhere(const wxString\\& prequery,\n\
+wxString Bridge<tablename_capital>::<tablename_capital>DeleteRecordsQueryWhere(const wxString\\& prequery,\n\
                                                  const wxString\\& query,\n\
                                                  const wxString\\& postquery)\n\
 {\n\
@@ -1537,7 +1530,7 @@ _T("\n\
  * SELECT STATEMENT\n\
  */\n\
 \n\
-<tablename_capital>List Bridge<tablename_capital>::GetListFromQuery(const wxString\\& prequery,\n\
+<tablename_capital>List Bridge<tablename_capital>::<tablename_capital>GetListFromQuery(const wxString\\& prequery,\n\
                                                       const wxString\\& query,\n\
                                                       const wxString\\& postquery,\n\
                                                       int limit)\n\
@@ -1575,7 +1568,7 @@ _T("\n\
 /**\n\
  * UPDATE STATEMENT\n\
  */\n\
-wxString Bridge<tablename_capital>::UpdateRecordsQueryWhere(const wxString\\& prequery,\n\
+wxString Bridge<tablename_capital>::<tablename_capital>UpdateRecordsQueryWhere(const wxString\\& prequery,\n\
                                                 const wxString\\& query,\n\
                                                 const wxString\\& postquery,\n\
                                                 <tablename_capital>Record record)\n\
@@ -1619,7 +1612,7 @@ _T("\n\
  * INSERT STATEMENT MULTI RECORDS\n\
  */\n\
 \n\
-wxString Bridge<tablename_capital>::InsertRecordsQuery(<tablename_capital>List records)\n\
+wxString Bridge<tablename_capital>::<tablename_capital>InsertRecordsQuery(<tablename_capital>List records)\n\
 {\n\
     try{\n\
         if(wxSQLite3Database* db = OpenDB())\n\
@@ -1659,7 +1652,7 @@ _T("\n\
  * INSERT STATEMENT BY ONE\n\
  */\n\
 \n\
-wxString Bridge<tablename_capital>::InsertRecordQuery(<tablename_capital>Record record)\n\
+wxString Bridge<tablename_capital>::<tablename_capital>InsertRecordQuery(<tablename_capital>Record record)\n\
 {\n\
     try{\n\
         if(wxSQLite3Database* db = OpenDB())\n\
@@ -1743,8 +1736,8 @@ _T("\
 #define DEFAULT_QUERY_LIMIT                                (1000)\n\
 \n\
 //MACRO TYPE\n\
-#define <tablename_capital>List                                        std::list<<tablename_capital>Record>\n\
-#define <tablename_capital>Iterator                                    std::list<<tablename_capital>Record>::iterator   \n");
+#define <tablename_capital>List                                        std::<tdm><<tablename_capital>Record>\n\
+#define <tablename_capital>Iterator                                    std::<tdm><<tablename_capital>Record>::iterator   \n");
 
 
 wxString wxsH_INSERT_STATEMENTS_CHUNK_1 =
@@ -1754,9 +1747,9 @@ _T("\n\
  */\n\
 \n\
 //INSERT ONE RECORD\n\
-#define InsertRecord(x)                                    InsertRecordQuery(x)\n\
+#define <tablename_capital>InsertRecord(x)                                    <tablename_capital>InsertRecordQuery(x)\n\
 //INSERT LIST OF RECORDS\n\
-#define InsertRecords(x)                                   InsertRecordsQuery(x)");
+#define <tablename_capital>InsertRecords(x)                                   <tablename_capital>InsertRecordsQuery(x)");
 
 
 wxString wxsH_SELECT_STATEMENTS_CHUNK_1 =
@@ -1766,17 +1759,17 @@ _T("\n\
  */\n\
 \n\
 //FREE QUERY WITHOUT LIMIT\n\
-#define GetListFreeStatement(x)                            GetListFromQuery(_T(x),_T(\"\"),_T(\"\"))\n\
+#define <tablename_capital>GetListFreeStatement(x)                            <tablename_capital>GetListFromQuery(_T(x),_T(\"\"),_T(\"\"))\n\
 //FREE QUERY WITH LIMIT\n\
-#define GetListFrameFreeStatement(x,y)                     GetListFromQuery(_T(x),_T(\"\"),_T(\"\"),y)\n\
+#define <tablename_capital>GetListFrameFreeStatement(x,y)                     <tablename_capital>GetListFromQuery(_T(x),_T(\"\"),_T(\"\"),y)\n\
 \n\
 //FREE CONDITION WITHOUT LIMIT\n\
-#define GetListWhere(x)                                    GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE \"),_T(x),_T(\"\"))\n\
+#define <tablename_capital>GetListWhere(x)                                    <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE \"),_T(x),_T(\"\"))\n\
 //FREE CONDITION WITH LIMIT\n\
-#define GetListFrameWhere(x,y)                             GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE \"),_T(x),_T(\"\"), y)\n\
+#define <tablename_capital>GetListFrameWhere(x,y)                             <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE \"),_T(x),_T(\"\"), y)\n\
 \n\
 //SEARCH BY ID\n\
-#define GetListWhereID(x)                                  GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE ID = \"),_T(x),_T(\" \"))\n");
+#define <tablename_capital>GetListWhereID(x)                                  <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE ID = \"),_T(x),_T(\" \"))\n");
 
 
 
@@ -1784,22 +1777,22 @@ _T("\n\
 
 wxString wxsH_SELECT_STATEMENTS_MACRO_1 =
 _T("\n\
-#define GetListWhere<fieldname_capital>Exactly(x)                       GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> = '\"),_T(x),_T(\"' \"))");
+#define <tablename_capital>GetListWhere<fieldname_capital>Exactly(x)                       <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> = '\"),_T(x),_T(\"' \"))");
 
 
 wxString wxsH_SELECT_STATEMENTS_MACRO_2 =
 _T("\n\
-#define GetListWhere<fieldname_capital>Like(x)                          GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> LIKE '\"),_T(x), _T(\"' \"))");
+#define <tablename_capital>GetListWhere<fieldname_capital>Like(x)                          <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> LIKE '\"),_T(x), _T(\"' \"))");
 
 
 wxString wxsH_SELECT_STATEMENTS_MACRO_3 =
 _T("\n\
-#define GetListFrameWhere<fieldname_capital>Exactly(x,y)                GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> = '\"),_T(x),_T(\"' \"),y)");
+#define <tablename_capital>GetListFrameWhere<fieldname_capital>Exactly(x,y)                <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> = '\"),_T(x),_T(\"' \"),y)");
 
 
 wxString wxsH_SELECT_STATEMENTS_MACRO_4 =
 _T("\n\
-#define GetListFrameWhere<fieldname_capital>Like(x,y)                   GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> LIKE '\"),_T(x), _T(\"' \"),y)");
+#define <tablename_capital>GetListFrameWhere<fieldname_capital>Like(x,y)                   <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> LIKE '\"),_T(x), _T(\"' \"),y)");
 
 
 
@@ -1819,21 +1812,21 @@ _T("\n\
  */\n\
 \n\
 //FREE WHERE\n\
-#define UpdateRecordsWhere(x,y)                             UpdateRecordsQueryWhere(_T(x),_T(\"\"),_T(\"\"),y)\n\
+#define <tablename_capital>UpdateRecordsWhere(x,y)                             <tablename_capital>UpdateRecordsQueryWhere(_T(x),_T(\"\"),_T(\"\"),y)\n\
 \n\
 //UPDATE BY ID\n\
-#define UpdateRecordWhereID(x,y)                            UpdateRecordsQueryWhere(_T(\" ID = \"),_T(x),_T(\" \"),y)\n");
+#define <tablename_capital>UpdateRecordWhereID(x,y)                            <tablename_capital>UpdateRecordsQueryWhere(_T(\" ID = \"),_T(x),_T(\" \"),y)\n");
 
 
 
 
 wxString wxsH_UPDATE_STATEMENTS_MACRO_1 =
 _T("\n\
-#define UpdateRecordsWhere<fieldname_capital>Exactly(x,y)                UpdateRecordsQueryWhere(_T(\" <fieldname> = '\"),_T(x),_T(\"' \"),y)");
+#define <tablename_capital>UpdateRecordsWhere<fieldname_capital>Exactly(x,y)                <tablename_capital>UpdateRecordsQueryWhere(_T(\" <fieldname> = '\"),_T(x),_T(\"' \"),y)");
 
 wxString wxsH_UPDATE_STATEMENTS_MACRO_2 =
 _T("\n\
-#define UpdateRecordsWhere<fieldname_capital>Like(x,y)                   UpdateRecordsQueryWhere(_T(\" <fieldname> LIKE '\"),_T(x),_T(\"' \"),y)");
+#define <tablename_capital>UpdateRecordsWhere<fieldname_capital>Like(x,y)                   <tablename_capital>UpdateRecordsQueryWhere(_T(\" <fieldname> LIKE '\"),_T(x),_T(\"' \"),y)");
 
 
 wxString wxsH_UPDATE_STATEMENTS_CHUNK_2 =
@@ -1849,20 +1842,20 @@ _T("\n\
  */\n\
 \n\
 //FREE WHERE\n\
-#define DeleteRecordsWhere(x)                              DeleteRecordsQueryWhere(_T(x),_T(\"\"),_T(\"\"))\n\
+#define <tablename_capital>DeleteRecordsWhere(x)                              <tablename_capital>DeleteRecordsQueryWhere(_T(x),_T(\"\"),_T(\"\"))\n\
 \n\
 //DELETE BY ID\n\
-#define DeleteRecordWhereID(x)                             DeleteRecordsQueryWhere(_T(\" ID = \"),_T(x),_T(\" \"))");
+#define <tablename_capital>DeleteRecordWhereID(x)                             <tablename_capital>DeleteRecordsQueryWhere(_T(\" ID = \"),_T(x),_T(\" \"))");
 
 
 
 wxString wxsH_DELETE_STATEMENTS_MACRO_1 =
 _T("\n\
-#define DeleteRecordsWhere<fieldname_capital>Exactly(x)                 DeleteRecordsQueryWhere(_T(\" <fieldname> = '\"),_T(x),_T(\"' \"))");
+#define <tablename_capital>DeleteRecordsWhere<fieldname_capital>Exactly(x)                 <tablename_capital>DeleteRecordsQueryWhere(_T(\" <fieldname> = '\"),_T(x),_T(\"' \"))");
 
 wxString wxsH_DELETE_STATEMENTS_MACRO_2 =
 _T("\n\
-#define DeleteRecordsWhere<fieldname_capital>Like(x)                    DeleteRecordsQueryWhere(_T(\" <fieldname> LIKE '\"),_T(x),_T(\"' \"))");
+#define <tablename_capital>DeleteRecordsWhere<fieldname_capital>Like(x)                    <tablename_capital>DeleteRecordsQueryWhere(_T(\" <fieldname> LIKE '\"),_T(x),_T(\"' \"))");
 
 
 wxString wxsH_DELETE_STATEMENTS_CHUNK_2 =
@@ -1902,17 +1895,17 @@ class Bridge<tablename_capital>\n\
 \n\
         //SQL GENERATE METHODS\n\
         wxSQLite3Database* OpenDB(void);\n\
-        wxString InsertRecordQuery(<tablename_capital>Record record);\n\
-        wxString InsertRecordsQuery(<tablename_capital>List records);\n\
-        <tablename_capital>List GetListFromQuery(const wxString\\& prequery,\n\
+        wxString <tablename_capital>InsertRecordQuery(<tablename_capital>Record record);\n\
+        wxString <tablename_capital>InsertRecordsQuery(<tablename_capital>List records);\n\
+        <tablename_capital>List <tablename_capital>GetListFromQuery(const wxString\\& prequery,\n\
                                      const wxString\\& query,\n\
                                      const wxString\\& postquery,\n\
                                      int limit=DEFAULT_QUERY_LIMIT);\n\
-        wxString UpdateRecordsQueryWhere(const wxString\\& prequery,\n\
+        wxString <tablename_capital>UpdateRecordsQueryWhere(const wxString\\& prequery,\n\
                                      const wxString\\& query,\n\
                                      const wxString\\& postquery,\n\
                                      <tablename_capital>Record record);\n\
-        wxString DeleteRecordsQueryWhere(const wxString\\& prequery,\n\
+        wxString <tablename_capital>DeleteRecordsQueryWhere(const wxString\\& prequery,\n\
                                      const wxString\\& query,\n\
                                      const wxString\\& postquery);\n\
 \n\
@@ -1924,6 +1917,5 @@ class Bridge<tablename_capital>\n\
 \n\
 \n\
 #endif // BRIDGE<tablename_upper>_H\n");
-
 
 

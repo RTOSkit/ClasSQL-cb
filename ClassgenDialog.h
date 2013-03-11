@@ -4,6 +4,7 @@
 //(*Headers(ClassgenDialog)
 #include <wx/notebook.h>
 #include <wx/stattext.h>
+#include <wx/radiobox.h>
 #include <wx/textctrl.h>
 #include <wx/checklst.h>
 #include <wx/statbox.h>
@@ -97,6 +98,7 @@ typedef struct{
     wxString ClasSQL_version;
     wxString Tablename;
     wxString DBpath;
+    bool isVector;
 }DataTransport;
 
 
@@ -129,6 +131,7 @@ class ClassgenDialog: public wxDialog
 		wxButton* btnOK;
 		wxStaticBox* StaticBox2;
 		wxGrid* gridFields;
+		wxRadioBox* rbxTDM;
 		wxStaticText* labDBpath;
 		wxStaticBox* sbxLibraryrules;
 		wxStaticBox* StaticBox3;
@@ -163,6 +166,7 @@ class ClassgenDialog: public wxDialog
 		static const long ID_TEXTCTRL4;
 		static const long ID_STATICBOX5;
 		static const long ID_STATICTEXT5;
+		static const long ID_RADIOBOX1;
 		//*)
 
 	private:
@@ -181,6 +185,8 @@ class ClassgenDialog: public wxDialog
 		void OnCheckBox2Click(wxCommandEvent& event);
 		void OnTextCtrl3Text(wxCommandEvent& event);
 		void OnBitmapButton1Click(wxCommandEvent& event);
+		void OnRadioButton1Select(wxCommandEvent& event);
+		void OnrbxTDMSelect(wxCommandEvent& event);
 		//*)
 		//DIALOG
 		void GenerateGrid(int rows);

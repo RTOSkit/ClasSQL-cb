@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="default" />
-	<File name="ClassgenDialog.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="236" topLine="42" />
+	<File name="ClassgenDialog.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="48643" topLine="1294" />
+	</File>
+	<File name="manifest.xml" open="0" top="0" tabpos="2">
+		<Cursor position="297" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

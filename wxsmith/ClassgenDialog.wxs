@@ -15,16 +15,18 @@
 		<object class="wxStaticBox" name="ID_STATICBOX2" variable="sbxLibraryrules" member="yes">
 			<label>Stuff&apos;s identifications </label>
 			<pos>8,360</pos>
-			<size>320,160</size>
+			<size>320,128</size>
 		</object>
 		<object class="wxButton" name="ID_BUTTON1" variable="btnCancel" member="yes">
 			<label>Cancel</label>
-			<pos>424,528</pos>
+			<pos>336,496</pos>
+			<size>141,72</size>
 			<handler function="OnbtnCancelClick" entry="EVT_BUTTON" />
 		</object>
 		<object class="wxButton" name="ID_BUTTON2" variable="btnOK" member="yes">
 			<label>Generate Class</label>
-			<pos>520,528</pos>
+			<pos>488,496</pos>
+			<size>136,72</size>
 			<handler function="OnbtnOKClick" entry="EVT_BUTTON" />
 		</object>
 		<object class="wxNotebook" name="ID_NOTEBOOK1" variable="Notebook1" member="yes">
@@ -103,38 +105,38 @@
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 			<label>Author:</label>
-			<pos>48,400</pos>
+			<pos>49,392</pos>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText2" member="yes">
 			<label>Copyright:</label>
-			<pos>32,432</pos>
+			<pos>32,424</pos>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText3" member="yes">
 			<label>License:</label>
-			<pos>41,464</pos>
+			<pos>44,456</pos>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="txtAuthor" member="yes">
-			<pos>112,392</pos>
+			<pos>112,384</pos>
 			<size>208,25</size>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL3" variable="txtCopyright" member="yes">
 			<value>2013 ...</value>
-			<pos>112,424</pos>
+			<pos>112,416</pos>
 			<size>208,25</size>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL4" variable="txtLicense" member="yes">
 			<value>GPL</value>
-			<pos>112,456</pos>
+			<pos>112,448</pos>
 			<size>208,25</size>
 		</object>
 		<object class="wxStaticBox" name="ID_STATICBOX5" variable="StaticBox3" member="yes">
 			<label>Search directories in compiler Targets</label>
 			<pos>336,360</pos>
-			<size>288,160</size>
+			<size>288,128</size>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText4" member="yes">
 			<label>runlibs/sqlite3/include&#x0A;runlibs/sqlite3/api&#x0A;sqlbridges</label>
-			<pos>352,400</pos>
+			<pos>352,392</pos>
 			<size>228,54</size>
 			<font>
 				<size>16</size>
@@ -144,6 +146,17 @@
 				<family>swiss</family>
 				<face>Arial</face>
 			</font>
+		</object>
+		<object class="wxRadioBox" name="ID_RADIOBOX1" variable="rbxTDM" member="yes">
+			<label>Transport Data Mode</label>
+			<content>
+				<item>use std::vector</item>
+				<item>use std::list</item>
+			</content>
+			<default>-1</default>
+			<dimension>2</dimension>
+			<pos>8,488</pos>
+			<size>320,80</size>
 		</object>
 		<object class="wxFileDialog" variable="FileDialog1" member="yes">
 			<message>Select file</message>
