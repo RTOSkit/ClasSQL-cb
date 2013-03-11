@@ -1,31 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="default" />
-	<File name="ClasSQL.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="0" topLine="0" />
+	<File name="ClassgenDialog.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6193" topLine="15" />
+		</Cursor>
 	</File>
-	<File name="ClasSQL.h" open="0" top="0" tabpos="4">
-		<Cursor position="0" topLine="0" />
+	<File name="ClassgenDialog.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="50376" topLine="1407" />
+		</Cursor>
 	</File>
-	<File name="ClassgenDialog.cpp" open="1" top="1" tabpos="14">
-		<Cursor position="0" topLine="0" />
+	<File name="ClasSQL.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="453" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="ClassgenDialog.h" open="0" top="0" tabpos="4">
-		<Cursor position="0" topLine="0" />
+	<File name="ProjectCfg.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="ConfigPanel.cpp" open="0" top="0" tabpos="7">
-		<Cursor position="0" topLine="0" />
+	<File name="ConfigPanel.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="ConfigPanel.h" open="0" top="0" tabpos="10">
-		<Cursor position="0" topLine="0" />
+	<File name="ProjectCfg.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="ProjectCfg.cpp" open="0" top="0" tabpos="8">
-		<Cursor position="0" topLine="0" />
+	<File name="manifest.xml" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="210" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="ProjectCfg.h" open="0" top="0" tabpos="5">
-		<Cursor position="0" topLine="0" />
+	<File name="ConfigPanel.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
 	</File>
-	<File name="manifest.xml" open="0" top="0" tabpos="14">
-		<Cursor position="0" topLine="0" />
+	<File name="ClasSQL.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4259" topLine="156" />
+		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

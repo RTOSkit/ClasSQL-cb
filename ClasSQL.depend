@@ -3318,9 +3318,10 @@
 	<vector>
 	<wx/app.h>
 
-1362978247 c:\users\bitehack\cbprojects\classql\classgendialog.h
+1363009430 c:\users\bitehack\cbprojects\classql\classgendialog.h
 	<wx/notebook.h>
 	<wx/stattext.h>
+	<wx/radiobox.h>
 	<wx/textctrl.h>
 	<wx/checklst.h>
 	<wx/statbox.h>
