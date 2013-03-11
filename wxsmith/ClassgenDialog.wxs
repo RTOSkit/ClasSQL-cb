@@ -67,14 +67,15 @@
 		<object class="wxCheckListBox" name="ID_CHECKLISTBOX1" variable="clbxTables" member="yes">
 			<pos>24,168</pos>
 			<size>136,176</size>
-			<fg>wxSYS_COLOUR_SCROLLBAR</fg>
+			<fg>wxSYS_COLOUR_BTNTEXT</fg>
 			<bg>wxSYS_COLOUR_MENUBAR</bg>
 			<font>
-				<size>12</size>
+				<size>11</size>
 				<style>italic</style>
 				<weight>normal</weight>
 				<underlined>0</underlined>
 				<family>swiss</family>
+				<face>Sans</face>
 			</font>
 			<style>wxSIMPLE_BORDER|wxALWAYS_SHOW_SB|wxCLIP_CHILDREN</style>
 			<handler function="OnclbxTablesToggled" entry="EVT_LISTBOX" />

@@ -165,9 +165,9 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	StaticBox1 = new wxStaticBox(this, ID_STATICBOX3, _("Tables"), wxPoint(16,152), wxSize(152,200), 0, _T("ID_STATICBOX3"));
 	StaticBox1->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_INACTIVECAPTIONTEXT));
 	clbxTables = new wxCheckListBox(this, ID_CHECKLISTBOX1, wxPoint(24,168), wxSize(136,176), 0, 0, wxSIMPLE_BORDER|wxALWAYS_SHOW_SB|wxCLIP_CHILDREN, wxDefaultValidator, _T("ID_CHECKLISTBOX1"));
-	clbxTables->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
+	clbxTables->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNTEXT));
 	clbxTables->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENUBAR));
-	wxFont clbxTablesFont(12,wxSWISS,wxFONTSTYLE_ITALIC,wxNORMAL,false,wxEmptyString,wxFONTENCODING_DEFAULT);
+	wxFont clbxTablesFont(11,wxSWISS,wxFONTSTYLE_ITALIC,wxNORMAL,false,_T("Sans"),wxFONTENCODING_DEFAULT);
 	clbxTables->SetFont(clbxTablesFont);
 	StaticBox2 = new wxStaticBox(this, ID_STATICBOX4, _("Fields"), wxPoint(168,152), wxSize(448,200), 0, _T("ID_STATICBOX4"));
 	gridFields = new wxGrid(this, ID_GRID1, wxPoint(176,168), wxSize(432,176), wxNO_BORDER, _T("ID_GRID1"));
