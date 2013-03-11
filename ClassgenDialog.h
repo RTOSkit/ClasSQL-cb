@@ -10,7 +10,6 @@
 #include <wx/panel.h>
 #include <wx/grid.h>
 #include <wx/filedlg.h>
-#include <wx/bmpbuttn.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
 //*)
@@ -106,7 +105,7 @@ class ClassgenDialog: public wxDialog
 	public:
 		ClassgenDialog(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
 		virtual ~ClassgenDialog();
-
+        bool isForceClose(){ return m_forceClose; }
         typedef struct {
           wxString field1;
           wxString field2;
@@ -127,7 +126,6 @@ class ClassgenDialog: public wxDialog
 		wxFileDialog* FileDialog1;
 		wxStaticText* StaticText3;
 		wxStaticBox* StaticBox1;
-		wxBitmapButton* BitmapButton1;
 		wxButton* btnOK;
 		wxStaticBox* StaticBox2;
 		wxGrid* gridFields;
@@ -165,7 +163,6 @@ class ClassgenDialog: public wxDialog
 		static const long ID_TEXTCTRL4;
 		static const long ID_STATICBOX5;
 		static const long ID_STATICTEXT5;
-		static const long ID_BITMAPBUTTON1;
 		//*)
 
 	private:

@@ -24,7 +24,6 @@ namespace
 {
     PluginRegistrant<ClasSQL> reg(_T("ClasSQL"));
     int idLaunch = wxNewId();
-
 }
 
 
@@ -36,7 +35,7 @@ END_EVENT_TABLE()
 // constructor
 ClasSQL::ClasSQL()
 {
-    // Make sure our resources are available.
+     // Make sure our resources are available.
     // In the generated boilerplate code we have no resources but when
     // we add some, it will be nice that this code is in place already ;)
     if(!Manager::LoadResource(_T("ClasSQL.zip")))
@@ -165,23 +164,26 @@ void ClasSQL::OnLaunch(wxCommandEvent& event)
 {
     ProjectManager* prjMan = Manager::Get()->GetProjectManager();
     cbProject* prj = prjMan->GetActiveProject();
-
+    bool isPrj=false;
     ClassgenDialog dlg(Manager::Get()->GetAppWindow());
-    PlaceWindow(&dlg);
-    if (dlg.ShowModal() == wxID_OK)
-    {
-        if (prj)
-        {
-            cbMessageBox(   _("The new classes has been created.\nRemember to add the following paths\nto your compiler targets:\n\
-                              ___________________________\n\
-                              runlibs/sqlite3/include\n\
-                              runlibs/sqlite3/api\n\
-                              sqlbridges"),
-                            _("Information"),
-                            wxOK | wxICON_INFORMATION,
-                            Manager::Get()->GetAppWindow());
-        }
 
+    if(!dlg.isForceClose()){
+        PlaceWindow(&dlg);
+        if (dlg.ShowModal() == wxID_OK)
+        {
+            if (prj)
+            {
+                cbMessageBox(   _("The new classes has been created.\nRemember to add the following paths\nto your compiler targets:\n\
+                                  ___________________________\n\
+                                  runlibs/sqlite3/include\n\
+                                  runlibs/sqlite3/api\n\
+                                  sqlbridges"),
+                                _("Information"),
+                                wxOK | wxICON_INFORMATION,
+                                Manager::Get()->GetAppWindow());
+            }
+
+        }
     }
 
 }

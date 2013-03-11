@@ -1,13 +1,11 @@
 #include "ClassgenDialog.h"
 
 //(*InternalHeaders(ClassgenDialog)
-#include <wx/bitmap.h>
+#include <wx/settings.h>
 #include <wx/font.h>
 #include <wx/intl.h>
-#include <wx/image.h>
 #include <wx/string.h>
 //*)
-
 
 #include <climits>
 #include <cstring>
@@ -61,7 +59,7 @@
 
 
 
-#define FOLDER_SQL_LAYERING                 _T("sqlbridges/")
+
 #define PREFIX_CLASS                        _T("Bridge")
 #define PREFIX_SET_METHOD                   _T("Set")
 #define PREFIX_GET_METHOD                   _T("Get")
@@ -74,7 +72,8 @@
 #define MEM_DBPATH_GET_METHOD               _T("\t wxString GetDBpath(void){ return m_DBpath; }\n")
 
 
-
+#ifndef __WXMSW__
+#define FOLDER_SQL_LAYERING     _T("sqlbridges/")
 #define PKG_API_CLASS           _T("runlibs/sqlite3/api/sqlite3.c")
 #define PKG_API_HEADER          _T("runlibs/sqlite3/api/sqlite3.h")
 #define PKG_WRAPPER_CLASS       _T("runlibs/sqlite3/wxsqlite3.cpp")
@@ -82,7 +81,16 @@
 #define PKG_WRAPPER_HEADER2     _T("runlibs/sqlite3/include/wx/wxsqlite3def.h")
 #define PKG_WRAPPER_HEADER3     _T("runlibs/sqlite3/include/wx/wxsqlite3opt.h")
 #define PKG_WRAPPER_HEADER4     _T("runlibs/sqlite3/include/wx/wxsqlite3dyn.h")
-
+#else
+#define FOLDER_SQL_LAYERING     _T("sqlbridges\\")
+#define PKG_API_CLASS           _T("runlibs\\sqlite3\\api\\sqlite3.c")
+#define PKG_API_HEADER          _T("runlibs\\sqlite3\\api\\sqlite3.h")
+#define PKG_WRAPPER_CLASS       _T("runlibs\\sqlite3\\wxsqlite3.cpp")
+#define PKG_WRAPPER_HEADER1     _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3.h")
+#define PKG_WRAPPER_HEADER2     _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3def.h")
+#define PKG_WRAPPER_HEADER3     _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3opt.h")
+#define PKG_WRAPPER_HEADER4     _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3dyn.h")
+#endif
 
 #define OUT_API_CLASS(x)        x->GetCommonTopLevelPath()+PKG_API_CLASS
 #define OUT_API_HEADER(x)       x->GetCommonTopLevelPath()+PKG_API_HEADER
@@ -121,7 +129,6 @@ const long ClassgenDialog::ID_TEXTCTRL3 = wxNewId();
 const long ClassgenDialog::ID_TEXTCTRL4 = wxNewId();
 const long ClassgenDialog::ID_STATICBOX5 = wxNewId();
 const long ClassgenDialog::ID_STATICTEXT5 = wxNewId();
-const long ClassgenDialog::ID_BITMAPBUTTON1 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(ClassgenDialog,wxDialog)
@@ -142,7 +149,7 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 
     m_forceClose=false;
 	//(*Initialize(ClassgenDialog)
-	Create(parent, wxID_ANY, _("ClasSQL Plugin - Generator of abstraction layering  for SQL Class"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("wxID_ANY"));
+	Create(parent, wxID_ANY, _("ClasSQL Plugin - Generator of Abstraction for SQL layering class"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxDIALOG_NO_PARENT, _T("wxID_ANY"));
 	SetClientSize(wxSize(631,577));
 	sbxClassdefinition = new wxStaticBox(this, ID_STATICBOX1, _("SQL Inspector"), wxPoint(8,128), wxSize(616,232), 0, _T("ID_STATICBOX1"));
 	sbxLibraryrules = new wxStaticBox(this, ID_STATICBOX2, _("Stuff\'s identifications "), wxPoint(8,360), wxSize(320,160), 0, _T("ID_STATICBOX2"));
@@ -150,21 +157,30 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	btnOK = new wxButton(this, ID_BUTTON2, _("Generate Class"), wxPoint(520,528), wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
 	Notebook1 = new wxNotebook(this, ID_NOTEBOOK1, wxPoint(8,8), wxSize(616,112), 0, _T("ID_NOTEBOOK1"));
 	Panel1 = new wxPanel(Notebook1, ID_PANEL1, wxDefaultPosition, wxSize(608,65), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
-	labDBpath = new wxStaticText(Panel1, ID_STATICTEXT2, _("DB path:"), wxPoint(8,19), wxDefaultSize, 0, _T("ID_STATICTEXT2"));
+	labDBpath = new wxStaticText(Panel1, ID_STATICTEXT2, _("DB path:"), wxPoint(8,22), wxDefaultSize, 0, _T("ID_STATICTEXT2"));
 	txtDBpath = new wxTextCtrl(Panel1, ID_TEXTCTRL2, wxEmptyString, wxPoint(66,16), wxSize(416,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL2"));
 	btnBrowseDB = new wxButton(Panel1, ID_BUTTON3, _("..."), wxPoint(485,16), wxSize(32,24), 0, wxDefaultValidator, _T("ID_BUTTON3"));
 	btnDBprocess = new wxButton(Panel1, ID_BUTTON4, _("process"), wxPoint(520,16), wxSize(85,24), 0, wxDefaultValidator, _T("ID_BUTTON4"));
 	Notebook1->AddPage(Panel1, _("SQLite"), false);
 	StaticBox1 = new wxStaticBox(this, ID_STATICBOX3, _("Tables"), wxPoint(16,152), wxSize(152,200), 0, _T("ID_STATICBOX3"));
-	clbxTables = new wxCheckListBox(this, ID_CHECKLISTBOX1, wxPoint(24,168), wxSize(136,176), 0, 0, 0, wxDefaultValidator, _T("ID_CHECKLISTBOX1"));
+	StaticBox1->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_INACTIVECAPTIONTEXT));
+	clbxTables = new wxCheckListBox(this, ID_CHECKLISTBOX1, wxPoint(24,168), wxSize(136,176), 0, 0, wxSIMPLE_BORDER|wxALWAYS_SHOW_SB|wxCLIP_CHILDREN, wxDefaultValidator, _T("ID_CHECKLISTBOX1"));
+	clbxTables->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
+	clbxTables->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENUBAR));
+	wxFont clbxTablesFont(12,wxSWISS,wxFONTSTYLE_ITALIC,wxNORMAL,false,wxEmptyString,wxFONTENCODING_DEFAULT);
+	clbxTables->SetFont(clbxTablesFont);
 	StaticBox2 = new wxStaticBox(this, ID_STATICBOX4, _("Fields"), wxPoint(168,152), wxSize(448,200), 0, _T("ID_STATICBOX4"));
-	gridFields = new wxGrid(this, ID_GRID1, wxPoint(176,168), wxSize(432,176), wxSUNKEN_BORDER, _T("ID_GRID1"));
+	gridFields = new wxGrid(this, ID_GRID1, wxPoint(176,168), wxSize(432,176), wxNO_BORDER, _T("ID_GRID1"));
 	gridFields->CreateGrid(100,3);
 	gridFields->EnableEditing(true);
 	gridFields->EnableGridLines(true);
-	gridFields->SetColLabelSize(1);
-	gridFields->SetRowLabelSize(1);
+	gridFields->SetColLabelSize(14);
+	gridFields->SetRowLabelSize(4);
 	gridFields->SetDefaultColSize(135, true);
+	gridFields->SetLabelTextColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
+	gridFields->SetColLabelValue(0, _("ORDER"));
+	gridFields->SetColLabelValue(1, _("NAME"));
+	gridFields->SetColLabelValue(2, _("TYPE"));
 	gridFields->SetDefaultCellFont( gridFields->GetFont() );
 	gridFields->SetDefaultCellTextColour( gridFields->GetForegroundColour() );
 	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Author:"), wxPoint(48,400), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
@@ -174,15 +190,11 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	txtCopyright = new wxTextCtrl(this, ID_TEXTCTRL3, _("2013 ..."), wxPoint(112,424), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL3"));
 	txtLicense = new wxTextCtrl(this, ID_TEXTCTRL4, _("GPL"), wxPoint(112,456), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL4"));
 	StaticBox3 = new wxStaticBox(this, ID_STATICBOX5, _("Search directories in compiler Targets"), wxPoint(336,360), wxSize(288,160), 0, _T("ID_STATICBOX5"));
-	StaticText4 = new wxStaticText(this, ID_STATICTEXT5, _("runlibs/sqlite3/include\nrunlibs/sqlite3/api\nsqlbridges"), wxPoint(432,408), wxSize(134,77), 0, _T("ID_STATICTEXT5"));
-	wxFont StaticText4Font(12,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("Sans"),wxFONTENCODING_DEFAULT);
+	StaticText4 = new wxStaticText(this, ID_STATICTEXT5, _("runlibs/sqlite3/include\nrunlibs/sqlite3/api\nsqlbridges"), wxPoint(352,400), wxSize(228,54), 0, _T("ID_STATICTEXT5"));
+	wxFont StaticText4Font(16,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
 	StaticText4->SetFont(StaticText4Font);
-	BitmapButton1 = new wxBitmapButton(this, ID_BITMAPBUTTON1, wxBitmap(wxImage(_T("/home/bitehack/CBProjects/info50.png"))), wxPoint(344,384), wxSize(64,80), wxBU_AUTODRAW|wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_BITMAPBUTTON1"));
-	BitmapButton1->SetBitmapDisabled(wxBitmap(wxImage(_T("/home/bitehack/CBProjects/info50.png"))));
-	BitmapButton1->SetBitmapSelected(wxBitmap(wxImage(_T("/home/bitehack/CBProjects/info50.png"))));
-	BitmapButton1->SetBitmapFocus(wxBitmap(wxImage(_T("/home/bitehack/CBProjects/info50.png"))));
-	BitmapButton1->SetDefault();
-	FileDialog1 = new wxFileDialog(this, _("Select file"), wxEmptyString, wxEmptyString, wxFileSelectorDefaultWildcardStr, wxFD_DEFAULT_STYLE, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
+	FileDialog1 = new wxFileDialog(this, _("Select file"), wxEmptyString, wxEmptyString, wxFileSelectorDefaultWildcardStr, 0, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
+	Center();
 
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnCancelClick);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnOKClick);
@@ -191,7 +203,6 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnDBprocessClick);
 	Connect(ID_CHECKLISTBOX1,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&ClassgenDialog::OnclbxTablesToggled);
 	Connect(wxID_ANY,wxEVT_INIT_DIALOG,(wxObjectEventFunction)&ClassgenDialog::OnInit);
-	Connect(wxEVT_PAINT,(wxObjectEventFunction)&ClassgenDialog::OnPaint);
 	//*)
 
 
@@ -244,7 +255,6 @@ void ClassgenDialog::OnbtnBrowseDBClick(wxCommandEvent& event)
         m_prjCfg->SetValue(ProjectCfg::E_s3dbPath,m_s3dbPathGlobal);
         txtDBpath->SetValue(m_s3dbPathGlobal);
     }
-
 }
 
 /* -----------------------------------------------------------------------------------------------------
@@ -268,10 +278,12 @@ void ClassgenDialog::OnInit(wxInitDialogEvent& event)
 */
 void ClassgenDialog::OnPaint(wxPaintEvent& event)
 {
-   if(m_forceClose)
-      EndModal(wxID_CANCEL);
+    if(wxSafeYield(NULL,true)){
+       if(m_forceClose)
+          EndModal(wxID_CANCEL);
+    }
 
-   EditMode(!txtDBpath->GetValue().IsEmpty());
+    EditMode(!txtDBpath->GetValue().IsEmpty());
 
 }
 
@@ -314,11 +326,6 @@ void ClassgenDialog::GenerateGrid(int rows)
     gridFields->InsertRows(0,rows);
     gridFields->EnableEditing(false);
     gridFields->EnableGridLines(true);
-    gridFields->SetColLabelSize(1);
-    gridFields->SetRowLabelSize(1);
-    gridFields->SetDefaultColSize(135, true);
-    gridFields->SetDefaultCellFont( gridFields->GetFont() );
-    gridFields->SetDefaultCellTextColour( gridFields->GetForegroundColour() );
 }
 
 void ClassgenDialog::SetFieldsGrid(const wxString& col1, const wxString& col2, const wxString& col3, int row)
@@ -490,6 +497,7 @@ void ClassgenDialog::InitProjectCfg(void)
                  _T("ClasSQL"), wxICON_ERROR | wxOK);
         m_forceClose=true;
     }
+    EditMode(!txtDBpath->GetValue().IsEmpty());
 
 }
 
@@ -580,6 +588,8 @@ if( cbMessageBox( _("Do you want  generate and add the abstraction classes \nfor
                      _T("ClasSQL"), wxICON_ERROR | wxOK);
             m_forceClose=true;
         }
+    }else{
+        EndModal(wxID_CANCEL);
     }
 
 }
@@ -1358,7 +1368,7 @@ std::list<Prefields> ClassgenDialog::ImportFieldsType(const wxString& strDBpath,
 bool ClassgenDialog::ZisToFile(const wxString& strName,wxZipInputStream * zip)
 {
    bool out = false;
-   wxTempFile tfile(strName);
+   wxTempFile tfile(UnixFilename(strName));
    char buffer[ZIP_SECTOR];
 
    DoForceDirectory(strName);

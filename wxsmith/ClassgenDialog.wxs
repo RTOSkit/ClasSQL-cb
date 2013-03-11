@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxDialog" name="ClassgenDialog">
-		<title>ClasSQL Plugin - Generator of abstraction layering  for SQL Class</title>
+		<title>ClasSQL Plugin - Generator of Abstraction for SQL layering class</title>
+		<centered>1</centered>
 		<size>631,577</size>
 		<id_arg>0</id_arg>
+		<style>wxDEFAULT_DIALOG_STYLE|wxDIALOG_NO_PARENT</style>
 		<handler function="OnInit" entry="EVT_INIT_DIALOG" />
-		<handler function="OnPaint" entry="EVT_PAINT" />
 		<object class="wxStaticBox" name="ID_STATICBOX1" variable="sbxClassdefinition" member="yes">
 			<label>SQL Inspector</label>
 			<pos>8,128</pos>
@@ -34,7 +35,7 @@
 					<size>608,65</size>
 					<object class="wxStaticText" name="ID_STATICTEXT2" variable="labDBpath" member="yes">
 						<label>DB path:</label>
-						<pos>8,19</pos>
+						<pos>8,22</pos>
 					</object>
 					<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="txtDBpath" member="yes">
 						<pos>66,16</pos>
@@ -61,10 +62,21 @@
 			<label>Tables</label>
 			<pos>16,152</pos>
 			<size>152,200</size>
+			<fg>wxSYS_COLOUR_INACTIVECAPTIONTEXT</fg>
 		</object>
 		<object class="wxCheckListBox" name="ID_CHECKLISTBOX1" variable="clbxTables" member="yes">
 			<pos>24,168</pos>
 			<size>136,176</size>
+			<fg>wxSYS_COLOUR_SCROLLBAR</fg>
+			<bg>wxSYS_COLOUR_MENUBAR</bg>
+			<font>
+				<size>12</size>
+				<style>italic</style>
+				<weight>normal</weight>
+				<underlined>0</underlined>
+				<family>swiss</family>
+			</font>
+			<style>wxSIMPLE_BORDER|wxALWAYS_SHOW_SB|wxCLIP_CHILDREN</style>
 			<handler function="OnclbxTablesToggled" entry="EVT_LISTBOX" />
 		</object>
 		<object class="wxStaticBox" name="ID_STATICBOX4" variable="StaticBox2" member="yes">
@@ -75,12 +87,18 @@
 		<object class="wxGrid" name="ID_GRID1" variable="gridFields" member="yes">
 			<cols>3</cols>
 			<rows>100</rows>
-			<labelrowheight>1</labelrowheight>
-			<labelcolwidth>1</labelcolwidth>
+			<labelrowheight>14</labelrowheight>
+			<labelcolwidth>4</labelcolwidth>
 			<defaultcolsize>135</defaultcolsize>
+			<labeltextcolour>wxSYS_COLOUR_SCROLLBAR</labeltextcolour>
+			<collabels>
+				<item>ORDER</item>
+				<item>NAME</item>
+				<item>TYPE</item>
+			</collabels>
 			<pos>176,168</pos>
 			<size>432,176</size>
-			<style>wxSUNKEN_BORDER</style>
+			<style>wxNO_BORDER</style>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 			<label>Author:</label>
@@ -115,29 +133,20 @@
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText4" member="yes">
 			<label>runlibs/sqlite3/include&#x0A;runlibs/sqlite3/api&#x0A;sqlbridges</label>
-			<pos>432,408</pos>
-			<size>134,77</size>
+			<pos>352,400</pos>
+			<size>228,54</size>
 			<font>
-				<size>12</size>
+				<size>16</size>
 				<style>normal</style>
 				<weight>normal</weight>
 				<underlined>0</underlined>
 				<family>swiss</family>
-				<face>Sans</face>
+				<face>Arial</face>
 			</font>
-		</object>
-		<object class="wxBitmapButton" name="ID_BITMAPBUTTON1" variable="BitmapButton1" member="yes">
-			<bitmap>/home/bitehack/CBProjects/info50.png</bitmap>
-			<disabled>/home/bitehack/CBProjects/info50.png</disabled>
-			<selected>/home/bitehack/CBProjects/info50.png</selected>
-			<focus>/home/bitehack/CBProjects/info50.png</focus>
-			<default>1</default>
-			<pos>344,384</pos>
-			<size>64,80</size>
-			<style>wxBU_AUTODRAW|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
 		</object>
 		<object class="wxFileDialog" variable="FileDialog1" member="yes">
 			<message>Select file</message>
+			<style>0</style>
 		</object>
 	</object>
 </wxsmith>
