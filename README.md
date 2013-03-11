@@ -11,7 +11,7 @@ ClasSQL is a Generator of Abstraction for SQL layering class
 The ClasSQL-cb Plugin has been tested and generated for:
 
         Unix: Code::Blocks 10.05 r0 unicode
-     Windows: Code::Blocks 12.11 build 8626 unicode
+     Windows: Code::Blocks 12.11 build 8629 unicode
 
 
 
