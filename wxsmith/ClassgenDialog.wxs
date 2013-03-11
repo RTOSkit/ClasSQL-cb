@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxDialog" name="ClassgenDialog">
+		<title>ClasSQL Plugin - Generator of abstraction layering  for SQL Class</title>
+		<size>631,577</size>
+		<id_arg>0</id_arg>
+		<handler function="OnInit" entry="EVT_INIT_DIALOG" />
+		<handler function="OnPaint" entry="EVT_PAINT" />
+		<object class="wxStaticBox" name="ID_STATICBOX1" variable="sbxClassdefinition" member="yes">
+			<label>SQL Inspector</label>
+			<pos>8,128</pos>
+			<size>616,232</size>
+		</object>
+		<object class="wxStaticBox" name="ID_STATICBOX2" variable="sbxLibraryrules" member="yes">
+			<label>Stuff&apos;s identifications </label>
+			<pos>8,360</pos>
+			<size>320,160</size>
+		</object>
+		<object class="wxButton" name="ID_BUTTON1" variable="btnCancel" member="yes">
+			<label>Cancel</label>
+			<pos>424,528</pos>
+			<handler function="OnbtnCancelClick" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxButton" name="ID_BUTTON2" variable="btnOK" member="yes">
+			<label>Generate Class</label>
+			<pos>520,528</pos>
+			<handler function="OnbtnOKClick" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxNotebook" name="ID_NOTEBOOK1" variable="Notebook1" member="yes">
+			<pos>8,8</pos>
+			<size>616,112</size>
+			<object class="notebookpage">
+				<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+					<size>608,65</size>
+					<object class="wxStaticText" name="ID_STATICTEXT2" variable="labDBpath" member="yes">
+						<label>DB path:</label>
+						<pos>8,19</pos>
+					</object>
+					<object class="wxTextCtrl" name="ID_TEXTCTRL2" variable="txtDBpath" member="yes">
+						<pos>66,16</pos>
+						<size>416,25</size>
+						<handler function="OntxtDBpathText" entry="EVT_TEXT" />
+					</object>
+					<object class="wxButton" name="ID_BUTTON3" variable="btnBrowseDB" member="yes">
+						<label>...</label>
+						<pos>485,16</pos>
+						<size>32,24</size>
+						<handler function="OnbtnBrowseDBClick" entry="EVT_BUTTON" />
+					</object>
+					<object class="wxButton" name="ID_BUTTON4" variable="btnDBprocess" member="yes">
+						<label>process</label>
+						<pos>520,16</pos>
+						<size>85,24</size>
+						<handler function="OnbtnDBprocessClick" entry="EVT_BUTTON" />
+					</object>
+				</object>
+				<label>SQLite</label>
+			</object>
+		</object>
+		<object class="wxStaticBox" name="ID_STATICBOX3" variable="StaticBox1" member="yes">
+			<label>Tables</label>
+			<pos>16,152</pos>
+			<size>152,200</size>
+		</object>
+		<object class="wxCheckListBox" name="ID_CHECKLISTBOX1" variable="clbxTables" member="yes">
+			<pos>24,168</pos>
+			<size>136,176</size>
+			<handler function="OnclbxTablesToggled" entry="EVT_LISTBOX" />
+		</object>
+		<object class="wxStaticBox" name="ID_STATICBOX4" variable="StaticBox2" member="yes">
+			<label>Fields</label>
+			<pos>168,152</pos>
+			<size>448,200</size>
+		</object>
+		<object class="wxGrid" name="ID_GRID1" variable="gridFields" member="yes">
+			<cols>3</cols>
+			<rows>100</rows>
+			<labelrowheight>1</labelrowheight>
+			<labelcolwidth>1</labelcolwidth>
+			<defaultcolsize>135</defaultcolsize>
+			<pos>176,168</pos>
+			<size>432,176</size>
+			<style>wxSUNKEN_BORDER</style>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+			<label>Author:</label>
+			<pos>48,400</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText2" member="yes">
+			<label>Copyright:</label>
+			<pos>32,432</pos>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText3" member="yes">
+			<label>License:</label>
+			<pos>41,464</pos>
+		</object>
+		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="txtAuthor" member="yes">
+			<pos>112,392</pos>
+			<size>208,25</size>
+		</object>
+		<object class="wxTextCtrl" name="ID_TEXTCTRL3" variable="txtCopyright" member="yes">
+			<value>2013 ...</value>
+			<pos>112,424</pos>
+			<size>208,25</size>
+		</object>
+		<object class="wxTextCtrl" name="ID_TEXTCTRL4" variable="txtLicense" member="yes">
+			<value>GPL</value>
+			<pos>112,456</pos>
+			<size>208,25</size>
+		</object>
+		<object class="wxStaticBox" name="ID_STATICBOX5" variable="StaticBox3" member="yes">
+			<label>Search directories in compiler Targets</label>
+			<pos>336,360</pos>
+			<size>288,160</size>
+		</object>
+		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText4" member="yes">
+			<label>runlibs/sqlite3/include&#x0A;runlibs/sqlite3/api&#x0A;sqlbridges</label>
+			<pos>432,408</pos>
+			<size>134,77</size>
+			<font>
+				<size>12</size>
+				<style>normal</style>
+				<weight>normal</weight>
+				<underlined>0</underlined>
+				<family>swiss</family>
+				<face>Sans</face>
+			</font>
+		</object>
+		<object class="wxBitmapButton" name="ID_BITMAPBUTTON1" variable="BitmapButton1" member="yes">
+			<bitmap>/home/bitehack/CBProjects/info50.png</bitmap>
+			<disabled>/home/bitehack/CBProjects/info50.png</disabled>
+			<selected>/home/bitehack/CBProjects/info50.png</selected>
+			<focus>/home/bitehack/CBProjects/info50.png</focus>
+			<default>1</default>
+			<pos>344,384</pos>
+			<size>64,80</size>
+			<style>wxBU_AUTODRAW|wxNO_BORDER|wxTRANSPARENT_WINDOW</style>
+		</object>
+		<object class="wxFileDialog" variable="FileDialog1" member="yes">
+			<message>Select file</message>
+		</object>
+	</object>
+</wxsmith>

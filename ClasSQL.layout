@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="default" />
+	<File name="ClasSQL.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="4001" topLine="0" />
+	</File>
+	<File name="ClasSQL.h" open="0" top="0" tabpos="4">
+		<Cursor position="0" topLine="72" />
+	</File>
+	<File name="ClassgenDialog.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="65540" topLine="1797" />
+	</File>
+	<File name="ClassgenDialog.h" open="0" top="0" tabpos="2">
+		<Cursor position="6631" topLine="0" />
+	</File>
+	<File name="ConfigPanel.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="24" topLine="27" />
+	</File>
+	<File name="ConfigPanel.h" open="0" top="0" tabpos="10">
+		<Cursor position="0" topLine="30" />
+	</File>
+	<File name="ProjectCfg.cpp" open="0" top="0" tabpos="8">
+		<Cursor position="936" topLine="11" />
+	</File>
+	<File name="ProjectCfg.h" open="0" top="0" tabpos="5">
+		<Cursor position="149" topLine="0" />
+	</File>
+	<File name="manifest.xml" open="1" top="0" tabpos="14">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="sqlbridges/BridgeUsers.h" open="0" top="0" tabpos="0">
+		<Cursor position="9305" topLine="158" />
+	</File>
+	<File name="update" open="0" top="0" tabpos="9">
+		<Cursor position="0" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>

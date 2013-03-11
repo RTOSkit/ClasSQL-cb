@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_plugin_manifest_file>
+    <SdkVersion major="1" minor="11"  release="12" />
+    <Plugin name="ClasSQL">
+        <Value title="ClasSQL" />
+        <Value version="0.1" />
+        <Value description="Generator of Abstraction for SQL layering class" />
+        <Value author="RTOSkit" />
+        <Value authorEmail="rtoskit@gmail.com" />
+        <Value authorWebsite="https://github.com/RTOSkit" />
+        <Value thanksTo="SQLite Project
+http://www.sqlite.org/c3ref/intro.html
+
+wxSQLite3 Project
+http://wxcode.sourceforge.net/components/wxsqlite3/" />
+        <Value license="GPL" />
+    </Plugin>
+</CodeBlocks_plugin_manifest_file>

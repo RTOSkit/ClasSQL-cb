@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ClasSQL" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="default">
+				<Option output="out/ClasSQL" prefix_auto="1" extension_auto="1" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option host_application="codeblocks" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="`pkg-config --cflags codeblocks`" />
+					<Add option="`wx-config --cflags`" />
+					<Add directory="runlibs/sqlite3/include" />
+					<Add directory="runlibs/sqlite3/api" />
+					<Add directory="sqlbridges" />
+				</Compiler>
+				<Linker>
+					<Add option="`pkg-config --libs codeblocks`" />
+					<Add option="`wx-config --libs`" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="zip -r9 out/ClasSQL.zip manifest.xml  runlibs/" />
+					<Add after="zip -j9 bin/ClasSQL.cbplugin out/ClasSQL.so *.png out/ClasSQL.zip" />
+				</ExtraCommands>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="runlibs/sqlite3/include" />
+			<Add directory="runlibs/sqlite3/api" />
+			<Add directory="sqlbridges" />
+		</Compiler>
+		<Unit filename="ClasSQL.cpp" />
+		<Unit filename="ClasSQL.h" />
+		<Unit filename="ClassgenDialog.cpp" />
+		<Unit filename="ClassgenDialog.h" />
+		<Unit filename="ConfigPanel.cpp" />
+		<Unit filename="ConfigPanel.h" />
+		<Unit filename="ProjectCfg.cpp" />
+		<Unit filename="ProjectCfg.h" />
+		<Unit filename="manifest.xml" />
+		<Unit filename="runlibs/sqlite3/api/sqlite3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="runlibs/sqlite3/wxsqlite3.cpp" />
+		<Unit filename="sqlbridges/BridgeUsers.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+			<wxsmith version="1">
+				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
+				<resources>
+					<wxPanel wxs="wxsmith/ConfigPanel.wxs" src="ConfigPanel.cpp" hdr="ConfigPanel.h" name="ConfigPanel" language="CPP" />
+					<wxDialog wxs="wxsmith/ClassgenDialog.wxs" src="ClassgenDialog.cpp" hdr="ClassgenDialog.h" name="ClassgenDialog" language="CPP" />
+				</resources>
+			</wxsmith>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

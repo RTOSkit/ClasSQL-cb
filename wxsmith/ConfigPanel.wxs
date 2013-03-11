@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wxsmith>
+	<object class="wxPanel" name="ConfigPanel">
+		<size>30,131</size>
+		<id_arg>0</id_arg>
+		<object class="wxBoxSizer" variable="BoxSizer1" member="no">
+			<orient>wxVERTICAL</orient>
+			<object class="sizeritem">
+				<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
+					<size>482,144</size>
+					<object class="wxStaticBox" name="ID_STATICBOX1" variable="StaticBox1" member="yes">
+						<label>Default Configuration</label>
+						<pos>0,0</pos>
+						<size>482,160</size>
+					</object>
+					<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
+						<label>SQLite DB path:</label>
+						<pos>8,30</pos>
+						<size>104,15</size>
+					</object>
+					<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="txtDBpath" member="yes">
+						<pos>107,24</pos>
+						<size>332,25</size>
+					</object>
+					<object class="wxButton" name="ID_BUTTON1" variable="btnDBpath" member="yes">
+						<label>...</label>
+						<pos>442,24</pos>
+						<size>32,24</size>
+						<handler function="OnbtnDBpathClick" entry="EVT_BUTTON" />
+					</object>
+				</object>
+				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+			<object class="sizeritem">
+				<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
+					<size>480,173</size>
+					<object class="wxStaticBox" name="ID_STATICBOX2" variable="StaticBox2" member="yes">
+						<label>Environment Options</label>
+						<pos>0,0</pos>
+						<size>482,160</size>
+					</object>
+					<object class="wxButton" name="ID_BUTTON2" variable="btnClearSC" member="yes">
+						<label>Clear stored configuration</label>
+						<pos>16,32</pos>
+						<handler function="OnbtnClearSCClick" entry="EVT_BUTTON" />
+					</object>
+				</object>
+				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+				<border>5</border>
+				<option>1</option>
+			</object>
+		</object>
+		<object class="wxFileDialog" variable="FileDialog1" member="yes">
+			<message>Select file</message>
+		</object>
+	</object>
+</wxsmith>
