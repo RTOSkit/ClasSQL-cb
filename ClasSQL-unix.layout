@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="default" />
-	<File name="ClassgenDialog.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="48643" topLine="1294" />
+	<File name="ClasSQL.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="5157" topLine="21" />
+	</File>
+	<File name="ClasSQL.h" open="0" top="0" tabpos="0">
+		<Cursor position="6262" topLine="0" />
+	</File>
+	<File name="ClassgenDialog.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="16483" topLine="299" />
+	</File>
+	<File name="ClassgenDialog.h" open="0" top="0" tabpos="0">
+		<Cursor position="7964" topLine="0" />
+	</File>
+	<File name="ConfigPanel.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="3897" topLine="0" />
+	</File>
+	<File name="ConfigPanel.h" open="0" top="0" tabpos="0">
+		<Cursor position="427" topLine="0" />
+	</File>
+	<File name="ProjectCfg.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="484" topLine="0" />
+	</File>
+	<File name="ProjectCfg.h" open="0" top="0" tabpos="0">
+		<Cursor position="426" topLine="0" />
 	</File>
 	<File name="manifest.xml" open="0" top="0" tabpos="2">
 		<Cursor position="297" topLine="0" />

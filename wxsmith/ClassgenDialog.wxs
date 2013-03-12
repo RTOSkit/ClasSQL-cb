@@ -6,7 +6,6 @@
 		<size>631,577</size>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE|wxDIALOG_NO_PARENT</style>
-		<handler function="OnInit" entry="EVT_INIT_DIALOG" />
 		<object class="wxStaticBox" name="ID_STATICBOX1" variable="sbxClassdefinition" member="yes">
 			<label>SQL Inspector</label>
 			<pos>8,128</pos>

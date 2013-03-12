@@ -233,9 +233,9 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnBrowseDBClick);
 	Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnDBprocessClick);
 	Connect(ID_CHECKLISTBOX1,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&ClassgenDialog::OnclbxTablesToggled);
-	Connect(wxID_ANY,wxEVT_INIT_DIALOG,(wxObjectEventFunction)&ClassgenDialog::OnInit);
 	//*)
 
+    InitProjectCfg();
 
 }
 
@@ -294,13 +294,6 @@ void ClassgenDialog::OnbtnDBprocessClick(wxCommandEvent& event)
     if(!txtDBpath->GetValue().IsEmpty()){
       EditMode(ProcessDBfile(txtDBpath->GetValue()));
     }
-}
-/* -----------------------------------------------------------------------------------------------------
-*  OnInit for dialog with control basad on: Exist a Project
-*/
-void ClassgenDialog::OnInit(wxInitDialogEvent& event)
-{
-   InitProjectCfg();
 }
 
 

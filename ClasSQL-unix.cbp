@@ -47,7 +47,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="runlibs/sqlite3/wxsqlite3.cpp" />
-		<Unit filename="sqlbridges/BridgeUsers.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
