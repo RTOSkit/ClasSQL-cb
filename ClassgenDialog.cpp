@@ -1,3 +1,12 @@
+/***************************************************************
+ * Name:      ClasSQL
+ * Purpose:   Code::Blocks plugin
+ * Author:    RTOSkit (rtoskit@gmail.com)
+ * Created:   2013-03-03
+ * Copyright: Maurizio Spoto
+ * License:   BSD 2c
+ **************************************************************/
+
 #include "ClassgenDialog.h"
 
 //(*InternalHeaders(ClassgenDialog)
@@ -12,97 +21,88 @@
 #include <cstdlib>
 #include <memory>
 
+
+/**
+ * @note DEFINE USED IN CUSTOM CSV CONFIGURATION
+ */
 #define C_SPLIT_RECORD                      _T('|')
 #define C_SPLIT_RVALUE                      _T('·')
 #define C_SPLIT_FIELD                       _T('¡')
 #define C_SPLIT_FVALUE                      _T('¿')
 
 
-#define C_DOT                               _T('.')
-#define C_APP                               _T('"')
-#define C_UNDERSCORE                        _T('_')
-#define C_SPACE                             _T(' ')
-#define C_TILDE                             _T('~')
-#define C_TAB                               _T('\t')
-#define CC_EOC                              _T("};")
-#define CC_DOT                              _T(".")
-#define CC_UNDERSCORE                       _T("_")
-#define CC_EOLN                             _T("\n")
-#define CC_EOLR                             _T("\r")
-#define CC_EOLNR                            _T("\n\r")
-#define CC_ECN                              _T(";\n")
-#define CC_ECR                              _T(";\r")
-#define CC_ECNR                             _T(";\n\r")
-#define CC_STARTC                           _T("{")
-#define CC_ENDC                             _T("}")
-#define CC_VARSET                           _T(" = ")
-#define CC_MARGS                            _T("()")
-#define CC_MAARG                            _T("(void)")
-#define CC_MIVARG                           _T("(int value)")
-#define CC_MSVARG                           _T("(const wxString& value)")
+
+/**
+ * @note DEFINE USED IN PARSING/COMPOSER
+ */
 #define CC_DOTH                             _T(".h")
 #define CC_DOTCPP                           _T(".cpp")
+#define CC_TDMVECTOR                        _T("vector")
+#define CC_TDMLIST                          _T("list")
+
+/**
+ * @note DEFINE USED IN CODE
+ */
 #define CC_NULL                             _T("")
-#define CC_VALUE                            _T("value")
 
-#define CC_MEMBER                           _T("m_")
-
+/**
+ * @note DEFINE USED IN AFFINITY TYPE TO TYPE
+ */
+//IN TYPE
 #define CC_DOUBLE                           _T("DOUBLE")
 #define CC_INTEGER                          _T("INTEGER")
 #define CC_BOOLEAN                          _T("BOOLEAN")
 #define CC_TEXT                             _T("TEXT")
-
+#define CC_BIGINT                           _T("BIGINT")
+//OUT TYPE
 #define TCC_INTEGER                         _T("INTEGER")
 #define TCC_DOUBLE                          _T("DOUBLE")
 #define TCC_BOOLEAN                         _T("BOOLEAN")
 #define TCC_TEXT                            _T("TEXT")
+#define TCC_INT64                           _T("INT64")
 
 
-
-
-#define PREFIX_CLASS                        _T("Bridge")
-#define PREFIX_SET_METHOD                   _T("Set")
-#define PREFIX_GET_METHOD                   _T("Get")
-#define PREFIX_STDLIST                      _T("std::list<")
-#define SUFFIX_STDLIST                      _T("> ")
-#define MEM_DBPATH                          _T("m_DBpath")
-#define MEM_DBPATH_SET_METHOD               _T("\t void SetDBpath(wxString value){ m_DBpath = value; }\n")
-#define MEM_DBPATH_GET_METHOD               _T("\t wxString GetDBpath(void){ return m_DBpath; }\n")
-#define P_FREE_SELECT_STATEMENT_METHOD      _T("\t GetResultList(wxString query){ m_DBpath = value; }\n")
-#define MEM_DBPATH_GET_METHOD               _T("\t wxString GetDBpath(void){ return m_DBpath; }\n")
-
-
+/**
+ * @note DEFINE USED IN UNZIP CONTROLLER
+ */
+#define ZIP_SECTOR                         10241
+                                           //10kb+\0
 #ifndef __WXMSW__
-#define FOLDER_SQL_LAYERING     _T("sqlbridges/")
-#define PKG_API_CLASS           _T("runlibs/sqlite3/api/sqlite3.c")
-#define PKG_API_HEADER          _T("runlibs/sqlite3/api/sqlite3.h")
-#define PKG_WRAPPER_CLASS       _T("runlibs/sqlite3/wxsqlite3.cpp")
-#define PKG_WRAPPER_HEADER1     _T("runlibs/sqlite3/include/wx/wxsqlite3.h")
-#define PKG_WRAPPER_HEADER2     _T("runlibs/sqlite3/include/wx/wxsqlite3def.h")
-#define PKG_WRAPPER_HEADER3     _T("runlibs/sqlite3/include/wx/wxsqlite3opt.h")
-#define PKG_WRAPPER_HEADER4     _T("runlibs/sqlite3/include/wx/wxsqlite3dyn.h")
+#define ZIP_PACKAGE                        _T("/ClasSQL.zip")
+#define FOLDER_SQL_LAYERING                _T("sqlbridges/")
+#define PKG_API_CLASS                      _T("runlibs/sqlite3/api/sqlite3.c")
+#define PKG_API_HEADER                     _T("runlibs/sqlite3/api/sqlite3.h")
+#define PKG_WRAPPER_CLASS                  _T("runlibs/sqlite3/wxsqlite3.cpp")
+#define PKG_WRAPPER_HEADER1                _T("runlibs/sqlite3/include/wx/wxsqlite3.h")
+#define PKG_WRAPPER_HEADER2                _T("runlibs/sqlite3/include/wx/wxsqlite3def.h")
+#define PKG_WRAPPER_HEADER3                _T("runlibs/sqlite3/include/wx/wxsqlite3opt.h")
+#define PKG_WRAPPER_HEADER4                _T("runlibs/sqlite3/include/wx/wxsqlite3dyn.h")
 #else
-#define FOLDER_SQL_LAYERING     _T("sqlbridges\\")
-#define PKG_API_CLASS           _T("runlibs\\sqlite3\\api\\sqlite3.c")
-#define PKG_API_HEADER          _T("runlibs\\sqlite3\\api\\sqlite3.h")
-#define PKG_WRAPPER_CLASS       _T("runlibs\\sqlite3\\wxsqlite3.cpp")
-#define PKG_WRAPPER_HEADER1     _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3.h")
-#define PKG_WRAPPER_HEADER2     _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3def.h")
-#define PKG_WRAPPER_HEADER3     _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3opt.h")
-#define PKG_WRAPPER_HEADER4     _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3dyn.h")
+#define ZIP_PACKAGE                        _T("\\ClasSQL.zip")
+#define FOLDER_SQL_LAYERING                _T("sqlbridges\\")
+#define PKG_API_CLASS                      _T("runlibs\\sqlite3\\api\\sqlite3.c")
+#define PKG_API_HEADER                     _T("runlibs\\sqlite3\\api\\sqlite3.h")
+#define PKG_WRAPPER_CLASS                  _T("runlibs\\sqlite3\\wxsqlite3.cpp")
+#define PKG_WRAPPER_HEADER1                _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3.h")
+#define PKG_WRAPPER_HEADER2                _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3def.h")
+#define PKG_WRAPPER_HEADER3                _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3opt.h")
+#define PKG_WRAPPER_HEADER4                _T("runlibs\\sqlite3\\include\\wx\\wxsqlite3dyn.h")
 #endif
 
-#define OUT_API_CLASS(x)        x->GetCommonTopLevelPath()+PKG_API_CLASS
-#define OUT_API_HEADER(x)       x->GetCommonTopLevelPath()+PKG_API_HEADER
-#define OUT_WRAPPER_CLASS(x)    x->GetCommonTopLevelPath()+PKG_WRAPPER_CLASS
-#define OUT_WRAPPER_HEADER(x,y) x->GetCommonTopLevelPath()+PKG_WRAPPER_HEADER##y
+#define OUT_API_CLASS(x)                   x->GetCommonTopLevelPath()+PKG_API_CLASS
+#define OUT_API_HEADER(x)                  x->GetCommonTopLevelPath()+PKG_API_HEADER
+#define OUT_WRAPPER_CLASS(x)               x->GetCommonTopLevelPath()+PKG_WRAPPER_CLASS
+#define OUT_WRAPPER_HEADER(x,y)            x->GetCommonTopLevelPath()+PKG_WRAPPER_HEADER##y
 
-#define ZIP_SECTOR                          10241
 
+/**
+ * @note PROFILE's DEFINE
+ */
+#define CLASSQL_NAME                       _T("ClasSQL")
+#define CLASSQL_PACKAGE                    _T("ClasSQL.zip")
 #define CLASSQL_VERSION                    _T("v.0.1");
-
-
-#define INCLUDE_WRAPPER_CLASS   _T("wx/wxsqlite3.h")
+#define PREFIX_CLASS                       _T("Bridge")
+#define EXTENSION_DB_SUPPORT               _T("DB files (*.s3db)|*.s3db")
 
 
 
@@ -131,6 +131,30 @@ const long ClassgenDialog::ID_STATICBOX5 = wxNewId();
 const long ClassgenDialog::ID_STATICTEXT5 = wxNewId();
 const long ClassgenDialog::ID_RADIOBOX1 = wxNewId();
 //*)
+
+
+
+/**
+ * @note I18N's STUFF
+ */
+const wxString ClassgenDialog::TITLE_FDLG_DBPATH                    (_("Open SQLite3 .s3db file"));
+const wxString ClassgenDialog::MSG_MDLG_FILE                        (_("File :"));
+const wxString ClassgenDialog::TITLE_MDLG_OPEN_FILE_ERROR           (_("Open file error"));
+const wxString ClassgenDialog::MSG_MDLG_TABLE_STRUCT_NOT_AVAILABLE  (_("Table struct not available"));
+const wxString ClassgenDialog::TITLE_MDLG_IMPORT_TABLE_STRUCT       (_("Import Table struct"));
+const wxString ClassgenDialog::MSG_MDLG_YOU_NEED_A_PROJECT          (_("You need to open a project/workspace before using this plugin!"));
+const wxString ClassgenDialog::MSG_MDLG_DO_YOU_WANT_CLASSES         (_("Do you want generate/add the abstraction classes \nfor all selected tables?"));
+const wxString ClassgenDialog::TITLE_MDLG_GENERATE_CLASSES          (_("Generate Classes?"));
+const wxString ClassgenDialog::MSG_MDLG_ENVIRONMENT_IS_LOOK         (_("Your environment is in read only mode, is not possible generate new files!"));
+const wxString ClassgenDialog::MSG_MDLG_ANY_TABLE_SELECTED          (_("You not have selected any table"));
+const wxString ClassgenDialog::TITLE_MDLG_NOT_TABLE                 (_("Tables not Selected!"));
+const wxString ClassgenDialog::MSG_MDLG_GENERATION_IS_STOPPED       (_("ClasSQL can't continue with generation of classes."));
+const wxString ClassgenDialog::TITLE_MDLG_EDITOR_ACCESS_ERROR       (_("Editor access Error"));
+const wxString ClassgenDialog::MSG_MDLG_NOT_WRITE_FILEH             (_("Could not save .h file %s.\nAborting..."));
+const wxString ClassgenDialog::MSG_MDLG_NOT_WRITE_FILECPP           (_("Could not save .cpp file %s.\nAborting..."));
+const wxString ClassgenDialog::TITLE_MDLG_WRITE_FILE_ERROR          (_("Error write to disk"));
+const wxString ClassgenDialog::MSG_MDLG_DBPATH_NOTVALID             (_("Invalid DB path: \n"));
+
 
 BEGIN_EVENT_TABLE(ClassgenDialog,wxDialog)
 	//(*EventTable(ClassgenDialog)
@@ -242,9 +266,8 @@ void ClassgenDialog::OnbtnCancelClick(wxCommandEvent& event)
 void ClassgenDialog::OnbtnBrowseDBClick(wxCommandEvent& event)
 {
 
-    wxFileDialog *fdlg = new wxFileDialog(this, _("Open SQLite3 .s3db file"), m_RunlibsPath, _T(""),
-                       _T("DB files (*.s3db)|*.s3db"), wxFD_OPEN|wxFD_FILE_MUST_EXIST);
-
+    wxFileDialog *fdlg = new wxFileDialog(this, TITLE_FDLG_DBPATH, m_s3dbPathGlobal,CC_NULL,
+                       EXTENSION_DB_SUPPORT, wxFD_OPEN|wxFD_FILE_MUST_EXIST);
 
     if (fdlg->ShowModal() == wxID_CANCEL)
         return;
@@ -252,9 +275,8 @@ void ClassgenDialog::OnbtnBrowseDBClick(wxCommandEvent& event)
     wxFileInputStream input_stream(fdlg->GetPath());
     if (!input_stream.IsOk())
     {
-        wxString objStr = fdlg->GetPath();
-        cbMessageBox(objStr,
-                 _T("Open file error"), wxICON_ERROR | wxOK);
+        wxString objStr = MSG_MDLG_FILE + fdlg->GetPath();
+        cbMessageBox(objStr,TITLE_MDLG_OPEN_FILE_ERROR, wxICON_ERROR | wxOK);
         return;
     }else{
         m_s3dbPathGlobal = fdlg->GetPath();
@@ -280,19 +302,7 @@ void ClassgenDialog::OnInit(wxInitDialogEvent& event)
 {
    InitProjectCfg();
 }
-/* -----------------------------------------------------------------------------------------------------
-*  OnPaint for dialog with lazy control basad on: Exist a Project
-*/
-void ClassgenDialog::OnPaint(wxPaintEvent& event)
-{
-    if(wxSafeYield(NULL,true)){
-       if(m_forceClose)
-          EndModal(wxID_CANCEL);
-    }
 
-    EditMode(!txtDBpath->GetValue().IsEmpty());
-
-}
 
 /* -----------------------------------------------------------------------------------------------------
 *  Invoke when list table change selection
@@ -303,8 +313,8 @@ void ClassgenDialog::OnclbxTablesToggled(wxCommandEvent& event)
     if(idx != wxNOT_FOUND){
          PopulateFieldsGrid(txtDBpath->GetValue(),clbxTables->GetString(idx));
     }else{
-      cbMessageBox(_T("Table struct not available"),
-          _T("Import Table struct"), wxICON_ERROR | wxOK);
+      cbMessageBox(MSG_MDLG_TABLE_STRUCT_NOT_AVAILABLE,
+                   TITLE_MDLG_IMPORT_TABLE_STRUCT, wxICON_ERROR | wxOK);
     }
     btnOK->Enable(ControlSelectedTables());
 }
@@ -430,7 +440,7 @@ void ClassgenDialog::InitProjectCfg(void)
         m_s3dbPathGlobal = _T("");
         m_prjName = m_prj->GetTitle();
 
-        ConfigManager *  cfg = Manager::Get()->GetConfigManager(_T("ClasSQL"));
+        ConfigManager *  cfg = Manager::Get()->GetConfigManager(CLASSQL_NAME);
         cfg->Read(_T("m_s3dbPath"),&m_s3dbPathGlobal);
         cfg->Read(_T("m_Author"),&m_Author);
         cfg->Read(_T("m_Copyright"),&m_Copyright);
@@ -440,8 +450,6 @@ void ClassgenDialog::InitProjectCfg(void)
         txtAuthor->SetValue(m_Author);
         txtCopyright->SetValue(m_Copyright);
         txtLicense->SetValue(m_License);
-
-        //    cfg->Write(_T("prjcfg"), (wxString) _T(""));
 
         m_prjCfg =  new ProjectCfg();
         wxString str_prjcfg = _T("");
@@ -482,9 +490,9 @@ void ClassgenDialog::InitProjectCfg(void)
     }
     else
     {
-        cbMessageBox(_("You need to open a project/workspace before using this plugin!"),
-                 _T("ClasSQL"), wxICON_ERROR | wxOK);
         m_forceClose=true;
+        cbMessageBox(MSG_MDLG_YOU_NEED_A_PROJECT,
+                     CLASSQL_NAME, wxICON_ERROR | wxOK);
     }
     EditMode(!txtDBpath->GetValue().IsEmpty());
 
@@ -495,18 +503,17 @@ void ClassgenDialog::InitProjectCfg(void)
 */
 void ClassgenDialog::SaveProjectCfg(void)
 {
-    ConfigManager *  cfg = Manager::Get()->GetConfigManager(_T("ClasSQL"));
-    wxString str_prjcfg  = (wxString)_T("");
-    wxString str_record  = (wxString)_T("");
-    wxString str_records = (wxString)_T("");
+    ConfigManager *  cfg = Manager::Get()->GetConfigManager(CLASSQL_NAME);
+    wxString str_prjcfg  = CC_NULL;
+    wxString str_record  = CC_NULL;
+    wxString str_records = CC_NULL;
     cfg->Read(_T("prjcfg"),&str_prjcfg);
     bool isFound=false;
 
-
-if( cbMessageBox( _("Do you want  generate and add the abstraction classes \nfor the SQL statements?.\n"),
-                               _("Generate Classes?"),
-                               wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION,
-                               Manager::Get()->GetAppWindow()) == wxID_YES)
+    if( cbMessageBox( MSG_MDLG_DO_YOU_WANT_CLASSES,
+                      TITLE_MDLG_GENERATE_CLASSES,
+                      wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION,
+                      Manager::Get()->GetAppWindow()) == wxID_YES)
     {
 
         if(TransferRunlibsToEvironment())
@@ -534,9 +541,7 @@ if( cbMessageBox( _("Do you want  generate and add the abstraction classes \nfor
                         wxStringTokenizer tProject(ptProject,C_SPLIT_RVALUE);
                         if(tProject.HasMoreTokens()){
                             wxString nameCtrl = tProject.GetNextToken();
-                            //cbMessageBox(nameCtrl + m_prjName,_T("ClasSQL"), wxICON_ERROR | wxOK);
                             if(m_prjName.CompareTo(nameCtrl)==0){
-                               //cbMessageBox(_T("0"),_T("ClasSQL"), wxICON_ERROR | wxOK);
                                str_records += str_record;
                                isFound = true;
                             }
@@ -544,7 +549,6 @@ if( cbMessageBox( _("Do you want  generate and add the abstraction classes \nfor
                             {
                                str_records += ptProject;
                             }
-
                             str_records += C_SPLIT_RECORD;
                         }
                     }
@@ -562,19 +566,15 @@ if( cbMessageBox( _("Do you want  generate and add the abstraction classes \nfor
             m_Copyright = txtCopyright->GetValue();
             m_License = txtLicense->GetValue();
 
-
-            //cbMessageBox(str_records,_T("ClasSQL"), wxICON_ERROR | wxOK);
             cfg->Write(_T("prjcfg"), str_records);
             cfg->Write(_T("m_Author"), m_Author);
             cfg->Write(_T("m_Copyright"), m_Copyright);
             cfg->Write(_T("m_License"), m_License);
-
-
         }
         else
         {
-            cbMessageBox(_("Your environment is in read only mode, is not possible generate new files!"),
-                     _T("ClasSQL"), wxICON_ERROR | wxOK);
+            cbMessageBox(MSG_MDLG_ENVIRONMENT_IS_LOOK,
+                         CLASSQL_NAME, wxICON_ERROR | wxOK);
             m_forceClose=true;
         }
     }else{
@@ -606,11 +606,10 @@ bool ClassgenDialog::TransferRunlibsToEvironment(void)
     ProjectManager* prjMan = Manager::Get()->GetProjectManager();
     m_prj = prjMan->GetActiveProject();
 
-    ConfigManager *  cfg = Manager::Get()->GetConfigManager(_T("ClasSQL"));
-
+    ConfigManager *  cfg = Manager::Get()->GetConfigManager(CLASSQL_NAME);
 
     std::auto_ptr<wxZipEntry> entry;
-    wxFFileInputStream in(cfg->GetDataFolder()+_T("/ClasSQL.zip"));
+    wxFFileInputStream in(cfg->GetDataFolder()+ZIP_PACKAGE);
     wxZipInputStream zip(in);
 
 
@@ -641,8 +640,6 @@ bool ClassgenDialog::TransferRunlibsToEvironment(void)
         else if(readName.CompareTo(PKG_WRAPPER_HEADER4)==0){
            isError = !ZisToFile(OUT_WRAPPER_HEADER(m_prj,4),&zip);
         }
-
-        //cbMessageBox(readName,_T("ClasSQL"), wxICON_ERROR | wxOK);
 
         if(isError){
             out=false;
@@ -731,8 +728,8 @@ bool ClassgenDialog::DoFiles(void)
       }
       else
       {
-        cbMessageBox((wxString)_T("You have not selected any table"),
-                 _T("Tables not Selected!"), wxICON_ERROR | wxOK);
+        cbMessageBox(MSG_MDLG_ANY_TABLE_SELECTED,
+                     TITLE_MDLG_NOT_TABLE, wxICON_ERROR | wxOK);
       }
 
 }
@@ -744,7 +741,7 @@ bool ClassgenDialog::DoFiles(void)
 */
 bool ClassgenDialog::DoFileH(const wxString& fileName,const wxString& filePath, wxString&  filePathOut)
 {
-    wxString out = _T("");
+    wxString out = CC_NULL;
     wxString tmpH = PREFIX_CLASS + fileName + CC_DOTH;
     tmpH[6] = wxToupper(tmpH[6]);
 
@@ -755,8 +752,8 @@ bool ClassgenDialog::DoFileH(const wxString& fileName,const wxString& filePath, 
     cbEditor* new_ed = Manager::Get()->GetEditorManager()->New(hFname.GetFullPath());
     if (!new_ed)
     {
-        cbMessageBox(_T("ClasSQL can't continue."),
-                     _T("Access Error"), wxICON_ERROR, this);
+        cbMessageBox(MSG_MDLG_GENERATION_IS_STOPPED,
+                     TITLE_MDLG_EDITOR_ACCESS_ERROR, wxICON_ERROR, this);
         return false;
     }
 
@@ -765,14 +762,14 @@ bool ClassgenDialog::DoFileH(const wxString& fileName,const wxString& filePath, 
     Manager::Get()->GetMacrosManager()->ReplaceMacros(buffer);
 
     buffer << m_tHeader;
-    m_tHeader = _T("");
+    m_tHeader = CC_NULL;
 
     new_ed->GetControl()->SetText(buffer);
     if (!new_ed->Save())
     {
         wxString msg;
-        msg.Printf(_("Could not save .h file %s.\nAborting..."), hFname.GetFullPath().c_str());
-        cbMessageBox(msg, _("Error"), wxICON_ERROR, this);
+        msg.Printf(MSG_MDLG_NOT_WRITE_FILEH, hFname.GetFullPath().c_str());
+        cbMessageBox(msg, TITLE_MDLG_WRITE_FILE_ERROR, wxICON_ERROR, this);
         return false;
     }
 
@@ -787,7 +784,7 @@ bool ClassgenDialog::DoFileH(const wxString& fileName,const wxString& filePath, 
 */
 bool ClassgenDialog::DoFileCPP(const wxString& fileName,const wxString& filePath, wxString&  filePathOut)
 {
-    wxString out = _T("");
+    wxString out = CC_NULL;
     wxString tmpH = PREFIX_CLASS + fileName + CC_DOTCPP;
     tmpH[6] = wxToupper(tmpH[6]);
 
@@ -800,8 +797,8 @@ bool ClassgenDialog::DoFileCPP(const wxString& fileName,const wxString& filePath
     cbEditor* new_ed = Manager::Get()->GetEditorManager()->New(cppFname.GetFullPath());
     if (!new_ed)
     {
-        cbMessageBox(_T("ClasSQL can't continue."),
-                     _T("Access Error"), wxICON_ERROR, this);
+        cbMessageBox(MSG_MDLG_GENERATION_IS_STOPPED,
+                     TITLE_MDLG_EDITOR_ACCESS_ERROR, wxICON_ERROR, this);
         return false;
     }
 
@@ -810,14 +807,14 @@ bool ClassgenDialog::DoFileCPP(const wxString& fileName,const wxString& filePath
     Manager::Get()->GetMacrosManager()->ReplaceMacros(buffer);
 
     buffer << m_tCpp;
-    m_tCpp = _T("");
+    m_tCpp = CC_NULL;
 
     new_ed->GetControl()->SetText(buffer);
     if (!new_ed->Save())
     {
         wxString msg;
-        msg.Printf(_("Could not save .cpp file %s.\nAborting..."), cppFname.GetFullPath().c_str());
-        cbMessageBox(msg, _("Error"), wxICON_ERROR, this);
+        msg.Printf(MSG_MDLG_NOT_WRITE_FILECPP, cppFname.GetFullPath().c_str());
+        cbMessageBox(msg, TITLE_MDLG_WRITE_FILE_ERROR, wxICON_ERROR, this);
         return false;
     }
 
@@ -825,6 +822,8 @@ bool ClassgenDialog::DoFileCPP(const wxString& fileName,const wxString& filePath
 
     return true;
 }
+
+
 
 
 
@@ -836,7 +835,7 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
       wxString license = dataTransport.License;
       wxString classql_version = dataTransport.ClasSQL_version;
       wxString default_dbpath = dataTransport.DBpath;
-      wxString tdm = (dataTransport.isVector)?_T("vector"):_T("list");
+      wxString tdm = (dataTransport.isVector)?CC_TDMVECTOR:CC_TDMLIST;
       wxString date;
       wxDateTime dt = wxDateTime::Today();
       date.sprintf(_("%s"),dt.FormatISODate().c_str());
@@ -847,26 +846,26 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
       tablename_upper.MakeUpper();
 
 
-      wxString fieldslist_selectmethod = _T("");
-      wxString fieldslist_updatemethod_p1  = _T("");
-      wxString fieldslist_updatemethod_p2  = _T("");
+      wxString fieldslist_selectmethod = CC_NULL;
+      wxString fieldslist_updatemethod_p1  = CC_NULL;
+      wxString fieldslist_updatemethod_p2  = CC_NULL;
 
-      wxString fieldslist_insertmethod_p1 = _T("");
-      wxString fieldslist_insertmethod_p2 = _T("");
-      wxString fieldslist_insertmethod_p3 = _T("");
+      wxString fieldslist_insertmethod_p1 = CC_NULL;
+      wxString fieldslist_insertmethod_p2 = CC_NULL;
+      wxString fieldslist_insertmethod_p3 = CC_NULL;
 
-      wxString macroslist_ssm1 = _T("");
-      wxString macroslist_ssm2 = _T("");
-      wxString macroslist_ssm3 = _T("");
-      wxString macroslist_ssm4 = _T("");
+      wxString macroslist_ssm1 = CC_NULL;
+      wxString macroslist_ssm2 = CC_NULL;
+      wxString macroslist_ssm3 = CC_NULL;
+      wxString macroslist_ssm4 = CC_NULL;
 
-      wxString macroslist_usm1 = _T("");
-      wxString macroslist_usm2 = _T("");
+      wxString macroslist_usm1 = CC_NULL;
+      wxString macroslist_usm2 = CC_NULL;
 
-      wxString macroslist_dsm1 = _T("");
-      wxString macroslist_dsm2 = _T("");
+      wxString macroslist_dsm1 = CC_NULL;
+      wxString macroslist_dsm2 = CC_NULL;
 
-      wxString fieldslist_intypedef = _T("");
+      wxString fieldslist_intypedef = CC_NULL;
 
 
        wxString _wxsCPP_FILE = wxsCPP_FILE;
@@ -912,29 +911,29 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
          wxString um2;
          wxString im1;
          wxString itd;
-         if(pf.Type.CompareTo(_T("INTEGER"))==0){
+         if(pf.Type.CompareTo(TCC_INTEGER)==0){
             sm1.sprintf(_T("GetInt(%d);\n"),i);
             um1 = _T(" %u");
             um2 = _T(",\n");
-            im1 = _T("");
+            im1 = CC_NULL;
             itd = _T("int ");
-         }else if(pf.Type.CompareTo(_T("INT64"))==0){
+         }else if(pf.Type.CompareTo(TCC_INT64)==0){
             sm1.sprintf(_T("GetInt64(%d);\n"),i);
             um1 = _T(" %ul");
             um2 = _T(",\n");
-            im1 = _T("");
+            im1 = CC_NULL;
             itd = _T("long long ");
-         }else if(pf.Type.CompareTo(_T("DOUBLE"))==0){
+         }else if(pf.Type.CompareTo(TCC_DOUBLE)==0){
             sm1.sprintf(_T("GetDouble(%d);\n"),i);
             um1 = _T(" %lf");
             um2 = _T(",\n");
-            im1 = _T("");
+            im1 = CC_NULL;
             itd = _T("double ");
-         }else if(pf.Type.CompareTo(_T("BOOLEAN"))==0){
+         }else if(pf.Type.CompareTo(TCC_BOOLEAN)==0){
             sm1.sprintf(_T("GetBool(%d);\n"),i);
             um1 = _T(" %d");
             um2 = _T(",\n");
-            im1 = _T("");
+            im1 = CC_NULL;
             itd = _T("bool ");
          }else{
             sm1.sprintf(_T("GetString(%d);\n"),i);
@@ -953,7 +952,7 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
          fieldslist_insertmethod_p2 << (wxString)((i>1)?_T(" ,<backslash>\n\t\t\t "):_T("\n\t\t\t ")) << um1;
          fieldslist_insertmethod_p3 << (wxString)((i>1)?_T("\t\t\t ,record."):_T("record.")) << pf.Name;
          fieldslist_insertmethod_p3 << im1 << (wxString)((i>1)?_T("\n"):_T("\n"));
-         fieldslist_intypedef << (wxString)((i>1)?_T("  "):_T("")) << itd << pf.Name << _T(";\n");
+         fieldslist_intypedef << (wxString)((i>1)?_T("  "):CC_NULL) << itd << pf.Name << _T(";\n");
 
          wxRegEx rule_fn( _T("(<fieldname>)"));
          wxRegEx rule_fnc(_T("(<fieldname_capital>)"));
@@ -1004,15 +1003,15 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
          rule_fnc.ReplaceAll(&t_dsm2,fieldname_capital);
 
 
-         macroslist_ssm1 << t_ssm1 << _T("");
-         macroslist_ssm2 << t_ssm2 << _T("");
-         macroslist_ssm3 << t_ssm3 << _T("");
-         macroslist_ssm4 << t_ssm4 << _T("");
+         macroslist_ssm1 << t_ssm1 << CC_NULL;
+         macroslist_ssm2 << t_ssm2 << CC_NULL;
+         macroslist_ssm3 << t_ssm3 << CC_NULL;
+         macroslist_ssm4 << t_ssm4 << CC_NULL;
 
-         macroslist_usm1 << t_usm1 << _T("");
-         macroslist_usm2 << t_usm2 << _T("");
-         macroslist_dsm1 << t_dsm1 << _T("");
-         macroslist_dsm2 << t_dsm2 << _T("");
+         macroslist_usm1 << t_usm1 << CC_NULL;
+         macroslist_usm2 << t_usm2 << CC_NULL;
+         macroslist_dsm1 << t_dsm1 << CC_NULL;
+         macroslist_dsm2 << t_dsm2 << CC_NULL;
 
       }
 
@@ -1131,9 +1130,6 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
 
       }
 
-
-      // wxMessageBox( wxsH_FILE, _("Test Regex"));
-
       if(1){//CPP_FILE
 
           if(1){//wxsCPP_CHUNK_1
@@ -1232,10 +1228,6 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
 
 
 
-
-
-
-
   /**
   * @note SQL METHODS
   */
@@ -1259,15 +1251,15 @@ bool ClassgenDialog::ProcessDBfile(const wxString& strDBpath)
         db->Close();
 
     }else{
-        cbMessageBox((wxString)_T("Invalid DB path: \n") << strDBpath,
-                 _T("Open DB fail!"), wxICON_ERROR | wxOK);
+        cbMessageBox((wxString)MSG_MDLG_DBPATH_NOTVALID << strDBpath,
+                 TITLE_MDLG_OPEN_FILE_ERROR, wxICON_ERROR | wxOK);
         out=false;
     }
 
     return out;
 }
 /* -----------------------------------------------------------------------------------------------------
-*  Import Tables fields from table list
+*  Populate grid with reference on table list
 */
 bool ClassgenDialog::PopulateFieldsGrid(const wxString& strDBpath, const wxString& strTableName)
 {
@@ -1292,8 +1284,8 @@ bool ClassgenDialog::PopulateFieldsGrid(const wxString& strDBpath, const wxStrin
         }
         db->Close();
     }else{
-        cbMessageBox((wxString)_T("Invalid DB path: \n") << strDBpath,
-                 _T("Open DB fail!"), wxICON_ERROR | wxOK);
+        cbMessageBox((wxString)MSG_MDLG_DBPATH_NOTVALID << strDBpath,
+                TITLE_MDLG_OPEN_FILE_ERROR, wxICON_ERROR | wxOK);
     }
     return out;
 }
@@ -1341,8 +1333,8 @@ std::list<Prefields> ClassgenDialog::ImportFieldsType(const wxString& strDBpath,
         }
         db->Close();
     }else{
-        cbMessageBox((wxString)_T("Invalid DB path: \n") << strDBpath,
-                 _T("Open DB fail!"), wxICON_ERROR | wxOK);
+        cbMessageBox((wxString)MSG_MDLG_DBPATH_NOTVALID << strDBpath,
+                 TITLE_MDLG_OPEN_FILE_ERROR, wxICON_ERROR | wxOK);
     }
     return out;
 }
@@ -1378,7 +1370,7 @@ bool ClassgenDialog::ZisToFile(const wxString& strName,wxZipInputStream * zip)
 }
 /* -----------------------------------------------------------------------------------------------------
 *  Make recursive dir from FileName
-*  Method inherit from Code::Blocks Classwizard Core Plugin by Thomas Denk
+*  Method inherit from Code::Blocks Classwizard Core Plugin by Yiannis An. Mandravellos
 */
 void ClassgenDialog::DoForceDirectory(const wxFileName & filename)
 {

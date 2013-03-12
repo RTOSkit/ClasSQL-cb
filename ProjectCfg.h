@@ -1,3 +1,12 @@
+/***************************************************************
+ * Name:      ClasSQL
+ * Purpose:   Code::Blocks plugin
+ * Author:    RTOSkit (rtoskit@gmail.com)
+ * Created:   2013-03-03
+ * Copyright: Maurizio Spoto
+ * License:   BSD 2c
+ **************************************************************/
+
 #ifndef PROJECTSCFG_H
 #define PROJECTSCFG_H
 
@@ -25,3 +34,4 @@ class ProjectCfg
 };
 
 #endif // PROJECTSCFG_H
+

@@ -1,3 +1,12 @@
+/***************************************************************
+ * Name:      ClasSQL
+ * Purpose:   Code::Blocks plugin
+ * Author:    RTOSkit (rtoskit@gmail.com)
+ * Created:   2013-03-03
+ * Copyright: Maurizio Spoto
+ * License:   BSD 2c
+ **************************************************************/
+
 #ifndef CONFIGPANEL_H
 #define CONFIGPANEL_H
 
@@ -63,6 +72,12 @@ class ConfigPanel: public cbConfigurationPanel
 		static const long ID_PANEL2;
 		//*)
 
+		static const wxString TITLE_DDLG_DBPATH;
+		static const wxString MSG_MDLG_WANT_CLEAR_CONFIG_DATA;
+		static const wxString TITLE_MDLG_CLAER_CONFIG_DATA;
+		static const wxString MSG_MDLG_CLEAR_CONFIG_SUCCESSFUL;
+		static const wxString TITLE_MDLG_INFORMATION;
+
 	private:
         virtual wxString GetTitle() const
         { return _("ClasSQL configuration"); }
@@ -84,3 +99,4 @@ class ConfigPanel: public cbConfigurationPanel
 };
 
 #endif
+

@@ -1,3 +1,11 @@
+/***************************************************************
+ * Name:      ClasSQL
+ * Purpose:   Code::Blocks plugin
+ * Author:    RTOSkit (rtoskit@gmail.com)
+ * Created:   2013-03-03
+ * Copyright: Maurizio Spoto
+ * License:   BSD 2c
+ **************************************************************/
 #include "ConfigPanel.h"
 
 //(*InternalHeaders(ConfigPanel)
@@ -6,6 +14,19 @@
 //*)
 
 #include <wx/dirdlg.h>
+
+
+
+/**
+ * @note PROFILE's DEFINE
+ */
+#define CLASSQL_NAME                       _T("ClasSQL")
+
+/**
+ * @note DEFINE USED IN CODE
+ */
+#define CC_NULL                             _T("")
+
 
 //(*IdInit(ConfigPanel)
 const long ConfigPanel::ID_STATICBOX1 = wxNewId();
@@ -17,6 +38,19 @@ const long ConfigPanel::ID_STATICBOX2 = wxNewId();
 const long ConfigPanel::ID_BUTTON2 = wxNewId();
 const long ConfigPanel::ID_PANEL2 = wxNewId();
 //*)
+
+
+/**
+ * @note I18N's STUFF
+ */
+const wxString ConfigPanel::TITLE_DDLG_DBPATH                    (_("Choose a SQLite3DB directory"));
+const wxString ConfigPanel::MSG_MDLG_WANT_CLEAR_CONFIG_DATA      (_("Do you want to clear all stored project configuration data?"));
+const wxString ConfigPanel::TITLE_MDLG_CLAER_CONFIG_DATA         (_("Clear stored configuration?"));
+const wxString ConfigPanel::MSG_MDLG_CLEAR_CONFIG_SUCCESSFUL     (_("Clear stored configuration successful!"));
+const wxString ConfigPanel::TITLE_MDLG_INFORMATION               (_("Information"));
+
+
+
 
 BEGIN_EVENT_TABLE(ConfigPanel,wxPanel)
 	//(*EventTable(ConfigPanel)
@@ -51,17 +85,9 @@ ConfigPanel::ConfigPanel(wxWindow* parent)
 	//*)
 
 
-    m_s3dbPath = _T("");
-    ConfigManager *  cfg = Manager::Get()->GetConfigManager(_T("ClasSQL"));
+    m_s3dbPath = CC_NULL;
+    ConfigManager *  cfg = Manager::Get()->GetConfigManager(CLASSQL_NAME);
     cfg->Read(_T("s3dbpath"),&m_s3dbPath);
-
-    /*
-    cbMessageBox(m_s3dbPath,
-                _("Information"),
-                wxOK | wxICON_INFORMATION,
-                Manager::Get()->GetAppWindow());
-*/
-
     txtDBpath->SetValue(m_s3dbPath);
 
 
@@ -77,14 +103,7 @@ ConfigPanel::~ConfigPanel()
 
 void ConfigPanel::OnApply()
 {
-   ConfigManager *  cfg = Manager::Get()->GetConfigManager(_T("ClasSQL"));
-
-/*
-    cbMessageBox(m_s3dbPath,
-                _("Information"),
-                wxOK | wxICON_INFORMATION,
-                Manager::Get()->GetAppWindow());
-*/
+   ConfigManager *  cfg = Manager::Get()->GetConfigManager(CLASSQL_NAME);
    m_s3dbPath = txtDBpath->GetValue();
    cfg->Write(_T("s3dbpath"), m_s3dbPath);
 }
@@ -95,8 +114,7 @@ void ConfigPanel::OnbtnDBpathClick(wxCommandEvent& event)
     if(m_s3dbPath.IsEmpty()){
        m_s3dbPath = ::wxGetCwd();
     }
-
-    wxDirDialog dlg (this, _T("Choose a SQLite3DB directory"), m_s3dbPath);
+    wxDirDialog dlg (this,TITLE_DDLG_DBPATH, m_s3dbPath);
     if (dlg.ShowModal()==wxID_OK)
     {
         m_s3dbPath = dlg.GetPath();
@@ -107,16 +125,17 @@ void ConfigPanel::OnbtnDBpathClick(wxCommandEvent& event)
 
 void ConfigPanel::OnbtnClearSCClick(wxCommandEvent& event)
 {
-    if(cbMessageBox( _("Do you want to clear all stored configuration data?"),
-                           _("Clear stored configuration?"),
-                           wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION,
-                           Manager::Get()->GetAppWindow()) == wxID_YES)
+
+    if(cbMessageBox(MSG_MDLG_WANT_CLEAR_CONFIG_DATA,
+                    TITLE_MDLG_CLAER_CONFIG_DATA,
+                    wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION,
+                    Manager::Get()->GetAppWindow()) == wxID_YES)
     {
 
-      ConfigManager *  cfg = Manager::Get()->GetConfigManager(_T("ClasSQL"));
+      ConfigManager *  cfg = Manager::Get()->GetConfigManager(CLASSQL_NAME);
       cfg->Write(_T("prjcfg"), (wxString) _T(""));
-      cbMessageBox(_("Clear stored configuration successful!"),
-                _("Information"),
+      cbMessageBox(MSG_MDLG_CLEAR_CONFIG_SUCCESSFUL,
+                TITLE_MDLG_INFORMATION,
                 wxOK | wxICON_INFORMATION,
                 Manager::Get()->GetAppWindow());
     }

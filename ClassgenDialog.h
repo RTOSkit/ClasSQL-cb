@@ -1,3 +1,12 @@
+/***************************************************************
+ * Name:      ClasSQL
+ * Purpose:   Code::Blocks plugin
+ * Author:    RTOSkit (rtoskit@gmail.com)
+ * Created:   2013-03-03
+ * Copyright: Maurizio Spoto
+ * License:   BSD 2c
+ **************************************************************/
+
 #ifndef CLASSGENDIALOG_H
 #define CLASSGENDIALOG_H
 
@@ -169,6 +178,25 @@ class ClassgenDialog: public wxDialog
 		static const long ID_RADIOBOX1;
 		//*)
 
+		static const wxString TITLE_FDLG_DBPATH;
+		static const wxString TITLE_MDLG_OPEN_FILE_ERROR;
+		static const wxString TITLE_MDLG_IMPORT_TABLE_STRUCT;
+		static const wxString TITLE_MDLG_GENERATE_CLASSES;
+		static const wxString TITLE_MDLG_NOT_TABLE;
+		static const wxString TITLE_MDLG_EDITOR_ACCESS_ERROR;
+		static const wxString TITLE_MDLG_WRITE_FILE_ERROR;
+
+		static const wxString MSG_MDLG_FILE;
+		static const wxString MSG_MDLG_TABLE_STRUCT_NOT_AVAILABLE;
+		static const wxString MSG_MDLG_YOU_NEED_A_PROJECT;
+		static const wxString MSG_MDLG_DO_YOU_WANT_CLASSES;
+		static const wxString MSG_MDLG_ENVIRONMENT_IS_LOOK;
+		static const wxString MSG_MDLG_ANY_TABLE_SELECTED;
+		static const wxString MSG_MDLG_GENERATION_IS_STOPPED;
+		static const wxString MSG_MDLG_NOT_WRITE_FILEH;
+		static const wxString MSG_MDLG_NOT_WRITE_FILECPP;
+		static const wxString MSG_MDLG_DBPATH_NOTVALID;
+
 	private:
 
 		//(*Handlers(ClassgenDialog)
@@ -184,8 +212,6 @@ class ClassgenDialog: public wxDialog
 		void OnCheckBox1Click(wxCommandEvent& event);
 		void OnCheckBox2Click(wxCommandEvent& event);
 		void OnTextCtrl3Text(wxCommandEvent& event);
-		void OnBitmapButton1Click(wxCommandEvent& event);
-		void OnRadioButton1Select(wxCommandEvent& event);
 		void OnrbxTDMSelect(wxCommandEvent& event);
 		//*)
 		//DIALOG
@@ -216,18 +242,13 @@ class ClassgenDialog: public wxDialog
 		void DoForceDirectory(const wxFileName & filename);
 
 
-		wxSQLite3Database*  m_db;
 		cbProject*          m_prj;
 		ProjectCfg*         m_prjCfg;
 		wxString            m_prjName;
 		wxString            m_s3dbPathGlobal;
-		wxString            m_RunlibsPath;
-        wxString            m_RunApiPath;
-
         wxString            m_Author;
         wxString            m_Copyright;
         wxString            m_License;
-
         wxString            m_tHeader;
         wxString            m_tCpp;
         bool                m_forceClose;
@@ -241,3 +262,4 @@ class ClassgenDialog: public wxDialog
 
 
 #endif
+

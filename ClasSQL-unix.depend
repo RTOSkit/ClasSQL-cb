@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1362983838 source:/home/bitehack/CBProjects/ClasSQL/ClasSQL.cpp
+1363054130 source:/home/bitehack/CBProjects/ClasSQL/ClasSQL.cpp
 	<sdk.h>
 	<wx/fs_zip.h>
 	<wx/intl.h>
@@ -2591,7 +2591,7 @@
 	<wx/panel.h>
 	<wx/string.h>
 
-1362961084 /home/bitehack/CBProjects/ClasSQL/ConfigPanel.h
+1363054503 /home/bitehack/CBProjects/ClasSQL/ConfigPanel.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/textctrl.h>
@@ -2613,7 +2613,7 @@
 	"projectmanager.h"
 	<configurationpanel.h>
 
-1363008409 /home/bitehack/CBProjects/ClasSQL/ClassgenDialog.h
+1363057733 /home/bitehack/CBProjects/ClasSQL/ClassgenDialog.h
 	<wx/notebook.h>
 	<wx/stattext.h>
 	<wx/radiobox.h>
@@ -2678,7 +2678,7 @@
 	"wx/wxscintilla.h"
 	<wx/longlong.h>
 
-1362919766 /home/bitehack/CBProjects/ClasSQL/ProjectCfg.h
+1363054268 /home/bitehack/CBProjects/ClasSQL/ProjectCfg.h
 	<wx/string.h>
 	<wx/tokenzr.h>
 
@@ -2698,18 +2698,18 @@
 
 1362920635 /home/bitehack/CBProjects/ClasSQL/runlibs/sqlite3/include/wx/wxsqlite3def.h
 
-1362601784 /home/bitehack/CBProjects/ClasSQL/ClasSQL.h
+1363053976 /home/bitehack/CBProjects/ClasSQL/ClasSQL.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 	<cbplugin.h>
 
-1362601784 source:/home/bitehack/CBProjects/ClasSQL/ConfigPanel.cpp
+1363054467 source:/home/bitehack/CBProjects/ClasSQL/ConfigPanel.cpp
 	"ConfigPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 	<wx/dirdlg.h>
 
-1362915294 source:/home/bitehack/CBProjects/ClasSQL/ProjectCfg.cpp
+1363054273 source:/home/bitehack/CBProjects/ClasSQL/ProjectCfg.cpp
 	"ProjectCfg.h"
 	<wx/fs_zip.h>
 	<wx/intl.h>
@@ -2802,4 +2802,24 @@
 	<CodeFragments.h>
 
 1362920635 /home/bitehack/CBProjects/ClasSQL/runlibs/sqlite3/include/wx/wxsqlite3dyn.h
+
+1363053892 source:/home/bitehack/CBProjects/ClasSQL/ClassgenDialog.cpp
+	"ClassgenDialog.h"
+	<wx/settings.h>
+	<wx/font.h>
+	<wx/intl.h>
+	<wx/string.h>
+	<climits>
+	<cstring>
+	<cstdlib>
+	<memory>
+	<climits>
+	<cstring>
+	<cstdlib>
+	<cstddef>
+	<memory>
+	<iostream>
+	<list>
+	<vector>
+	<wx/app.h>
 

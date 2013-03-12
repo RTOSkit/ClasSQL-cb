@@ -1,3 +1,12 @@
+/***************************************************************
+ * Name:      ClasSQL
+ * Purpose:   Code::Blocks plugin
+ * Author:    RTOSkit (rtoskit@gmail.com)
+ * Created:   2013-03-03
+ * Copyright: Maurizio Spoto
+ * License:   BSD 2c
+ **************************************************************/
+
 #include <sdk.h> // Code::Blocks SDK
 #ifndef CB_PRECOMP
     #include <wx/fs_zip.h>
@@ -18,11 +27,35 @@
 #include "ClassgenDialog.h"
 #include "ClasSQL.h"
 
+
+/**
+ * @note PROFILE's DEFINE
+ */
+#define CLASSQL_NAME                       _T("ClasSQL")
+#define CLASSQL_PACKAGE                    _T("ClasSQL.zip")
+
+
+/**
+ * @note I18N's STUFF
+ */
+const wxString ClasSQL::TITLE_CPNL_CONFIGURE                    (_("ClasSQL Config"));
+const wxString ClasSQL::TITLE_MENU_NEW_ITEM                     (_("SQL layering Class..."));
+const wxString ClasSQL::MSG_DEBUG_NOT_NEW_MENU                  (_("Could not find File->New menu!"));
+const wxString ClasSQL::MSG_DEBUG_NOT_FILE_MENU                 (_("Could not find File menu!"));
+const wxString ClasSQL::TITLE_MDLG_INFORMATION                  (_("Information"));
+const wxString ClasSQL::MSG_MDLG_POST_GENERATE_INFORMATION \
+  (_("The new classes has been created.\nRemember to add the following paths\nto your compiler targets:\n\
+      ___________________________\n\
+      runlibs/sqlite3/include\n\
+      runlibs/sqlite3/api\n\
+      sqlbridges"));
+
+
 // Register the plugin with Code::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
-    PluginRegistrant<ClasSQL> reg(_T("ClasSQL"));
+    PluginRegistrant<ClasSQL> reg(CLASSQL_NAME);
     int idLaunch = wxNewId();
 }
 
@@ -38,9 +71,9 @@ ClasSQL::ClasSQL()
      // Make sure our resources are available.
     // In the generated boilerplate code we have no resources but when
     // we add some, it will be nice that this code is in place already ;)
-    if(!Manager::LoadResource(_T("ClasSQL.zip")))
+    if(!Manager::LoadResource(CLASSQL_PACKAGE))
     {
-        NotifyMissingFile(_T("ClasSQL.zip"));
+        NotifyMissingFile(CLASSQL_PACKAGE);
     }
 }
 
@@ -79,7 +112,7 @@ void ClasSQL::OnRelease(bool appShutDown)
 
 int ClasSQL::Configure()
 {
-    cbConfigurationDialog dlg(Manager::Get()->GetAppWindow(), wxID_ANY, _("ClasSQL Config"));
+    cbConfigurationDialog dlg(Manager::Get()->GetAppWindow(), wxID_ANY,TITLE_CPNL_CONFIGURE);
     cbConfigurationPanel* panel = GetConfigurationPanel(&dlg);
     if (panel)
     {
@@ -108,29 +141,16 @@ void ClasSQL::BuildMenu(wxMenuBar* menuBar)
         m_FileNewMenu = mn ? mn->GetSubMenu() : 0;
         if (m_FileNewMenu)
         {
-			m_FileNewMenu->Insert(3, idLaunch, _("SQL layering Class..."));
+			m_FileNewMenu->Insert(3, idLaunch, TITLE_MENU_NEW_ITEM);
         }
 		else
-			Manager::Get()->GetLogManager()->DebugLog(_T("Could not find File->New menu!"));
+			Manager::Get()->GetLogManager()->DebugLog(MSG_DEBUG_NOT_NEW_MENU);
     }
     else
-        Manager::Get()->GetLogManager()->DebugLog(_T("Could not find File menu!"));
+        Manager::Get()->GetLogManager()->DebugLog(MSG_DEBUG_NOT_FILE_MENU);
 
 
-
-    //NotImplemented(_T("ClasSQL::BuildMenu()"));
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -164,24 +184,16 @@ void ClasSQL::OnLaunch(wxCommandEvent& event)
 {
     ProjectManager* prjMan = Manager::Get()->GetProjectManager();
     cbProject* prj = prjMan->GetActiveProject();
-    bool isPrj=false;
     ClassgenDialog dlg(Manager::Get()->GetAppWindow());
 
     if(!dlg.isForceClose()){
         PlaceWindow(&dlg);
         if (dlg.ShowModal() == wxID_OK)
         {
-            if (prj)
-            {
-                cbMessageBox(   _("The new classes has been created.\nRemember to add the following paths\nto your compiler targets:\n\
-                                  ___________________________\n\
-                                  runlibs/sqlite3/include\n\
-                                  runlibs/sqlite3/api\n\
-                                  sqlbridges"),
-                                _("Information"),
-                                wxOK | wxICON_INFORMATION,
-                                Manager::Get()->GetAppWindow());
-            }
+            cbMessageBox(MSG_MDLG_POST_GENERATE_INFORMATION,
+                         TITLE_MDLG_INFORMATION,
+                         wxOK | wxICON_INFORMATION,
+                         Manager::Get()->GetAppWindow());
 
         }
     }

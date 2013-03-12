@@ -3,8 +3,8 @@
  * Purpose:   Code::Blocks plugin
  * Author:    RTOSkit (rtoskit@gmail.com)
  * Created:   2013-03-03
- * Copyright: RTOSkit
- * License:   GPL
+ * Copyright: Maurizio Spoto
+ * License:   BSD 2c
  **************************************************************/
 
 #ifndef CLASSQL_H_INCLUDED
@@ -97,6 +97,15 @@ class ClasSQL : public cbPlugin
 
         void OnLaunch(wxCommandEvent& event);
     protected:
+
+        static const wxString TITLE_CPNL_CONFIGURE;
+        static const wxString TITLE_MENU_NEW_ITEM;
+        static const wxString MSG_DEBUG_NOT_NEW_MENU;
+        static const wxString MSG_DEBUG_NOT_FILE_MENU;
+        static const wxString TITLE_MDLG_INFORMATION;
+        static const wxString MSG_MDLG_POST_GENERATE_INFORMATION;
+
+
         /** Any descendent plugin should override this virtual method and
           * perform any necessary initialization. This method is called by
           * Code::Blocks (PluginManager actually) when the plugin has been

@@ -1,3 +1,12 @@
+/***************************************************************
+ * Name:      ClasSQL
+ * Purpose:   Code::Blocks plugin
+ * Author:    RTOSkit (rtoskit@gmail.com)
+ * Created:   2013-03-03
+ * Copyright: Maurizio Spoto
+ * License:   BSD 2c
+ **************************************************************/
+
 #include "ProjectCfg.h"
 
 #ifndef CB_PRECOMP
@@ -16,15 +25,21 @@
 #endif
 #include <wx/msgdlg.h>
 
+
+/**
+ * @note DEFINE USED IN CODE
+ */
+#define CC_NULL                             _T("")
+
 ProjectCfg::ProjectCfg()
 {
-      m_s3dbPath = _T("");
-      m_s3dbFile = _T("");
+      m_s3dbPath = CC_NULL;
+      m_s3dbFile = CC_NULL;
 }
 
 ProjectCfg::~ProjectCfg()
 {
-    //dtor
+
 }
 
 wxString ProjectCfg::GetValue(eValType evt){
@@ -49,7 +64,6 @@ void ProjectCfg::SetValue(eValType evt, wxString val){
 }
 void ProjectCfg::RecordToFields(wxString tokenStr,wxChar sField,wxChar sValue){
 
-    //cbMessageBox(tokenStr,_T("ClasSQL"), wxICON_ERROR | wxOK);
     wxStringTokenizer tFields(tokenStr,sField);
     while ( tFields.HasMoreTokens() )
     {
