@@ -3298,7 +3298,7 @@
 
 1362680082 /usr/include/wx-2.8/wx/msw/popupwin.h
 
-1362978293 source:c:\users\bitehack\cbprojects\classql\classgendialog.cpp
+1363069496 source:c:\users\bitehack\cbprojects\classql\classgendialog.cpp
 	"ClassgenDialog.h"
 	<wx/settings.h>
 	<wx/font.h>
@@ -3318,7 +3318,7 @@
 	<vector>
 	<wx/app.h>
 
-1363009430 c:\users\bitehack\cbprojects\classql\classgendialog.h
+1363069496 c:\users\bitehack\cbprojects\classql\classgendialog.h
 	<wx/notebook.h>
 	<wx/stattext.h>
 	<wx/radiobox.h>
@@ -6503,7 +6503,7 @@
 	<wx/ffile.h>
 	<wx/textctrl.h>
 
-1362962812 c:\users\bitehack\cbprojects\classql\projectcfg.h
+1363058962 c:\users\bitehack\cbprojects\classql\projectcfg.h
 	<wx/string.h>
 	<wx/tokenzr.h>
 
@@ -6617,7 +6617,7 @@
 1309439458 c:\sourcecode\libraries\wxwidgets2.8\include\wx\univ\theme.h
 	"wx/string.h"
 
-1362978370 source:c:\users\bitehack\cbprojects\classql\classql.cpp
+1363058962 source:c:\users\bitehack\cbprojects\classql\classql.cpp
 	<sdk.h>
 	<wx/fs_zip.h>
 	<wx/intl.h>
@@ -7888,7 +7888,7 @@
 	<wx/panel.h>
 	<wx/string.h>
 
-1362966630 c:\users\bitehack\cbprojects\classql\configpanel.h
+1363058962 c:\users\bitehack\cbprojects\classql\configpanel.h
 	<wx/sizer.h>
 	<wx/stattext.h>
 	<wx/textctrl.h>
@@ -7910,18 +7910,18 @@
 	"projectmanager.h"
 	<configurationpanel.h>
 
-1362965579 c:\users\bitehack\cbprojects\classql\classql.h
+1363058962 c:\users\bitehack\cbprojects\classql\classql.h
 	<wx/wxprec.h>
 	<wx/wx.h>
 	<cbplugin.h>
 
-1362965555 source:c:\users\bitehack\cbprojects\classql\configpanel.cpp
+1363058962 source:c:\users\bitehack\cbprojects\classql\configpanel.cpp
 	"ConfigPanel.h"
 	<wx/intl.h>
 	<wx/string.h>
 	<wx/dirdlg.h>
 
-1362962812 source:c:\users\bitehack\cbprojects\classql\projectcfg.cpp
+1363058962 source:c:\users\bitehack\cbprojects\classql\projectcfg.cpp
 	"ProjectCfg.h"
 	<wx/fs_zip.h>
 	<wx/intl.h>

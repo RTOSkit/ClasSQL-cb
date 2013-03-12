@@ -35,6 +35,8 @@
 /**
  * @note DEFINES USED IN PARSING/COMPOSER
  */
+#define CC_BACKSLASH                        _T("\\")
+#define CC_SPACE                            _T(" ")
 #define CC_DOTH                             _T(".h")
 #define CC_DOTCPP                           _T(".cpp")
 #define CC_TDMVECTOR                        _T("vector")
@@ -467,7 +469,7 @@ void ClassgenDialog::InitProjectCfg(void)
         txtAuthor->SetValue(m_Author);
         txtCopyright->SetValue(m_Copyright);
         txtLicense->SetValue(m_License);
-        btnOK->SetLabel(LAB_BTNOK_GENERATE_CLASS + m_prjName);
+        //btnOK->SetLabel(LAB_BTNOK_GENERATE_CLASS + m_prjName);
 
         m_prjCfg =  new ProjectCfg();
         wxString str_prjcfg = CC_NULL;
@@ -716,8 +718,7 @@ bool ClassgenDialog::DoFiles(void)
           m_Copyright = txtCopyright->GetValue();
           m_License = txtLicense->GetValue();
 
-
-          dataTransport.isVector = !rbxTDM->GetSelection();
+          dataTransport.isVector = (rbxTDM->GetStringSelection().Contains(CC_TDMLIST)==0);
           dataTransport.Author = m_Author;
           dataTransport.Copyright = m_Copyright;
           dataTransport.License = m_License;
@@ -856,6 +857,7 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
       wxString license = dataTransport.License;
       wxString classql_version = dataTransport.ClasSQL_version;
       wxString default_dbpath = dataTransport.DBpath;
+      default_dbpath.Replace(CC_BACKSLASH,_T("<backslash>"));              //only for msw
       wxString tdm = (dataTransport.isVector)?CC_TDMVECTOR:CC_TDMLIST;
       wxString date;
       wxDateTime dt = wxDateTime::Today();
@@ -1055,7 +1057,7 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
              wxRegEx rule_classql_version( _T("(<classql_version>)"));
              wxRegEx rule_tdm( _T("(<tdm>)"));
 
-             rule_author.ReplaceAll(&wxsH_CHUNK_1,author);
+             rule_author.ReplaceAll(&_wxsH_CHUNK_1,author);
              rule_date.ReplaceAll(&_wxsH_CHUNK_1,date);
              rule_copyright.ReplaceAll(&_wxsH_CHUNK_1,copyright);
              rule_license.ReplaceAll(&_wxsH_CHUNK_1,license);
@@ -1143,6 +1145,7 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
              wxRegEx rule_c8( _T("(<wxsH_DELETE_STATEMENTS_CHUNK_2>)"));
              wxRegEx rule_c9( _T("(<wxsH_TYPEDEF_STRUCT>)"));
              wxRegEx rule_c10( _T("(<wxsH_CLASS_DEFINE>)"));
+             wxRegEx rule_bs(_T("(<backslash>)"), wxRE_ADVANCED  );
 
              rule_c1.ReplaceAll(&_wxsH_FILE,_wxsH_CHUNK_1);
              rule_c2.ReplaceAll(&_wxsH_FILE,_wxsH_INSERT_STATEMENTS_CHUNK_1);
@@ -1157,6 +1160,7 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
 
              rule_tn.ReplaceAll(&_wxsH_FILE,tablename);
              rule_tnc.ReplaceAll(&_wxsH_FILE,tablename_capital);
+             rule_bs.ReplaceAll(&_wxsH_FILE,_T("\\\\"));
 
           }
 
@@ -1261,7 +1265,7 @@ wxString ClassgenDialog::Whitespaces(int len)
 {
   wxString out;
   do{
-     out.Append(_(" "));
+     out.Append(CC_SPACE);
   }while(--len);
   return out;
 }
