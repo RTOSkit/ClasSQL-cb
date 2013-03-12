@@ -2613,7 +2613,7 @@
 	"projectmanager.h"
 	<configurationpanel.h>
 
-1363059181 /home/bitehack/CBProjects/ClasSQL/ClassgenDialog.h
+1363067408 /home/bitehack/CBProjects/ClasSQL/ClassgenDialog.h
 	<wx/notebook.h>
 	<wx/stattext.h>
 	<wx/radiobox.h>

@@ -196,6 +196,7 @@ class ClassgenDialog: public wxDialog
 		static const wxString MSG_MDLG_NOT_WRITE_FILEH;
 		static const wxString MSG_MDLG_NOT_WRITE_FILECPP;
 		static const wxString MSG_MDLG_DBPATH_NOTVALID;
+		static const wxString LAB_BTNOK_GENERATE_CLASS;
 
 	private:
 
@@ -205,14 +206,8 @@ class ClassgenDialog: public wxDialog
 		void OnbtnBrowseDBClick(wxCommandEvent& event);
 		void OnbtnDBprocessClick(wxCommandEvent& event);
 		void OnclbxTablesToggled(wxCommandEvent& event);
-		void OnPaint(wxPaintEvent& event);
-		void OnInit(wxInitDialogEvent& event);
-		void OnButton1Click(wxCommandEvent& event);
 		void OntxtDBpathText(wxCommandEvent& event);
-		void OnCheckBox1Click(wxCommandEvent& event);
-		void OnCheckBox2Click(wxCommandEvent& event);
-		void OnTextCtrl3Text(wxCommandEvent& event);
-		void OnrbxTDMSelect(wxCommandEvent& event);
+		void OnclbxTablesChecked(wxCommandEvent& event);
 		//*)
 		//DIALOG
 		void GenerateGrid(int rows);
@@ -233,6 +228,7 @@ class ClassgenDialog: public wxDialog
         bool DoFileH(const wxString& fileName,const wxString& filePath, wxString& filePathOut);
         bool DoFileCPP(const wxString& fileName,const wxString& filePath, wxString&  filePathOut);
         bool MakeFormatBuffers(DataTransport dataTransport, std::list<Prefields> listPrefields);
+        wxString Whitespaces(int len);
 		//SQL
 		bool ProcessDBfile(const wxString& strDBpath);
 		bool PopulateFieldsGrid(const wxString& strDBpath, const wxString& strTableName);

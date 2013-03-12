@@ -23,7 +23,7 @@
 
 
 /**
- * @note DEFINE USED IN CUSTOM CSV CONFIGURATION
+ * @note DEFINES USED IN CUSTOM CSV CONFIGURATION
  */
 #define C_SPLIT_RECORD                      _T('|')
 #define C_SPLIT_RVALUE                      _T('·')
@@ -33,20 +33,37 @@
 
 
 /**
- * @note DEFINE USED IN PARSING/COMPOSER
+ * @note DEFINES USED IN PARSING/COMPOSER
  */
 #define CC_DOTH                             _T(".h")
 #define CC_DOTCPP                           _T(".cpp")
 #define CC_TDMVECTOR                        _T("vector")
 #define CC_TDMLIST                          _T("list")
 
+#define DEFAULT_WHITESPACES_SSM1            40
+#define DEFAULT_WHITESPACES_SSM2            43
+#define DEFAULT_WHITESPACES_SSM3            33
+#define DEFAULT_WHITESPACES_SSM4            36
+#define DEFAULT_WHITESPACES_USM1            32
+#define DEFAULT_WHITESPACES_USM2            35
+#define DEFAULT_WHITESPACES_DSM1            34
+#define DEFAULT_WHITESPACES_DSM2            37
+
+#define DEFAULT_WHITESPACES_C1              50
+#define DEFAULT_WHITESPACES_IC1             46
+#define DEFAULT_WHITESPACES_SC1             32
+#define DEFAULT_WHITESPACES_UC1             38
+#define DEFAULT_WHITESPACES_DC1             40
+
+
+
 /**
- * @note DEFINE USED IN CODE
+ * @note DEFINES USED IN CODE
  */
 #define CC_NULL                             _T("")
 
 /**
- * @note DEFINE USED IN AFFINITY TYPE TO TYPE
+ * @note DEFINES USED IN AFFINITY TYPE TO TYPE
  */
 //IN TYPE
 #define CC_DOUBLE                           _T("DOUBLE")
@@ -63,7 +80,7 @@
 
 
 /**
- * @note DEFINE USED IN UNZIP CONTROLLER
+ * @note DEFINES USED IN UNZIP CONTROLLER
  */
 #define ZIP_SECTOR                         10241
                                            //10kb+\0
@@ -96,7 +113,7 @@
 
 
 /**
- * @note PROFILE's DEFINE
+ * @note PROFILE's DEFINES
  */
 #define CLASSQL_NAME                       _T("ClasSQL")
 #define CLASSQL_PACKAGE                    _T("ClasSQL.zip")
@@ -143,7 +160,7 @@ const wxString ClassgenDialog::TITLE_MDLG_OPEN_FILE_ERROR           (_("Open fil
 const wxString ClassgenDialog::MSG_MDLG_TABLE_STRUCT_NOT_AVAILABLE  (_("Table struct not available"));
 const wxString ClassgenDialog::TITLE_MDLG_IMPORT_TABLE_STRUCT       (_("Import Table struct"));
 const wxString ClassgenDialog::MSG_MDLG_YOU_NEED_A_PROJECT          (_("You need to open a project/workspace before using this plugin!"));
-const wxString ClassgenDialog::MSG_MDLG_DO_YOU_WANT_CLASSES         (_("Do you want generate/add the abstraction classes \nfor all selected tables?"));
+const wxString ClassgenDialog::MSG_MDLG_DO_YOU_WANT_CLASSES         (_("Do you want generate/add \nthe new classes on %s project?"));
 const wxString ClassgenDialog::TITLE_MDLG_GENERATE_CLASSES          (_("Generate Classes?"));
 const wxString ClassgenDialog::MSG_MDLG_ENVIRONMENT_IS_LOOK         (_("Your environment is in read only mode, is not possible generate new files!"));
 const wxString ClassgenDialog::MSG_MDLG_ANY_TABLE_SELECTED          (_("You not have selected any table"));
@@ -154,6 +171,7 @@ const wxString ClassgenDialog::MSG_MDLG_NOT_WRITE_FILEH             (_("Could no
 const wxString ClassgenDialog::MSG_MDLG_NOT_WRITE_FILECPP           (_("Could not save .cpp file %s.\nAborting..."));
 const wxString ClassgenDialog::TITLE_MDLG_WRITE_FILE_ERROR          (_("Error write to disk"));
 const wxString ClassgenDialog::MSG_MDLG_DBPATH_NOTVALID             (_("Invalid DB path: \n"));
+const wxString ClassgenDialog::LAB_BTNOK_GENERATE_CLASS             (_("Generate Classes\non "));
 
 
 BEGIN_EVENT_TABLE(ClassgenDialog,wxDialog)
@@ -202,7 +220,7 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	gridFields->SetColLabelSize(14);
 	gridFields->SetRowLabelSize(4);
 	gridFields->SetDefaultColSize(135, true);
-	gridFields->SetLabelTextColour(wxSystemSettings::GetColour(wxSYS_COLOUR_SCROLLBAR));
+	gridFields->SetLabelTextColour(wxColour(96,96,96));
 	gridFields->SetColLabelValue(0, _("ORDER"));
 	gridFields->SetColLabelValue(1, _("NAME"));
 	gridFields->SetColLabelValue(2, _("TYPE"));
@@ -216,6 +234,7 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	txtLicense = new wxTextCtrl(this, ID_TEXTCTRL4, _("GPL"), wxPoint(112,448), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL4"));
 	StaticBox3 = new wxStaticBox(this, ID_STATICBOX5, _("Search directories in compiler Targets"), wxPoint(336,360), wxSize(288,128), 0, _T("ID_STATICBOX5"));
 	StaticText4 = new wxStaticText(this, ID_STATICTEXT5, _("runlibs/sqlite3/include\nrunlibs/sqlite3/api\nsqlbridges"), wxPoint(352,392), wxSize(228,54), 0, _T("ID_STATICTEXT5"));
+	StaticText4->SetForegroundColour(wxColour(128,128,128));
 	wxFont StaticText4Font(16,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
 	StaticText4->SetFont(StaticText4Font);
 	wxString __wxRadioBoxChoices_1[2] =
@@ -232,6 +251,7 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	Connect(ID_TEXTCTRL2,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&ClassgenDialog::OntxtDBpathText);
 	Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnBrowseDBClick);
 	Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnDBprocessClick);
+	Connect(ID_CHECKLISTBOX1,wxEVT_COMMAND_CHECKLISTBOX_TOGGLED,(wxObjectEventFunction)&ClassgenDialog::OnclbxTablesChecked);
 	Connect(ID_CHECKLISTBOX1,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&ClassgenDialog::OnclbxTablesToggled);
 	//*)
 
@@ -252,12 +272,16 @@ ClassgenDialog::~ClassgenDialog()
 void ClassgenDialog::OnbtnOKClick(wxCommandEvent& event)
 {
     SaveProjectCfg();
-    EndModal(wxID_OK);
 }
 
 void ClassgenDialog::OnbtnCancelClick(wxCommandEvent& event)
 {
     EndModal(wxID_CANCEL);
+}
+
+void ClassgenDialog::OnclbxTablesChecked(wxCommandEvent& event)
+{
+    btnOK->Enable(ControlSelectedTables());
 }
 
 /* -----------------------------------------------------------------------------------------------------
@@ -430,7 +454,7 @@ void ClassgenDialog::InitProjectCfg(void)
 
     if (m_prj)
     {
-        m_s3dbPathGlobal = _T("");
+        m_s3dbPathGlobal = CC_NULL;
         m_prjName = m_prj->GetTitle();
 
         ConfigManager *  cfg = Manager::Get()->GetConfigManager(CLASSQL_NAME);
@@ -443,9 +467,10 @@ void ClassgenDialog::InitProjectCfg(void)
         txtAuthor->SetValue(m_Author);
         txtCopyright->SetValue(m_Copyright);
         txtLicense->SetValue(m_License);
+        btnOK->SetLabel(LAB_BTNOK_GENERATE_CLASS + m_prjName);
 
         m_prjCfg =  new ProjectCfg();
-        wxString str_prjcfg = _T("");
+        wxString str_prjcfg = CC_NULL;
         cfg->Read(_T("prjcfg"),&str_prjcfg);
 
 
@@ -478,8 +503,6 @@ void ClassgenDialog::InitProjectCfg(void)
                txtDBpath->SetValue(m_s3dbPathGlobal);
             }
         }
-
-
     }
     else
     {
@@ -503,7 +526,10 @@ void ClassgenDialog::SaveProjectCfg(void)
     cfg->Read(_T("prjcfg"),&str_prjcfg);
     bool isFound=false;
 
-    if( cbMessageBox( MSG_MDLG_DO_YOU_WANT_CLASSES,
+    wxString question;
+    question.sprintf(MSG_MDLG_DO_YOU_WANT_CLASSES,m_prjName.c_str());
+
+    if( cbMessageBox( question,
                       TITLE_MDLG_GENERATE_CLASSES,
                       wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION,
                       Manager::Get()->GetAppWindow()) == wxID_YES)
@@ -563,12 +589,14 @@ void ClassgenDialog::SaveProjectCfg(void)
             cfg->Write(_T("m_Author"), m_Author);
             cfg->Write(_T("m_Copyright"), m_Copyright);
             cfg->Write(_T("m_License"), m_License);
+            EndModal(wxID_OK);
         }
         else
         {
             cbMessageBox(MSG_MDLG_ENVIRONMENT_IS_LOOK,
                          CLASSQL_NAME, wxICON_ERROR | wxOK);
             m_forceClose=true;
+            EndModal(wxID_CANCEL);
         }
     }else{
         EndModal(wxID_CANCEL);
@@ -610,7 +638,7 @@ bool ClassgenDialog::TransferRunlibsToEvironment(void)
     {
 
         wxString readName = entry->GetName();
-        wxString outName = _T("");
+        wxString outName = CC_NULL;
         bool isError=false;
         if(readName.CompareTo(PKG_API_CLASS)==0){
            isError = !ZisToFile(outName=OUT_API_CLASS(m_prj),&zip);
@@ -895,6 +923,9 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
       wxRegEx rule_tn( _T("(<tablename>)"), wxRE_ADVANCED );
       wxRegEx rule_tnc(_T("(<tablename_capital>)"), wxRE_ADVANCED  );
       wxRegEx rule_tnu(_T("(<tablename_upper>)"), wxRE_ADVANCED  );
+      wxRegEx rule_fn( _T("(<fieldname>)"));
+      wxRegEx rule_fnc(_T("(<fieldname_capital>)"));
+      wxRegEx rule_ws(_T("(<whitespaces>)"));
 
       int i=1;
       for(it = listPrefields.begin();it!=listPrefields.end();++it,i++){
@@ -947,8 +978,6 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
          fieldslist_insertmethod_p3 << im1 << (wxString)((i>1)?_T("\n"):_T("\n"));
          fieldslist_intypedef << (wxString)((i>1)?_T("  "):CC_NULL) << itd << pf.Name << _T(";\n");
 
-         wxRegEx rule_fn( _T("(<fieldname>)"));
-         wxRegEx rule_fnc(_T("(<fieldname_capital>)"));
 
          wxString fieldname_capital = pf.Name;
          fieldname_capital[0] = wxToupper(fieldname_capital[0]);
@@ -967,34 +996,41 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
          rule_fn.ReplaceAll(&t_ssm1,pf.Name);
          rule_fnc.ReplaceAll(&t_ssm1,fieldname_capital);
          rule_tn.ReplaceAll(&t_ssm1,tablename);
+         rule_ws.ReplaceAll(&t_ssm1,Whitespaces(DEFAULT_WHITESPACES_SSM1-pf.Name .Length()));
+
 
          rule_fn.ReplaceAll(&t_ssm2,pf.Name);
          rule_fnc.ReplaceAll(&t_ssm2,fieldname_capital);
          rule_tn.ReplaceAll(&t_ssm2,tablename);
+         rule_ws.ReplaceAll(&t_ssm2,Whitespaces(DEFAULT_WHITESPACES_SSM2-pf.Name .Length()));
 
          rule_fn.ReplaceAll(&t_ssm3,pf.Name);
          rule_fnc.ReplaceAll(&t_ssm3,fieldname_capital);
          rule_tn.ReplaceAll(&t_ssm3,tablename);
+         rule_ws.ReplaceAll(&t_ssm3,Whitespaces(DEFAULT_WHITESPACES_SSM3-pf.Name .Length()));
 
          rule_fn.ReplaceAll(&t_ssm4,pf.Name);
          rule_fnc.ReplaceAll(&t_ssm4,fieldname_capital);
          rule_tn.ReplaceAll(&t_ssm4,tablename);
+         rule_ws.ReplaceAll(&t_ssm4,Whitespaces(DEFAULT_WHITESPACES_SSM4-pf.Name .Length()));
 
 
          rule_fn.ReplaceAll(&t_usm1,pf.Name);
          rule_fnc.ReplaceAll(&t_usm1,fieldname_capital);
+         rule_ws.ReplaceAll(&t_usm1,Whitespaces(DEFAULT_WHITESPACES_USM1-pf.Name .Length()));
 
          rule_fn.ReplaceAll(&t_usm2,pf.Name);
          rule_fnc.ReplaceAll(&t_usm2,fieldname_capital);
+         rule_ws.ReplaceAll(&t_usm2,Whitespaces(DEFAULT_WHITESPACES_USM2-pf.Name .Length()));
 
 
          rule_fn.ReplaceAll(&t_dsm1,pf.Name);
          rule_fnc.ReplaceAll(&t_dsm1,fieldname_capital);
-
+         rule_ws.ReplaceAll(&t_dsm1,Whitespaces(DEFAULT_WHITESPACES_DSM1-pf.Name .Length()));
 
          rule_fn.ReplaceAll(&t_dsm2,pf.Name);
          rule_fnc.ReplaceAll(&t_dsm2,fieldname_capital);
-
+         rule_ws.ReplaceAll(&t_dsm2,Whitespaces(DEFAULT_WHITESPACES_DSM2-pf.Name .Length()));
 
          macroslist_ssm1 << t_ssm1 << CC_NULL;
          macroslist_ssm2 << t_ssm2 << CC_NULL;
@@ -1007,7 +1043,6 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
          macroslist_dsm2 << t_dsm2 << CC_NULL;
 
       }
-
 
 
       if(1){//H_FILE
@@ -1029,14 +1064,16 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
 
              rule_tnu.ReplaceAll(&_wxsH_CHUNK_1,tablename_upper);
              rule_tnc.ReplaceAll(&_wxsH_CHUNK_1,tablename_capital);
-
+             rule_ws.ReplaceAll(&_wxsH_CHUNK_1,Whitespaces(DEFAULT_WHITESPACES_C1));
           }
 
           if(1){//wxsH_INSERT_STATEMENTS_CHUNK_1
+             rule_ws.ReplaceAll(&_wxsH_INSERT_STATEMENTS_CHUNK_1,Whitespaces(DEFAULT_WHITESPACES_IC1));
           }
 
           if(1){//wxsH_SELECT_STATEMENTS_CHUNK_1
-              rule_tn.ReplaceAll(&wxsH_SELECT_STATEMENTS_CHUNK_1,tablename);
+              rule_tn.ReplaceAll(&_wxsH_SELECT_STATEMENTS_CHUNK_1,tablename);
+              rule_ws.ReplaceAll(&_wxsH_SELECT_STATEMENTS_CHUNK_1,Whitespaces(DEFAULT_WHITESPACES_SC1));
           }
 
           if(1){//wxsH_SELECT_STATEMENTS_CHUNK_2
@@ -1054,6 +1091,7 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
           }
 
           if(1){//wxsH_UPDATE_STATEMENTS_CHUNK_1
+              rule_ws.ReplaceAll(&_wxsH_UPDATE_STATEMENTS_CHUNK_1,Whitespaces(DEFAULT_WHITESPACES_UC1));
           }
 
           if(1){//wxsH_UPDATE_STATEMENTS_CHUNK_2
@@ -1065,6 +1103,7 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
           }
 
           if(1){//wxsH_DELETE_STATEMENTS_CHUNK_1
+              rule_ws.ReplaceAll(&_wxsH_DELETE_STATEMENTS_CHUNK_1,Whitespaces(DEFAULT_WHITESPACES_DC1));
           }
 
           if(1){//wxsH_DELETE_STATEMENTS_CHUNK_2
@@ -1218,7 +1257,14 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
 
 }
 
-
+wxString ClassgenDialog::Whitespaces(int len)
+{
+  wxString out;
+  do{
+     out.Append(_(" "));
+  }while(--len);
+  return out;
+}
 
 
   /**
@@ -1702,7 +1748,6 @@ _T("\
 #define BRIDGE<tablename_upper>_H\n\
  \n\
  \n\
- \n\
 #include <climits>\n\
 #include <cstring>\n\
 #include <cstdlib>\n\
@@ -1712,17 +1757,14 @@ _T("\
 #include <list>\n\
 #include <vector>\n\
 \n\
-\n\
 #include <wx/app.h>\n\
-\n\
 #include \"wx/wxsqlite3.h\"\n\
 \n\
 //DEFINE PARAMETERS\n\
-#define DEFAULT_QUERY_LIMIT                                (1000)\n\
-\n\
+#define DEFAULT_QUERY_LIMIT<whitespaces>(1000)\n\
 //MACRO TYPE\n\
-#define <tablename_capital>List                                        std::<tdm><<tablename_capital>Record>\n\
-#define <tablename_capital>Iterator                                    std::<tdm><<tablename_capital>Record>::iterator   \n");
+#define <tablename_capital>List        <whitespaces>std::<tdm><<tablename_capital>Record>\n\
+#define <tablename_capital>Iterator    <whitespaces>std::<tdm><<tablename_capital>Record>::iterator");
 
 
 wxString wxsH_INSERT_STATEMENTS_CHUNK_1 =
@@ -1730,11 +1772,10 @@ _T("\n\
 /**\n\
  * INSERT STATEMENTS\n\
  */\n\
-\n\
 //INSERT ONE RECORD\n\
-#define <tablename_capital>InsertRecord(x)                                    <tablename_capital>InsertRecordQuery(x)\n\
+#define <tablename_capital>InsertRecord(x) <whitespaces><tablename_capital>InsertRecordQuery(x)\n\
 //INSERT LIST OF RECORDS\n\
-#define <tablename_capital>InsertRecords(x)                                   <tablename_capital>InsertRecordsQuery(x)");
+#define <tablename_capital>InsertRecords(x)<whitespaces><tablename_capital>InsertRecordsQuery(x)");
 
 
 wxString wxsH_SELECT_STATEMENTS_CHUNK_1 =
@@ -1742,42 +1783,36 @@ _T("\n\
 /**\n\
  * SELECT STATEMENTS\n\
  */\n\
-\n\
 //FREE QUERY WITHOUT LIMIT\n\
-#define <tablename_capital>GetListFreeStatement(x)                            <tablename_capital>GetListFromQuery(_T(x),_T(\"\"),_T(\"\"))\n\
+#define <tablename_capital>GetListFreeStatement(x)       <whitespaces><tablename_capital>GetListFromQuery(_T(x),_T(\"\"),_T(\"\"))\n\
 //FREE QUERY WITH LIMIT\n\
-#define <tablename_capital>GetListFrameFreeStatement(x,y)                     <tablename_capital>GetListFromQuery(_T(x),_T(\"\"),_T(\"\"),y)\n\
-\n\
+#define <tablename_capital>GetListFrameFreeStatement(x,y)<whitespaces><tablename_capital>GetListFromQuery(_T(x),_T(\"\"),_T(\"\"),y)\n\
 //FREE CONDITION WITHOUT LIMIT\n\
-#define <tablename_capital>GetListWhere(x)                                    <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE \"),_T(x),_T(\"\"))\n\
+#define <tablename_capital>GetListWhere(x)               <whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE \"),_T(x),_T(\"\"))\n\
 //FREE CONDITION WITH LIMIT\n\
-#define <tablename_capital>GetListFrameWhere(x,y)                             <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE \"),_T(x),_T(\"\"), y)\n\
-\n\
+#define <tablename_capital>GetListFrameWhere(x,y)        <whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE \"),_T(x),_T(\"\"), y)\n\
 //SEARCH BY ID\n\
-#define <tablename_capital>GetListWhereID(x)                                  <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE ID = \"),_T(x),_T(\" \"))\n");
-
-
-
+#define <tablename_capital>GetListWhereID(x)             <whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE ID = \"),_T(x),_T(\" \"))\n\
+//SEARCH BY SINGLE FIELD");
 
 
 wxString wxsH_SELECT_STATEMENTS_MACRO_1 =
-_T("\n\
-#define <tablename_capital>GetListWhere<fieldname_capital>Exactly(x)                       <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> = '\"),_T(x),_T(\"' \"))");
+_T("#define <tablename_capital>GetListWhere<fieldname_capital>Exactly(x)<whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> = '\"),_T(x),_T(\"' \"))\n");
 
 
 wxString wxsH_SELECT_STATEMENTS_MACRO_2 =
 _T("\n\
-#define <tablename_capital>GetListWhere<fieldname_capital>Like(x)                          <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> LIKE '\"),_T(x), _T(\"' \"))");
+#define <tablename_capital>GetListWhere<fieldname_capital>Like(x)<whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> LIKE '\"),_T(x), _T(\"' \"))");
 
 
 wxString wxsH_SELECT_STATEMENTS_MACRO_3 =
 _T("\n\
-#define <tablename_capital>GetListFrameWhere<fieldname_capital>Exactly(x,y)                <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> = '\"),_T(x),_T(\"' \"),y)");
+#define <tablename_capital>GetListFrameWhere<fieldname_capital>Exactly(x,y)<whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> = '\"),_T(x),_T(\"' \"),y)");
 
 
 wxString wxsH_SELECT_STATEMENTS_MACRO_4 =
 _T("\n\
-#define <tablename_capital>GetListFrameWhere<fieldname_capital>Like(x,y)                   <tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> LIKE '\"),_T(x), _T(\"' \"),y)");
+#define <tablename_capital>GetListFrameWhere<fieldname_capital>Like(x,y)<whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> LIKE '\"),_T(x), _T(\"' \"),y)");
 
 
 
@@ -1795,23 +1830,21 @@ _T("\n\
 /**\n\
  * UPDATE STATEMENTS\n\
  */\n\
-\n\
 //FREE WHERE\n\
-#define <tablename_capital>UpdateRecordsWhere(x,y)                             <tablename_capital>UpdateRecordsQueryWhere(_T(x),_T(\"\"),_T(\"\"),y)\n\
-\n\
+#define <tablename_capital>UpdateRecordsWhere(x,y) <whitespaces><tablename_capital>UpdateRecordsQueryWhere(_T(x),_T(\"\"),_T(\"\"),y)\n\
 //UPDATE BY ID\n\
-#define <tablename_capital>UpdateRecordWhereID(x,y)                            <tablename_capital>UpdateRecordsQueryWhere(_T(\" ID = \"),_T(x),_T(\" \"),y)\n");
+#define <tablename_capital>UpdateRecordWhereID(x,y)<whitespaces><tablename_capital>UpdateRecordsQueryWhere(_T(\" ID = \"),_T(x),_T(\" \"),y)\n\
+//UPDATE BY SINGLE FIELD");
 
 
 
 
 wxString wxsH_UPDATE_STATEMENTS_MACRO_1 =
-_T("\n\
-#define <tablename_capital>UpdateRecordsWhere<fieldname_capital>Exactly(x,y)                <tablename_capital>UpdateRecordsQueryWhere(_T(\" <fieldname> = '\"),_T(x),_T(\"' \"),y)");
+_T("#define <tablename_capital>UpdateRecordsWhere<fieldname_capital>Exactly(x,y)<whitespaces><tablename_capital>UpdateRecordsQueryWhere(_T(\" <fieldname> = '\"),_T(x),_T(\"' \"),y)\n");
 
 wxString wxsH_UPDATE_STATEMENTS_MACRO_2 =
 _T("\n\
-#define <tablename_capital>UpdateRecordsWhere<fieldname_capital>Like(x,y)                   <tablename_capital>UpdateRecordsQueryWhere(_T(\" <fieldname> LIKE '\"),_T(x),_T(\"' \"),y)");
+#define <tablename_capital>UpdateRecordsWhere<fieldname_capital>Like(x,y)<whitespaces><tablename_capital>UpdateRecordsQueryWhere(_T(\" <fieldname> LIKE '\"),_T(x),_T(\"' \"),y)");
 
 
 wxString wxsH_UPDATE_STATEMENTS_CHUNK_2 =
@@ -1825,22 +1858,20 @@ _T("\n\
 /**\n\
  * DELETE STATEMENTS\n\
  */\n\
-\n\
 //FREE WHERE\n\
-#define <tablename_capital>DeleteRecordsWhere(x)                              <tablename_capital>DeleteRecordsQueryWhere(_T(x),_T(\"\"),_T(\"\"))\n\
-\n\
+#define <tablename_capital>DeleteRecordsWhere(x) <whitespaces><tablename_capital>DeleteRecordsQueryWhere(_T(x),_T(\"\"),_T(\"\"))\n\
 //DELETE BY ID\n\
-#define <tablename_capital>DeleteRecordWhereID(x)                             <tablename_capital>DeleteRecordsQueryWhere(_T(\" ID = \"),_T(x),_T(\" \"))");
+#define <tablename_capital>DeleteRecordWhereID(x)<whitespaces><tablename_capital>DeleteRecordsQueryWhere(_T(\" ID = \"),_T(x),_T(\" \"))\n\
+//DELETE BY SINGLE FIELD");
 
 
 
 wxString wxsH_DELETE_STATEMENTS_MACRO_1 =
-_T("\n\
-#define <tablename_capital>DeleteRecordsWhere<fieldname_capital>Exactly(x)                 <tablename_capital>DeleteRecordsQueryWhere(_T(\" <fieldname> = '\"),_T(x),_T(\"' \"))");
+_T("#define <tablename_capital>DeleteRecordsWhere<fieldname_capital>Exactly(x)<whitespaces><tablename_capital>DeleteRecordsQueryWhere(_T(\" <fieldname> = '\"),_T(x),_T(\"' \"))\n");
 
 wxString wxsH_DELETE_STATEMENTS_MACRO_2 =
 _T("\n\
-#define <tablename_capital>DeleteRecordsWhere<fieldname_capital>Like(x)                    <tablename_capital>DeleteRecordsQueryWhere(_T(\" <fieldname> LIKE '\"),_T(x),_T(\"' \"))");
+#define <tablename_capital>DeleteRecordsWhere<fieldname_capital>Like(x)<whitespaces><tablename_capital>DeleteRecordsQueryWhere(_T(\" <fieldname> LIKE '\"),_T(x),_T(\"' \"))");
 
 
 wxString wxsH_DELETE_STATEMENTS_CHUNK_2 =
@@ -1902,5 +1933,7 @@ class Bridge<tablename_capital>\n\
 \n\
 \n\
 #endif // BRIDGE<tablename_upper>_H\n");
+
+
 
 

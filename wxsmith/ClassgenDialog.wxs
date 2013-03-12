@@ -79,6 +79,7 @@
 				<face>Sans</face>
 			</font>
 			<style>wxSIMPLE_BORDER|wxALWAYS_SHOW_SB|wxCLIP_CHILDREN</style>
+			<handler function="OnclbxTablesChecked" entry="EVT_CHECKLISTBOX" />
 			<handler function="OnclbxTablesToggled" entry="EVT_LISTBOX" />
 		</object>
 		<object class="wxStaticBox" name="ID_STATICBOX4" variable="StaticBox2" member="yes">
@@ -92,7 +93,7 @@
 			<labelrowheight>14</labelrowheight>
 			<labelcolwidth>4</labelcolwidth>
 			<defaultcolsize>135</defaultcolsize>
-			<labeltextcolour>wxSYS_COLOUR_SCROLLBAR</labeltextcolour>
+			<labeltextcolour>#606060</labeltextcolour>
 			<collabels>
 				<item>ORDER</item>
 				<item>NAME</item>
@@ -137,6 +138,7 @@
 			<label>runlibs/sqlite3/include&#x0A;runlibs/sqlite3/api&#x0A;sqlbridges</label>
 			<pos>352,392</pos>
 			<size>228,54</size>
+			<fg>#808080</fg>
 			<font>
 				<size>16</size>
 				<style>normal</style>
