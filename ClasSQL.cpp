@@ -44,11 +44,7 @@ const wxString ClasSQL::MSG_DEBUG_NOT_NEW_MENU                  (_("Could not fi
 const wxString ClasSQL::MSG_DEBUG_NOT_FILE_MENU                 (_("Could not find File menu!"));
 const wxString ClasSQL::TITLE_MDLG_INFORMATION                  (_("Information"));
 const wxString ClasSQL::MSG_MDLG_POST_GENERATE_INFORMATION \
-  (_("The new classes has been created.\nRemember to add the following paths\nto your compiler targets:\n\
-      ___________________________\n\
-      runlibs/sqlite3/include\n\
-      runlibs/sqlite3/api\n\
-      sqlbridges"));
+  (_("The new classes has been created!"));
 
 
 // Register the plugin with Code::Blocks.
