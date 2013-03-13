@@ -23,8 +23,7 @@
 #include <wx/button.h>
 #include <wx/dialog.h>
 //*)
-
-
+#include <wx/sizer.h>
 
 #ifndef CB_PRECOMP
     #include <wx/fs_zip.h>

@@ -262,7 +262,7 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 		_("use std::vector"),
 		_("use std::list")
 	};
-	rbxTDM = new wxRadioBox(this, ID_RADIOBOX1, _("Transport Data Mode"), wxPoint(328,360), wxSize(144,96), 2, __wxRadioBoxChoices_1, 2, 0, wxDefaultValidator, _T("ID_RADIOBOX1"));
+	rbxTDM = new wxRadioBox(this, ID_RADIOBOX1, _("Transport Data Mode"), wxPoint(328,360), wxSize(144,96), 2, __wxRadioBoxChoices_1, 2, wxRA_VERTICAL, wxDefaultValidator, _T("ID_RADIOBOX1"));
 	btnProcessIncludes = new wxButton(this, ID_BUTTON5, _("process includes"), wxPoint(480,424), wxSize(136,24), 0, wxDefaultValidator, _T("ID_BUTTON5"));
 	Panel2 = new wxPanel(this, ID_PANEL2, wxPoint(426,465), wxSize(22,34), wxTAB_TRAVERSAL, _T("ID_PANEL2"));
 	Panel2->SetBackgroundColour(wxColour(208,208,208));
@@ -1257,7 +1257,7 @@ bool ClassgenDialog::MakeFormatBuffers(DataTransport dataTransport, std::list<Pr
 
              rule_tn.ReplaceAll(&_wxsH_FILE,tablename);
              rule_tnc.ReplaceAll(&_wxsH_FILE,tablename_capital);
-             rule_bs.ReplaceAll(&_wxsH_FILE,_T("\\\\"));
+             rule_bs.ReplaceAll(&_wxsH_FILE,_T("\\\\\\\\"));
 
           }
 

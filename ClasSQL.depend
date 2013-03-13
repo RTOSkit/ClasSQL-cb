@@ -3318,7 +3318,7 @@
 	<vector>
 	<wx/app.h>
 
-1363069496 c:\users\bitehack\cbprojects\classql\classgendialog.h
+1363156968 c:\users\bitehack\cbprojects\classql\classgendialog.h
 	<wx/notebook.h>
 	<wx/stattext.h>
 	<wx/radiobox.h>
@@ -3330,6 +3330,7 @@
 	<wx/filedlg.h>
 	<wx/button.h>
 	<wx/dialog.h>
+	<wx/sizer.h>
 	<wx/fs_zip.h>
 	<wx/intl.h>
 	<wx/menu.h>
@@ -8014,4 +8015,16 @@
 	<CodeFragments.h>
 
 1362981449 c:\users\bitehack\cbprojects\classql\runlibs\sqlite3\include\wx\wxsqlite3dyn.h
+
+1363156111 source:c:\users\bitehack\cbprojects\classql\filestemplate.cpp
+	<wx/string.h>
+	<climits>
+	<cstring>
+	<cstdlib>
+	<cstddef>
+	<memory>
+	<iostream>
+	<list>
+	<vector>
+	<wx/app.h>
 

@@ -147,6 +147,7 @@
 			<dimension>2</dimension>
 			<pos>328,360</pos>
 			<size>144,96</size>
+			<style>wxRA_VERTICAL</style>
 		</object>
 		<object class="wxButton" name="ID_BUTTON5" variable="btnProcessIncludes" member="yes">
 			<label>process includes</label>
