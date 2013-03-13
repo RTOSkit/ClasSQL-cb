@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1363054130 source:/home/bitehack/CBProjects/ClasSQL/ClasSQL.cpp
+1363161589 source:/home/bitehack/CBProjects/ClasSQL/ClasSQL.cpp
 	<sdk.h>
 	<wx/fs_zip.h>
 	<wx/intl.h>
@@ -2804,7 +2804,7 @@
 
 1362920635 /home/bitehack/CBProjects/ClasSQL/runlibs/sqlite3/include/wx/wxsqlite3dyn.h
 
-1363158088 source:/home/bitehack/CBProjects/ClasSQL/ClassgenDialog.cpp
+1363161589 source:/home/bitehack/CBProjects/ClasSQL/ClassgenDialog.cpp
 	"ClassgenDialog.h"
 	<wx/settings.h>
 	<wx/font.h>
