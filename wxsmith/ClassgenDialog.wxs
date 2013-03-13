@@ -3,34 +3,23 @@
 	<object class="wxDialog" name="ClassgenDialog">
 		<title>ClasSQL Plugin - Generator of Abstraction for SQL layering class</title>
 		<centered>1</centered>
-		<size>631,577</size>
+		<size>631,503</size>
+		<bg>#D0D0D0</bg>
 		<id_arg>0</id_arg>
 		<style>wxDEFAULT_DIALOG_STYLE|wxDIALOG_NO_PARENT</style>
 		<object class="wxStaticBox" name="ID_STATICBOX1" variable="sbxClassdefinition" member="yes">
 			<label>SQL Inspector</label>
-			<pos>8,128</pos>
-			<size>616,232</size>
+			<pos>8,136</pos>
+			<size>616,224</size>
 		</object>
 		<object class="wxStaticBox" name="ID_STATICBOX2" variable="sbxLibraryrules" member="yes">
 			<label>Stuff&apos;s identifications </label>
 			<pos>8,360</pos>
-			<size>320,128</size>
-		</object>
-		<object class="wxButton" name="ID_BUTTON1" variable="btnCancel" member="yes">
-			<label>Cancel</label>
-			<pos>336,496</pos>
-			<size>141,72</size>
-			<handler function="OnbtnCancelClick" entry="EVT_BUTTON" />
-		</object>
-		<object class="wxButton" name="ID_BUTTON2" variable="btnOK" member="yes">
-			<label>Generate Class</label>
-			<pos>488,496</pos>
-			<size>136,72</size>
-			<handler function="OnbtnOKClick" entry="EVT_BUTTON" />
+			<size>320,96</size>
 		</object>
 		<object class="wxNotebook" name="ID_NOTEBOOK1" variable="Notebook1" member="yes">
-			<pos>8,8</pos>
-			<size>616,112</size>
+			<pos>8,33</pos>
+			<size>616,96</size>
 			<object class="notebookpage">
 				<object class="wxPanel" name="ID_PANEL1" variable="Panel1" member="yes">
 					<size>608,65</size>
@@ -105,47 +94,47 @@
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 			<label>Author:</label>
-			<pos>49,392</pos>
+			<pos>48,384</pos>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT3" variable="StaticText2" member="yes">
 			<label>Copyright:</label>
-			<pos>32,424</pos>
+			<pos>32,408</pos>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText3" member="yes">
 			<label>License:</label>
-			<pos>44,456</pos>
+			<pos>48,432</pos>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="txtAuthor" member="yes">
-			<pos>112,384</pos>
+			<pos>112,376</pos>
 			<size>208,25</size>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL3" variable="txtCopyright" member="yes">
 			<value>2013 ...</value>
-			<pos>112,416</pos>
+			<pos>112,400</pos>
 			<size>208,25</size>
 		</object>
 		<object class="wxTextCtrl" name="ID_TEXTCTRL4" variable="txtLicense" member="yes">
 			<value>GPL</value>
-			<pos>112,448</pos>
+			<pos>112,424</pos>
 			<size>208,25</size>
 		</object>
 		<object class="wxStaticBox" name="ID_STATICBOX5" variable="StaticBox3" member="yes">
-			<label>Search directories in compiler Targets</label>
-			<pos>336,360</pos>
-			<size>288,128</size>
+			<label>Include Directories</label>
+			<pos>472,360</pos>
+			<size>152,96</size>
 		</object>
 		<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText4" member="yes">
 			<label>runlibs/sqlite3/include&#x0A;runlibs/sqlite3/api&#x0A;sqlbridges</label>
-			<pos>352,392</pos>
-			<size>228,54</size>
+			<pos>480,378</pos>
+			<size>128,54</size>
 			<fg>#808080</fg>
 			<font>
-				<size>16</size>
+				<size>8</size>
 				<style>normal</style>
 				<weight>normal</weight>
 				<underlined>0</underlined>
 				<family>swiss</family>
-				<face>Arial</face>
+				<face>Sans</face>
 			</font>
 		</object>
 		<object class="wxRadioBox" name="ID_RADIOBOX1" variable="rbxTDM" member="yes">
@@ -156,8 +145,38 @@
 			</content>
 			<default>-1</default>
 			<dimension>2</dimension>
-			<pos>8,488</pos>
-			<size>320,80</size>
+			<pos>328,360</pos>
+			<size>144,96</size>
+		</object>
+		<object class="wxButton" name="ID_BUTTON5" variable="btnProcessIncludes" member="yes">
+			<label>process includes</label>
+			<pos>480,424</pos>
+			<size>136,24</size>
+			<handler function="OnbtnProcessIncludesClick" entry="EVT_BUTTON" />
+		</object>
+		<object class="wxPanel" name="ID_PANEL2" variable="Panel2" member="yes">
+			<pos>426,465</pos>
+			<size>22,34</size>
+			<bg>#D0D0D0</bg>
+		</object>
+		<object class="wxPanel" name="ID_PANEL3" variable="Panel3" member="yes">
+			<pos>0,0</pos>
+			<size>632,28</size>
+			<bg>#065882</bg>
+			<object class="wxStaticText" name="ID_STATICTEXT6" variable="labProjectName" member="yes">
+				<label>Project:</label>
+				<pos>12,8</pos>
+				<size>608,18</size>
+				<fg>#F5F674</fg>
+				<font>
+					<size>11</size>
+					<style>normal</style>
+					<weight>normal</weight>
+					<underlined>0</underlined>
+					<family>swiss</family>
+					<face>Sans</face>
+				</font>
+			</object>
 		</object>
 		<object class="wxFileDialog" variable="FileDialog1" member="yes">
 			<message>Select file</message>

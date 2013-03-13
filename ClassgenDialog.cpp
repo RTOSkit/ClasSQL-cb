@@ -114,6 +114,20 @@
 #define OUT_WRAPPER_HEADER(x,y)            x->GetCommonTopLevelPath()+PKG_WRAPPER_HEADER##y
 
 
+
+/**
+ * @note DEFINES USED IN MAKE ENVIRONMENT
+ */
+
+#define COMPILER_INCLUDE_BRIDGESDIR        _T("sqlbridges")
+#ifndef __WXMSW__
+#define COMPILER_INCLUDE_SQLITE3API        _T("runlibs/sqlite3/api")
+#define COMPILER_INCLUDE_WXSQLLITE3        _T("runlibs/sqlite3/include/")
+#else
+#define COMPILER_INCLUDE_SQLITE3API        _T("runlibs\\sqlite3\\api")
+#define COMPILER_INCLUDE_WXSQLLITE3        _T("runlibs\\sqlite3\\include")
+#endif
+
 /**
  * @note PROFILE's DEFINES
  */
@@ -128,8 +142,6 @@
 //(*IdInit(ClassgenDialog)
 const long ClassgenDialog::ID_STATICBOX1 = wxNewId();
 const long ClassgenDialog::ID_STATICBOX2 = wxNewId();
-const long ClassgenDialog::ID_BUTTON1 = wxNewId();
-const long ClassgenDialog::ID_BUTTON2 = wxNewId();
 const long ClassgenDialog::ID_STATICTEXT2 = wxNewId();
 const long ClassgenDialog::ID_TEXTCTRL2 = wxNewId();
 const long ClassgenDialog::ID_BUTTON3 = wxNewId();
@@ -149,6 +161,10 @@ const long ClassgenDialog::ID_TEXTCTRL4 = wxNewId();
 const long ClassgenDialog::ID_STATICBOX5 = wxNewId();
 const long ClassgenDialog::ID_STATICTEXT5 = wxNewId();
 const long ClassgenDialog::ID_RADIOBOX1 = wxNewId();
+const long ClassgenDialog::ID_BUTTON5 = wxNewId();
+const long ClassgenDialog::ID_PANEL2 = wxNewId();
+const long ClassgenDialog::ID_STATICTEXT6 = wxNewId();
+const long ClassgenDialog::ID_PANEL3 = wxNewId();
 //*)
 
 
@@ -174,7 +190,10 @@ const wxString ClassgenDialog::MSG_MDLG_NOT_WRITE_FILECPP           (_("Could no
 const wxString ClassgenDialog::TITLE_MDLG_WRITE_FILE_ERROR          (_("Error write to disk"));
 const wxString ClassgenDialog::MSG_MDLG_DBPATH_NOTVALID             (_("Invalid DB path: \n"));
 const wxString ClassgenDialog::LAB_BTNOK_GENERATE_CLASS             (_("Generate Classes\non "));
-
+const wxString ClassgenDialog::TITLE_MDLG_PROCESS_INCLUDES          (_("Process Compiler Includes"));
+const wxString ClassgenDialog::MSG_MDLG_PROCESS_INCLUDES            (_("The Include has been fixed successful!"));
+const wxString ClassgenDialog::TITLE_MDLG_NOT_TARGET_SELECTED       (_("Not Target Selected"));
+const wxString ClassgenDialog::MSG_MDLG_NOT_TARGET_SELECTED         (_("You do not have selected any Compiler Target!"));
 
 BEGIN_EVENT_TABLE(ClassgenDialog,wxDialog)
 	//(*EventTable(ClassgenDialog)
@@ -195,12 +214,11 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
     m_forceClose=false;
 	//(*Initialize(ClassgenDialog)
 	Create(parent, wxID_ANY, _("ClasSQL Plugin - Generator of Abstraction for SQL layering class"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE|wxDIALOG_NO_PARENT, _T("wxID_ANY"));
-	SetClientSize(wxSize(631,577));
-	sbxClassdefinition = new wxStaticBox(this, ID_STATICBOX1, _("SQL Inspector"), wxPoint(8,128), wxSize(616,232), 0, _T("ID_STATICBOX1"));
-	sbxLibraryrules = new wxStaticBox(this, ID_STATICBOX2, _("Stuff\'s identifications "), wxPoint(8,360), wxSize(320,128), 0, _T("ID_STATICBOX2"));
-	btnCancel = new wxButton(this, ID_BUTTON1, _("Cancel"), wxPoint(336,496), wxSize(141,72), 0, wxDefaultValidator, _T("ID_BUTTON1"));
-	btnOK = new wxButton(this, ID_BUTTON2, _("Generate Class"), wxPoint(488,496), wxSize(136,72), 0, wxDefaultValidator, _T("ID_BUTTON2"));
-	Notebook1 = new wxNotebook(this, ID_NOTEBOOK1, wxPoint(8,8), wxSize(616,112), 0, _T("ID_NOTEBOOK1"));
+	SetClientSize(wxSize(631,503));
+	SetBackgroundColour(wxColour(208,208,208));
+	sbxClassdefinition = new wxStaticBox(this, ID_STATICBOX1, _("SQL Inspector"), wxPoint(8,136), wxSize(616,224), 0, _T("ID_STATICBOX1"));
+	sbxLibraryrules = new wxStaticBox(this, ID_STATICBOX2, _("Stuff\'s identifications "), wxPoint(8,360), wxSize(320,96), 0, _T("ID_STATICBOX2"));
+	Notebook1 = new wxNotebook(this, ID_NOTEBOOK1, wxPoint(8,33), wxSize(616,96), 0, _T("ID_NOTEBOOK1"));
 	Panel1 = new wxPanel(Notebook1, ID_PANEL1, wxDefaultPosition, wxSize(608,65), wxTAB_TRAVERSAL, _T("ID_PANEL1"));
 	labDBpath = new wxStaticText(Panel1, ID_STATICTEXT2, _("DB path:"), wxPoint(8,22), wxDefaultSize, 0, _T("ID_STATICTEXT2"));
 	txtDBpath = new wxTextCtrl(Panel1, ID_TEXTCTRL2, wxEmptyString, wxPoint(66,16), wxSize(416,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL2"));
@@ -228,34 +246,52 @@ ClassgenDialog::ClassgenDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos
 	gridFields->SetColLabelValue(2, _("TYPE"));
 	gridFields->SetDefaultCellFont( gridFields->GetFont() );
 	gridFields->SetDefaultCellTextColour( gridFields->GetForegroundColour() );
-	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Author:"), wxPoint(49,392), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
-	StaticText2 = new wxStaticText(this, ID_STATICTEXT3, _("Copyright:"), wxPoint(32,424), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
-	StaticText3 = new wxStaticText(this, ID_STATICTEXT4, _("License:"), wxPoint(44,456), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
-	txtAuthor = new wxTextCtrl(this, ID_TEXTCTRL1, wxEmptyString, wxPoint(112,384), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-	txtCopyright = new wxTextCtrl(this, ID_TEXTCTRL3, _("2013 ..."), wxPoint(112,416), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL3"));
-	txtLicense = new wxTextCtrl(this, ID_TEXTCTRL4, _("GPL"), wxPoint(112,448), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL4"));
-	StaticBox3 = new wxStaticBox(this, ID_STATICBOX5, _("Search directories in compiler Targets"), wxPoint(336,360), wxSize(288,128), 0, _T("ID_STATICBOX5"));
-	StaticText4 = new wxStaticText(this, ID_STATICTEXT5, _("runlibs/sqlite3/include\nrunlibs/sqlite3/api\nsqlbridges"), wxPoint(352,392), wxSize(228,54), 0, _T("ID_STATICTEXT5"));
+	StaticText1 = new wxStaticText(this, ID_STATICTEXT1, _("Author:"), wxPoint(48,384), wxDefaultSize, 0, _T("ID_STATICTEXT1"));
+	StaticText2 = new wxStaticText(this, ID_STATICTEXT3, _("Copyright:"), wxPoint(32,408), wxDefaultSize, 0, _T("ID_STATICTEXT3"));
+	StaticText3 = new wxStaticText(this, ID_STATICTEXT4, _("License:"), wxPoint(48,432), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
+	txtAuthor = new wxTextCtrl(this, ID_TEXTCTRL1, wxEmptyString, wxPoint(112,376), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+	txtCopyright = new wxTextCtrl(this, ID_TEXTCTRL3, _("2013 ..."), wxPoint(112,400), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL3"));
+	txtLicense = new wxTextCtrl(this, ID_TEXTCTRL4, _("GPL"), wxPoint(112,424), wxSize(208,25), 0, wxDefaultValidator, _T("ID_TEXTCTRL4"));
+	StaticBox3 = new wxStaticBox(this, ID_STATICBOX5, _("Include Directories"), wxPoint(472,360), wxSize(152,96), 0, _T("ID_STATICBOX5"));
+	StaticText4 = new wxStaticText(this, ID_STATICTEXT5, _("runlibs/sqlite3/include\nrunlibs/sqlite3/api\nsqlbridges"), wxPoint(480,378), wxSize(128,54), 0, _T("ID_STATICTEXT5"));
 	StaticText4->SetForegroundColour(wxColour(128,128,128));
-	wxFont StaticText4Font(16,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("Arial"),wxFONTENCODING_DEFAULT);
+	wxFont StaticText4Font(8,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("Sans"),wxFONTENCODING_DEFAULT);
 	StaticText4->SetFont(StaticText4Font);
 	wxString __wxRadioBoxChoices_1[2] =
 	{
 		_("use std::vector"),
 		_("use std::list")
 	};
-	rbxTDM = new wxRadioBox(this, ID_RADIOBOX1, _("Transport Data Mode"), wxPoint(8,488), wxSize(320,80), 2, __wxRadioBoxChoices_1, 2, 0, wxDefaultValidator, _T("ID_RADIOBOX1"));
+	rbxTDM = new wxRadioBox(this, ID_RADIOBOX1, _("Transport Data Mode"), wxPoint(328,360), wxSize(144,96), 2, __wxRadioBoxChoices_1, 2, 0, wxDefaultValidator, _T("ID_RADIOBOX1"));
+	btnProcessIncludes = new wxButton(this, ID_BUTTON5, _("process includes"), wxPoint(480,424), wxSize(136,24), 0, wxDefaultValidator, _T("ID_BUTTON5"));
+	Panel2 = new wxPanel(this, ID_PANEL2, wxPoint(426,465), wxSize(22,34), wxTAB_TRAVERSAL, _T("ID_PANEL2"));
+	Panel2->SetBackgroundColour(wxColour(208,208,208));
+	Panel3 = new wxPanel(this, ID_PANEL3, wxPoint(0,0), wxSize(632,28), wxTAB_TRAVERSAL, _T("ID_PANEL3"));
+	Panel3->SetBackgroundColour(wxColour(6,88,130));
+	labProjectName = new wxStaticText(Panel3, ID_STATICTEXT6, _("Project:"), wxPoint(12,8), wxSize(608,18), 0, _T("ID_STATICTEXT6"));
+	labProjectName->SetForegroundColour(wxColour(245,246,116));
+	wxFont labProjectNameFont(11,wxSWISS,wxFONTSTYLE_NORMAL,wxNORMAL,false,_T("Sans"),wxFONTENCODING_DEFAULT);
+	labProjectName->SetFont(labProjectNameFont);
 	FileDialog1 = new wxFileDialog(this, _("Select file"), wxEmptyString, wxEmptyString, wxFileSelectorDefaultWildcardStr, 0, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
 	Center();
 
-	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnCancelClick);
-	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnOKClick);
 	Connect(ID_TEXTCTRL2,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&ClassgenDialog::OntxtDBpathText);
 	Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnBrowseDBClick);
 	Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnDBprocessClick);
 	Connect(ID_CHECKLISTBOX1,wxEVT_COMMAND_CHECKLISTBOX_TOGGLED,(wxObjectEventFunction)&ClassgenDialog::OnclbxTablesChecked);
 	Connect(ID_CHECKLISTBOX1,wxEVT_COMMAND_LISTBOX_SELECTED,(wxObjectEventFunction)&ClassgenDialog::OnclbxTablesToggled);
+	Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnbtnProcessIncludesClick);
 	//*)
+
+
+	stbButtons = new wxStdDialogButtonSizer();
+	stbButtons->AddButton(new wxButton(Panel2, wxID_CANCEL, wxEmptyString));
+	stbButtons->AddButton(btnSave = new wxButton(Panel2, wxID_SAVE, wxEmptyString));
+	stbButtons->Realize();
+	Panel2->SetSizer(stbButtons);
+	stbButtons->SetSizeHints(Panel2);
+	Connect(wxID_SAVE,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ClassgenDialog::OnSave);
+
 
     InitProjectCfg();
 
@@ -271,19 +307,46 @@ ClassgenDialog::~ClassgenDialog()
 /**
  * @note EVENTS
  */
-void ClassgenDialog::OnbtnOKClick(wxCommandEvent& event)
+void ClassgenDialog::EndModal(int retCode)
 {
-    SaveProjectCfg();
+   if(retCode!=wxID_CANCEL){
+       if(SaveProjectCfg()){
+          wxDialog::EndModal(wxID_OK);
+       }else{
+          wxDialog::EndModal(wxID_CANCEL);
+       }
+   }
+   wxDialog::EndModal(retCode);
 }
 
-void ClassgenDialog::OnbtnCancelClick(wxCommandEvent& event)
+void ClassgenDialog::OnSave(wxCommandEvent& event)
 {
-    EndModal(wxID_CANCEL);
+   if(SaveProjectCfg()){
+      wxDialog::EndModal(wxID_OK);
+   }else{
+      wxDialog::EndModal(wxID_CANCEL);
+   }
 }
+
+void ClassgenDialog::OnbtnProcessIncludesClick(wxCommandEvent& event)
+{
+   m_Targets.Clear();
+   if(SelectTargets()){
+       SetCompilerOptions();
+       cbMessageBox(MSG_MDLG_PROCESS_INCLUDES,
+                    TITLE_MDLG_PROCESS_INCLUDES,
+                    wxOK | wxICON_INFORMATION,
+                    Manager::Get()->GetAppWindow());
+   }else{
+       cbMessageBox(MSG_MDLG_NOT_TARGET_SELECTED,
+                    TITLE_MDLG_NOT_TARGET_SELECTED, wxICON_ERROR | wxOK);
+   }
+}
+
 
 void ClassgenDialog::OnclbxTablesChecked(wxCommandEvent& event)
 {
-    btnOK->Enable(ControlSelectedTables());
+    btnSave->Enable(ControlSelectedTables());
 }
 
 /* -----------------------------------------------------------------------------------------------------
@@ -335,7 +398,7 @@ void ClassgenDialog::OnclbxTablesToggled(wxCommandEvent& event)
       cbMessageBox(MSG_MDLG_TABLE_STRUCT_NOT_AVAILABLE,
                    TITLE_MDLG_IMPORT_TABLE_STRUCT, wxICON_ERROR | wxOK);
     }
-    btnOK->Enable(ControlSelectedTables());
+    btnSave->Enable(ControlSelectedTables());
 }
 
 
@@ -418,7 +481,7 @@ void ClassgenDialog::EditMode(bool isEdit)
      }else{
         btnDBprocess->Enable(false);
      }
-     btnOK->Enable(ControlSelectedTables());
+     btnSave->Enable(ControlSelectedTables());
   }else{
      clbxTables->Enable(false);
      gridFields->Enable(false);
@@ -427,7 +490,7 @@ void ClassgenDialog::EditMode(bool isEdit)
      }else{
         btnDBprocess->Enable(false);
      }
-     btnOK->Enable(false);
+     btnSave->Enable(false);
   }
 }
 
@@ -465,11 +528,11 @@ void ClassgenDialog::InitProjectCfg(void)
         cfg->Read(_T("m_Copyright"),&m_Copyright);
         cfg->Read(_T("m_License"),&m_License);
 
+        labProjectName->SetLabel((wxString)_T("Project: ")<<m_prjName);
 
         txtAuthor->SetValue(m_Author);
         txtCopyright->SetValue(m_Copyright);
         txtLicense->SetValue(m_License);
-        //btnOK->SetLabel(LAB_BTNOK_GENERATE_CLASS + m_prjName);
 
         m_prjCfg =  new ProjectCfg();
         wxString str_prjcfg = CC_NULL;
@@ -517,10 +580,12 @@ void ClassgenDialog::InitProjectCfg(void)
 }
 
 /* -----------------------------------------------------------------------------------------------------
-*  Save Project default environment for ClasSQL to a Custom CSV Configuration fields
+*  Save and Process Project default environment for ClasSQL to a Custom CSV Configuration fields
 */
-void ClassgenDialog::SaveProjectCfg(void)
+bool ClassgenDialog::SaveProjectCfg(void)
 {
+    bool out = false;
+
     ConfigManager *  cfg = Manager::Get()->GetConfigManager(CLASSQL_NAME);
     wxString str_prjcfg  = CC_NULL;
     wxString str_record  = CC_NULL;
@@ -536,72 +601,78 @@ void ClassgenDialog::SaveProjectCfg(void)
                       wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION,
                       Manager::Get()->GetAppWindow()) == wxID_YES)
     {
-
-        if(TransferRunlibsToEvironment())
+        if(SelectTargets())
         {
-
-            DoFiles();
-            //FORCE BUSY IO
-            TransferRunlibsToEvironment();
-
-            str_record = m_prjCfg->FieldsToRecord(C_SPLIT_FIELD,C_SPLIT_FVALUE);
-
-            if(!str_record.IsEmpty())
+            if(TransferRunlibsToEvironment())
             {
-                str_record = m_prjName + C_SPLIT_RVALUE + str_record;
-                if(str_prjcfg.IsEmpty())
+
+                DoFiles();
+                //FORCE BUSY IO
+                TransferRunlibsToEvironment();
+
+                str_record = m_prjCfg->FieldsToRecord(C_SPLIT_FIELD,C_SPLIT_FVALUE);
+
+                if(!str_record.IsEmpty())
                 {
-                    str_records = str_record + C_SPLIT_RECORD;
-                }
-                else
-                {
-                    wxStringTokenizer tProjects(str_prjcfg,C_SPLIT_RECORD);
-                    while ( tProjects.HasMoreTokens() )
+                    str_record = m_prjName + C_SPLIT_RVALUE + str_record;
+                    if(str_prjcfg.IsEmpty())
                     {
-                        wxString ptProject = tProjects.GetNextToken();
-                        wxStringTokenizer tProject(ptProject,C_SPLIT_RVALUE);
-                        if(tProject.HasMoreTokens()){
-                            wxString nameCtrl = tProject.GetNextToken();
-                            if(m_prjName.CompareTo(nameCtrl)==0){
-                               str_records += str_record;
-                               isFound = true;
+                        str_records = str_record + C_SPLIT_RECORD;
+                    }
+                    else
+                    {
+                        wxStringTokenizer tProjects(str_prjcfg,C_SPLIT_RECORD);
+                        while ( tProjects.HasMoreTokens() )
+                        {
+                            wxString ptProject = tProjects.GetNextToken();
+                            wxStringTokenizer tProject(ptProject,C_SPLIT_RVALUE);
+                            if(tProject.HasMoreTokens()){
+                                wxString nameCtrl = tProject.GetNextToken();
+                                if(m_prjName.CompareTo(nameCtrl)==0){
+                                   str_records += str_record;
+                                   isFound = true;
+                                }
+                                else
+                                {
+                                   str_records += ptProject;
+                                }
+                                str_records += C_SPLIT_RECORD;
                             }
-                            else
-                            {
-                               str_records += ptProject;
-                            }
-                            str_records += C_SPLIT_RECORD;
                         }
-                    }
-                    if(!isFound){
-                        str_records += str_record + C_SPLIT_RECORD;
-                    }
-                    if(!m_prjCfg->GetValue(ProjectCfg::E_s3dbPath).IsEmpty())
-                    {
-                       m_s3dbPathGlobal = m_prjCfg->GetValue(ProjectCfg::E_s3dbPath);
-                    }
-                 }
+                        if(!isFound){
+                            str_records += str_record + C_SPLIT_RECORD;
+                        }
+                        if(!m_prjCfg->GetValue(ProjectCfg::E_s3dbPath).IsEmpty())
+                        {
+                           m_s3dbPathGlobal = m_prjCfg->GetValue(ProjectCfg::E_s3dbPath);
+                        }
+                     }
+                }
+
+                m_Author = txtAuthor->GetValue();
+                m_Copyright = txtCopyright->GetValue();
+                m_License = txtLicense->GetValue();
+
+                cfg->Write(_T("prjcfg"), str_records);
+                cfg->Write(_T("m_Author"), m_Author);
+                cfg->Write(_T("m_Copyright"), m_Copyright);
+                cfg->Write(_T("m_License"), m_License);
+                out=true;
             }
-
-            m_Author = txtAuthor->GetValue();
-            m_Copyright = txtCopyright->GetValue();
-            m_License = txtLicense->GetValue();
-
-            cfg->Write(_T("prjcfg"), str_records);
-            cfg->Write(_T("m_Author"), m_Author);
-            cfg->Write(_T("m_Copyright"), m_Copyright);
-            cfg->Write(_T("m_License"), m_License);
-            EndModal(wxID_OK);
-        }
-        else
-        {
-            cbMessageBox(MSG_MDLG_ENVIRONMENT_IS_LOOK,
-                         CLASSQL_NAME, wxICON_ERROR | wxOK);
-            m_forceClose=true;
-            EndModal(wxID_CANCEL);
+            else
+            {
+                cbMessageBox(MSG_MDLG_ENVIRONMENT_IS_LOOK,
+                             CLASSQL_NAME, wxICON_ERROR | wxOK);
+                m_forceClose=true;
+                out=false;
+            }
+        }else{
+            cbMessageBox(MSG_MDLG_NOT_TARGET_SELECTED,
+                         TITLE_MDLG_NOT_TARGET_SELECTED, wxICON_ERROR | wxOK);
+            out=false;
         }
     }else{
-        EndModal(wxID_CANCEL);
+        out=false;
     }
 
 }
@@ -681,12 +752,37 @@ bool ClassgenDialog::TransferRunlibsToEvironment(void)
     return out;
 }
 
+/* -----------------------------------------------------------------------------------------------------
+*  Select Target/s Compiler
+*/
+bool ClassgenDialog::SelectTargets(void)
+{
+   if(!m_Targets.GetCount()){
+     ProjectManager* prjMan = Manager::Get()->GetProjectManager();
+     if(m_prj->GetBuildTargetsCount()==1){
+         m_Targets.Add(0);
+     }else{
+         m_Targets = prjMan->AskForMultiBuildTargetIndex(m_prj);
+     }
+   }
+   return (m_Targets.GetCount()>0);
+}
 
 /* -----------------------------------------------------------------------------------------------------
-*  //TODO Configure Build Options
+*  Configure Build Options
 */
 bool ClassgenDialog::SetCompilerOptions(void)
 {
+   for(int i=0; i<m_Targets.GetCount();i++)
+   {
+      int targetItem = m_Targets.Item(i);
+      ProjectBuildTarget *pbt = m_prj->GetBuildTarget(targetItem);
+      wxArrayString includeDirs = pbt->GetIncludeDirs();
+      includeDirs.Add(COMPILER_INCLUDE_SQLITE3API);
+      includeDirs.Add(COMPILER_INCLUDE_WXSQLLITE3);
+      includeDirs.Add(COMPILER_INCLUDE_BRIDGESDIR);
+      pbt->SetIncludeDirs(includeDirs);
+   }
    return false;
 }
 
@@ -745,6 +841,7 @@ bool ClassgenDialog::DoFiles(void)
                   prjMan->AddFileToProject(cppPath, m_prj, m_Targets);
               }
           }
+          SetCompilerOptions();
           prjMan->RebuildTree();
           return true;
       }
@@ -1426,518 +1523,3 @@ void ClassgenDialog::DoForceDirectory(const wxFileName & filename)
     if (!wxDirExists(filename.GetPath()))
         wxMkdir(filename.GetPath());
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- *  UNCLASSED RAM
- */
-
-
-
-/**
- * IMPLMENTATION CHUNKS
- */
-
-wxString wxsCPP_FILE =
-_T("<wxsCPP_CHUNK_1>\n\
-<wxsCPP_DELETE_METHOD>\n\
-<wxsCPP_SELECT_METHOD>\n\
-<wxsCPP_UPDATE_METHOD>\n\
-<wxsCPP_INSERT_METHOD_1>\n\
-<wxsCPP_INSERT_METHOD_2>");
-
-wxString wxsCPP_CHUNK_1 =
-_T("\
-/***************************************************************\n\
- * Name:      Bridge<tablename_capital>.cpp\n\
- * Purpose:   Layering Abstraction for SQL Statements\n\
- *            on '<tablename>' table.\n\
- * Author:    <author>\n\
- * Created:   <date>\n\
- * Copyright: <copyright>\n\
- * License:   <license>\n\
- **************************************************************\n\
- ** Generated with ClasSQL (<classql_version>)\n\
- **************************************************************/\n\
-\n\
-#include \"Bridge<tablename_capital>.h\"\n\
-\n\
-\n\
-wxSQLite3Database* Bridge<tablename_capital>::OpenDB(void)\
-{\n\
-    wxString tDBName = m_dbPath;\n\
-    wxSQLite3Database* db = NULL;\n\
-    if (wxFileExists(tDBName))\n\
-    {\n\
-        db = new wxSQLite3Database();\n\
-        db->Open(tDBName);\n\
-    }\n\
-    return db;\n\
-}\n");
-
-
-
-wxString wxsCPP_DELETE_METHOD =
-_T("\n\
-/**\n\
- * DELETE STATEMENT\n\
- */\n\
-wxString Bridge<tablename_capital>::<tablename_capital>DeleteRecordsQueryWhere(const wxString\\& prequery,\n\
-                                                 const wxString\\& query,\n\
-                                                 const wxString\\& postquery)\n\
-{\n\
-    try{\n\
-        if(wxSQLite3Database* db = OpenDB())\n\
-        {\n\
-           db->Begin();\n\
-           wxString _query;\n\
-           _query.sprintf(_T(\"DELETE FROM <tablename> WHERE %s%s%s ;\"),\n\
-                         prequery.c_str(),\n\
-                         query.c_str(),\n\
-                         postquery.c_str());\n\
-           int result = db->ExecuteUpdate(_query);\n\
-           db->Commit();\n\
-           db->Close();\n\
-           if(result){\n\
-             wxString out;\n\
-             out.sprintf(_T(\" %s \\n delete records: %d\"), _query.c_str(), result);\n\
-             return out;\n\
-           }else{\n\
-             return (wxString)_T(\"NULL\");\n\
-           }\n\
-        }else{\n\
-           return (wxString)_T(\"NULL\");\n\
-        }\n\
-    }catch (wxSQLite3Exception\\& e){\n\
-       return (wxString)_T(\"NULL\");\n\
-    }\n\
-}\n");
-
-
-wxString wxsCPP_SELECT_METHOD =
-_T("\n\
-/**\n\
- * SELECT STATEMENT\n\
- */\n\
-\n\
-<tablename_capital>List Bridge<tablename_capital>::<tablename_capital>GetListFromQuery(const wxString\\& prequery,\n\
-                                                      const wxString\\& query,\n\
-                                                      const wxString\\& postquery,\n\
-                                                      int limit)\n\
-{\n\
-  <tablename_capital>List out;\n\
-  try{\n\
-     if(wxSQLite3Database* db = OpenDB())\n\
-     {\n\
-       wxString _query;\n\
-       _query.sprintf(_T(\"%s%s%s LIMIT %d ;\"),\n\
-                      prequery.c_str(),\n\
-                      query.c_str(),\n\
-                      postquery.c_str(), limit);\n\
-       wxSQLite3ResultSet q = db->ExecuteQuery(_query);\n\
-       while (q.NextRow())\n\
-       {\n\
-           <tablename_capital>Record ar;\n\
-           ar.ID = q.GetInt(0);\n\
-     <fieldslist_selectmethod>\
-           ar.query = _query;\n\
-           out.push_back(ar);\n\
-       }\n\
-       db->Close();\n\
-     }\n\
-     return out;\n\
-  }catch (wxSQLite3Exception\\& e){\n\
-     return out;\n\
-  }\n\
-}\n");
-
-
-
-wxString wxsCPP_UPDATE_METHOD =
-_T("\n\
-/**\n\
- * UPDATE STATEMENT\n\
- */\n\
-wxString Bridge<tablename_capital>::<tablename_capital>UpdateRecordsQueryWhere(const wxString\\& prequery,\n\
-                                                const wxString\\& query,\n\
-                                                const wxString\\& postquery,\n\
-                                                <tablename_capital>Record record)\n\
-{\n\
-    try{\n\
-        if(wxSQLite3Database* db = OpenDB())\n\
-        {\n\
-           db->Begin();\n\
-           wxString _query;\n\
-           _query.sprintf(_T(\"UPDATE <tablename> SET <fieldslist_updatemethod_p1> WHERE %s%s%s ;\"),\n\
-                         <fieldslist_updatemethod_p2>\
-                         prequery.c_str(),\n\
-                         query.c_str(),\n\
-                         postquery.c_str());\n\
-           int result = db->ExecuteUpdate(_query);\n\
-           db->Commit();\n\
-           db->Close();\n\
-           if(result){\n\
-             wxString out;\n\
-             out.sprintf(_T(\" %s \\n changed records: %d\"), _query.c_str(), result);\n\
-             return out;\n\
-           }else{\n\
-             return (wxString)_T(\"NULL\");\n\
-           }\n\
-        }else{\n\
-           return (wxString)_T(\"NULL\");\n\
-        }\n\
-    }catch (wxSQLite3Exception\\& e){\n\
-       return (wxString)_T(\"NULL\");\n\
-    }\n\
-}\n");
-
-
-
-
-
-
-wxString wxsCPP_INSERT_METHOD_1 =
-_T("\n\
-/**\n\
- * INSERT STATEMENT MULTI RECORDS\n\
- */\n\
-\n\
-wxString Bridge<tablename_capital>::<tablename_capital>InsertRecordsQuery(<tablename_capital>List records)\n\
-{\n\
-    try{\n\
-        if(wxSQLite3Database* db = OpenDB())\n\
-        {\n\
-           db->Begin();\n\
-           <tablename_capital>Iterator it;\n\
-           int result = 0 ,i=0;\n\
-           for (it = records.begin(); it!=records.end(); ++it,i++){\n\
-               <tablename_capital>Record record = *it;\n\
-               wxString _query;\n\
-               _query.sprintf(_T(\"INSERT INTO <tablename> (<fieldslist_insertmethod_p1>) VALUES ( <backslash><fieldslist_insertmethod_p2>) ;\"),\n\
-              <fieldslist_insertmethod_p3>\
-                             );\n\
-               result += db->ExecuteUpdate(_query);\n\
-           }\n\
-           db->Commit();\n\
-           db->Close();\n\
-           if(result){\n\
-             wxString out;\n\
-             out.sprintf(_T(\" insert records: %d/%d \"),result, i);\n\
-             return out;\n\
-           }else{\n\
-             return (wxString)_T(\"NULL\");\n\
-           }\n\
-        }else{\n\
-          return (wxString)_T(\"NULL\");\n\
-        }\n\
-    }catch (wxSQLite3Exception\\& e){\n\
-        return (wxString)_T(\"NULL\");\n\
-    }\n\
-}\n");
-
-
-wxString wxsCPP_INSERT_METHOD_2 =
-_T("\n\
-/**\n\
- * INSERT STATEMENT BY ONE\n\
- */\n\
-\n\
-wxString Bridge<tablename_capital>::<tablename_capital>InsertRecordQuery(<tablename_capital>Record record)\n\
-{\n\
-    try{\n\
-        if(wxSQLite3Database* db = OpenDB())\n\
-        {\n\
-           db->Begin();\n\
-           wxString _query;\n\
-           _query.sprintf(_T(\"INSERT INTO <tablename> (<fieldslist_insertmethod_p1>) VALUES ( <backslash><fieldslist_insertmethod_p2>) ;\"),\n\
-              <fieldslist_insertmethod_p3>\
-                         );\n\
-           int result = db->ExecuteUpdate(_query);\n\
-           db->Commit();\n\
-           db->Close();\n\
-           if(result){\n\
-             wxString out;\n\
-             out.sprintf(_T(\" %s \\n insert record: %d\"), _query.c_str(), result);\n\
-             return out;\n\
-           }else{\n\
-             return (wxString)_T(\"NULL\");\n\
-           }\n\
-        }else{\n\
-           return (wxString)_T(\"NULL\");\n\
-        }\n\
-    }catch (wxSQLite3Exception\\& e){\n\
-        return (wxString)_T(\"NULL\");\n\
-    }\n\
-}\n");
-
-
-
- /**
- * HEADER CHUNKS
- */
-
-wxString wxsH_FILE =
-_T("<wxsH_CHUNK_1>\n\
-<wxsH_INSERT_STATEMENTS_CHUNK_1>\n\
-<wxsH_SELECT_STATEMENTS_CHUNK_1>\n\
-<wxsH_SELECT_STATEMENTS_CHUNK_2>\n\
-<wxsH_UPDATE_STATEMENTS_CHUNK_1>\n\
-<wxsH_UPDATE_STATEMENTS_CHUNK_2>\n\
-<wxsH_DELETE_STATEMENTS_CHUNK_1>\n\
-<wxsH_DELETE_STATEMENTS_CHUNK_2>\n\
-<wxsH_TYPEDEF_STRUCT>\n\
-<wxsH_CLASS_DEFINE>");
-
-
-wxString wxsH_CHUNK_1 =
-_T("\
-/***************************************************************\n\
- * Name:      Bridge<tablename_capital>.h\n\
- * Purpose:   Layering Abstraction for SQL Statements\n\
- *            on '<tablename>' table.\n\
- * Author:    <author>\n\
- * Created:   <date>\n\
- * Copyright: <copyright>\n\
- * License:   <license>\n\
- **************************************************************\n\
- ** Generated with ClasSQL (<classql_version>)\n\
- **************************************************************/\n\
-\n\
-#ifndef BRIDGE<tablename_upper>_H\n\
-#define BRIDGE<tablename_upper>_H\n\
- \n\
- \n\
-#include <climits>\n\
-#include <cstring>\n\
-#include <cstdlib>\n\
-#include <cstddef>\n\
-#include <memory>\n\
-#include <iostream>\n\
-#include <list>\n\
-#include <vector>\n\
-\n\
-#include <wx/app.h>\n\
-#include \"wx/wxsqlite3.h\"\n\
-\n\
-//DEFINE PARAMETERS\n\
-#define DEFAULT_QUERY_LIMIT<whitespaces>(1000)\n\
-//MACRO TYPE\n\
-#define <tablename_capital>List        <whitespaces>std::<tdm><<tablename_capital>Record>\n\
-#define <tablename_capital>Iterator    <whitespaces>std::<tdm><<tablename_capital>Record>::iterator");
-
-
-wxString wxsH_INSERT_STATEMENTS_CHUNK_1 =
-_T("\n\
-/**\n\
- * INSERT STATEMENTS\n\
- */\n\
-//INSERT ONE RECORD\n\
-#define <tablename_capital>InsertRecord(x) <whitespaces><tablename_capital>InsertRecordQuery(x)\n\
-//INSERT LIST OF RECORDS\n\
-#define <tablename_capital>InsertRecords(x)<whitespaces><tablename_capital>InsertRecordsQuery(x)");
-
-
-wxString wxsH_SELECT_STATEMENTS_CHUNK_1 =
-_T("\n\
-/**\n\
- * SELECT STATEMENTS\n\
- */\n\
-//FREE QUERY WITHOUT LIMIT\n\
-#define <tablename_capital>GetListFreeStatement(x)       <whitespaces><tablename_capital>GetListFromQuery(_T(x),_T(\"\"),_T(\"\"))\n\
-//FREE QUERY WITH LIMIT\n\
-#define <tablename_capital>GetListFrameFreeStatement(x,y)<whitespaces><tablename_capital>GetListFromQuery(_T(x),_T(\"\"),_T(\"\"),y)\n\
-//FREE CONDITION WITHOUT LIMIT\n\
-#define <tablename_capital>GetListWhere(x)               <whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE \"),_T(x),_T(\"\"))\n\
-//FREE CONDITION WITH LIMIT\n\
-#define <tablename_capital>GetListFrameWhere(x,y)        <whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE \"),_T(x),_T(\"\"), y)\n\
-//SEARCH BY ID\n\
-#define <tablename_capital>GetListWhereID(x)             <whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE ID = \"),_T(x),_T(\" \"))\n\
-//SEARCH BY SINGLE FIELD");
-
-
-wxString wxsH_SELECT_STATEMENTS_MACRO_1 =
-_T("#define <tablename_capital>GetListWhere<fieldname_capital>Exactly(x)<whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> = '\"),_T(x),_T(\"' \"))\n");
-
-
-wxString wxsH_SELECT_STATEMENTS_MACRO_2 =
-_T("\n\
-#define <tablename_capital>GetListWhere<fieldname_capital>Like(x)<whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> LIKE '\"),_T(x), _T(\"' \"))");
-
-
-wxString wxsH_SELECT_STATEMENTS_MACRO_3 =
-_T("\n\
-#define <tablename_capital>GetListFrameWhere<fieldname_capital>Exactly(x,y)<whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> = '\"),_T(x),_T(\"' \"),y)");
-
-
-wxString wxsH_SELECT_STATEMENTS_MACRO_4 =
-_T("\n\
-#define <tablename_capital>GetListFrameWhere<fieldname_capital>Like(x,y)<whitespaces><tablename_capital>GetListFromQuery(_T(\"SELECT * FROM <tablename> WHERE <fieldname> LIKE '\"),_T(x), _T(\"' \"),y)");
-
-
-
-wxString wxsH_SELECT_STATEMENTS_CHUNK_2 =
-_T("\n\
-<wxsH_SELECT_STATEMENTS_MACRO_1>\n\
-<wxsH_SELECT_STATEMENTS_MACRO_2>\n\
-<wxsH_SELECT_STATEMENTS_MACRO_3>\n\
-<wxsH_SELECT_STATEMENTS_MACRO_4>\n");
-
-
-
-wxString wxsH_UPDATE_STATEMENTS_CHUNK_1 =
-_T("\n\
-/**\n\
- * UPDATE STATEMENTS\n\
- */\n\
-//FREE WHERE\n\
-#define <tablename_capital>UpdateRecordsWhere(x,y) <whitespaces><tablename_capital>UpdateRecordsQueryWhere(_T(x),_T(\"\"),_T(\"\"),y)\n\
-//UPDATE BY ID\n\
-#define <tablename_capital>UpdateRecordWhereID(x,y)<whitespaces><tablename_capital>UpdateRecordsQueryWhere(_T(\" ID = \"),_T(x),_T(\" \"),y)\n\
-//UPDATE BY SINGLE FIELD");
-
-
-
-
-wxString wxsH_UPDATE_STATEMENTS_MACRO_1 =
-_T("#define <tablename_capital>UpdateRecordsWhere<fieldname_capital>Exactly(x,y)<whitespaces><tablename_capital>UpdateRecordsQueryWhere(_T(\" <fieldname> = '\"),_T(x),_T(\"' \"),y)\n");
-
-wxString wxsH_UPDATE_STATEMENTS_MACRO_2 =
-_T("\n\
-#define <tablename_capital>UpdateRecordsWhere<fieldname_capital>Like(x,y)<whitespaces><tablename_capital>UpdateRecordsQueryWhere(_T(\" <fieldname> LIKE '\"),_T(x),_T(\"' \"),y)");
-
-
-wxString wxsH_UPDATE_STATEMENTS_CHUNK_2 =
-_T("\n\
-<wxsH_UPDATE_STATEMENTS_MACRO_1>\n\
-<wxsH_UPDATE_STATEMENTS_MACRO_2>\n");
-
-
-wxString wxsH_DELETE_STATEMENTS_CHUNK_1 =
-_T("\n\
-/**\n\
- * DELETE STATEMENTS\n\
- */\n\
-//FREE WHERE\n\
-#define <tablename_capital>DeleteRecordsWhere(x) <whitespaces><tablename_capital>DeleteRecordsQueryWhere(_T(x),_T(\"\"),_T(\"\"))\n\
-//DELETE BY ID\n\
-#define <tablename_capital>DeleteRecordWhereID(x)<whitespaces><tablename_capital>DeleteRecordsQueryWhere(_T(\" ID = \"),_T(x),_T(\" \"))\n\
-//DELETE BY SINGLE FIELD");
-
-
-
-wxString wxsH_DELETE_STATEMENTS_MACRO_1 =
-_T("#define <tablename_capital>DeleteRecordsWhere<fieldname_capital>Exactly(x)<whitespaces><tablename_capital>DeleteRecordsQueryWhere(_T(\" <fieldname> = '\"),_T(x),_T(\"' \"))\n");
-
-wxString wxsH_DELETE_STATEMENTS_MACRO_2 =
-_T("\n\
-#define <tablename_capital>DeleteRecordsWhere<fieldname_capital>Like(x)<whitespaces><tablename_capital>DeleteRecordsQueryWhere(_T(\" <fieldname> LIKE '\"),_T(x),_T(\"' \"))");
-
-
-wxString wxsH_DELETE_STATEMENTS_CHUNK_2 =
-_T("\n\
-<wxsH_DELETE_STATEMENTS_MACRO_1>\n\
-<wxsH_DELETE_STATEMENTS_MACRO_2>\n");
-
-
-
-wxString wxsH_TYPEDEF_STRUCT =
-_T("\n\
-typedef struct {\n\
-\n\
-  //FIX MEMBERS\n\
-  int ID;\n\
-  wxString query;\n\
-\n\
-  //FIELDS IN TABLE\n\
-  <fieldslist_intypedef>\n\
-\n\
-}<tablename_capital>Record;\n");
-
-
-
-wxString wxsH_CLASS_DEFINE =
-_T("\n\
-class Bridge<tablename_capital>\n\
-{\n\
-    public:\n\
-        Bridge<tablename_capital>(const wxString dbPath= _T(\"<default_dbpath>\"))\n\
-        {m_dbPath = dbPath; }\n\
-        ~Bridge<tablename_capital>();\n\
-\n\
-        //TRANSPORT METHODS\n\
-        wxString GetDBpath(void){ return m_dbPath; };\n\
-        void SetDBpath(wxString value){m_dbPath = value; }\n\
-\n\
-        //SQL GENERATE METHODS\n\
-        wxSQLite3Database* OpenDB(void);\n\
-        wxString <tablename_capital>InsertRecordQuery(<tablename_capital>Record record);\n\
-        wxString <tablename_capital>InsertRecordsQuery(<tablename_capital>List records);\n\
-        <tablename_capital>List <tablename_capital>GetListFromQuery(const wxString\\& prequery,\n\
-                                     const wxString\\& query,\n\
-                                     const wxString\\& postquery,\n\
-                                     int limit=DEFAULT_QUERY_LIMIT);\n\
-        wxString <tablename_capital>UpdateRecordsQueryWhere(const wxString\\& prequery,\n\
-                                     const wxString\\& query,\n\
-                                     const wxString\\& postquery,\n\
-                                     <tablename_capital>Record record);\n\
-        wxString <tablename_capital>DeleteRecordsQueryWhere(const wxString\\& prequery,\n\
-                                     const wxString\\& query,\n\
-                                     const wxString\\& postquery);\n\
-\n\
-\n\
-\n\
-    private:\n\
-        wxString m_dbPath;\n\
-};\n\
-\n\
-\n\
-#endif // BRIDGE<tablename_upper>_H\n");
-
-
-
-

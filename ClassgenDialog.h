@@ -124,11 +124,12 @@ class ClassgenDialog: public wxDialog
         }records;
 
 		//(*Declarations(ClassgenDialog)
+		wxButton* btnProcessIncludes;
 		wxTextCtrl* txtDBpath;
+		wxStaticText* labProjectName;
 		wxTextCtrl* txtLicense;
 		wxNotebook* Notebook1;
 		wxStaticText* StaticText2;
-		wxButton* btnCancel;
 		wxCheckListBox* clbxTables;
 		wxButton* btnDBprocess;
 		wxTextCtrl* txtCopyright;
@@ -137,7 +138,7 @@ class ClassgenDialog: public wxDialog
 		wxFileDialog* FileDialog1;
 		wxStaticText* StaticText3;
 		wxStaticBox* StaticBox1;
-		wxButton* btnOK;
+		wxPanel* Panel3;
 		wxStaticBox* StaticBox2;
 		wxGrid* gridFields;
 		wxRadioBox* rbxTDM;
@@ -145,18 +146,19 @@ class ClassgenDialog: public wxDialog
 		wxStaticBox* sbxLibraryrules;
 		wxStaticBox* StaticBox3;
 		wxStaticBox* sbxClassdefinition;
+		wxPanel* Panel2;
 		wxTextCtrl* txtAuthor;
 		wxStaticText* StaticText4;
 		wxButton* btnBrowseDB;
 		//*)
+		wxStdDialogButtonSizer* stbButtons;
+		wxButton* btnSave;
 
 	protected:
 
 		//(*Identifiers(ClassgenDialog)
 		static const long ID_STATICBOX1;
 		static const long ID_STATICBOX2;
-		static const long ID_BUTTON1;
-		static const long ID_BUTTON2;
 		static const long ID_STATICTEXT2;
 		static const long ID_TEXTCTRL2;
 		static const long ID_BUTTON3;
@@ -176,6 +178,10 @@ class ClassgenDialog: public wxDialog
 		static const long ID_STATICBOX5;
 		static const long ID_STATICTEXT5;
 		static const long ID_RADIOBOX1;
+		static const long ID_BUTTON5;
+		static const long ID_PANEL2;
+		static const long ID_STATICTEXT6;
+		static const long ID_PANEL3;
 		//*)
 
 		static const wxString TITLE_FDLG_DBPATH;
@@ -185,6 +191,8 @@ class ClassgenDialog: public wxDialog
 		static const wxString TITLE_MDLG_NOT_TABLE;
 		static const wxString TITLE_MDLG_EDITOR_ACCESS_ERROR;
 		static const wxString TITLE_MDLG_WRITE_FILE_ERROR;
+		static const wxString TITLE_MDLG_PROCESS_INCLUDES;
+		static const wxString TITLE_MDLG_NOT_TARGET_SELECTED;
 
 		static const wxString MSG_MDLG_FILE;
 		static const wxString MSG_MDLG_TABLE_STRUCT_NOT_AVAILABLE;
@@ -196,7 +204,12 @@ class ClassgenDialog: public wxDialog
 		static const wxString MSG_MDLG_NOT_WRITE_FILEH;
 		static const wxString MSG_MDLG_NOT_WRITE_FILECPP;
 		static const wxString MSG_MDLG_DBPATH_NOTVALID;
+		static const wxString MSG_MDLG_PROCESS_INCLUDES;
+        static const wxString MSG_MDLG_NOT_TARGET_SELECTED;
+
 		static const wxString LAB_BTNOK_GENERATE_CLASS;
+
+
 
 	private:
 
@@ -208,8 +221,11 @@ class ClassgenDialog: public wxDialog
 		void OnclbxTablesToggled(wxCommandEvent& event);
 		void OntxtDBpathText(wxCommandEvent& event);
 		void OnclbxTablesChecked(wxCommandEvent& event);
+		void OnbtnProcessIncludesClick(wxCommandEvent& event);
 		//*)
 		//DIALOG
+		void EndModal(int retCode);
+		void OnSave(wxCommandEvent& event);
 		void GenerateGrid(int rows);
 		void SetFieldsGrid(const wxString& col1, const wxString& col2, const wxString& col3, int row);
 		void AppendListItem(const wxString& item);
@@ -219,9 +235,10 @@ class ClassgenDialog: public wxDialog
 		bool ControlSelectedTables(void);
 		//TRANSPORT
 		void InitProjectCfg(void);
-		void SaveProjectCfg(void);
+		bool SaveProjectCfg(void);
 		//ENVIRONMENT
 		bool TransferRunlibsToEvironment(void);
+		bool SelectTargets(void);
 		bool SetCompilerOptions(void);
 		//CLASS GENERATION
 		bool DoFiles(void);

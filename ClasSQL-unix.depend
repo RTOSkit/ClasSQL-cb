@@ -2613,7 +2613,7 @@
 	"projectmanager.h"
 	<configurationpanel.h>
 
-1363067408 /home/bitehack/CBProjects/ClasSQL/ClassgenDialog.h
+1363151230 /home/bitehack/CBProjects/ClasSQL/ClassgenDialog.h
 	<wx/notebook.h>
 	<wx/stattext.h>
 	<wx/radiobox.h>
@@ -2803,7 +2803,7 @@
 
 1362920635 /home/bitehack/CBProjects/ClasSQL/runlibs/sqlite3/include/wx/wxsqlite3dyn.h
 
-1363053892 source:/home/bitehack/CBProjects/ClasSQL/ClassgenDialog.cpp
+1363130387 source:/home/bitehack/CBProjects/ClasSQL/ClassgenDialog.cpp
 	"ClassgenDialog.h"
 	<wx/settings.h>
 	<wx/font.h>
@@ -2813,6 +2813,9 @@
 	<cstring>
 	<cstdlib>
 	<memory>
+
+1363130440 source:/home/bitehack/CBProjects/ClasSQL/FilesTemplate.cpp
+	<wx/string.h>
 	<climits>
 	<cstring>
 	<cstdlib>

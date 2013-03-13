@@ -40,6 +40,7 @@
 		<Unit filename="ClassgenDialog.h" />
 		<Unit filename="ConfigPanel.cpp" />
 		<Unit filename="ConfigPanel.h" />
+		<Unit filename="FilesTemplate.cpp" />
 		<Unit filename="ProjectCfg.cpp" />
 		<Unit filename="ProjectCfg.h" />
 		<Unit filename="manifest.xml" />
