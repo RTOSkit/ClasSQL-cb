@@ -674,7 +674,7 @@ bool ClassgenDialog::SaveProjectCfg(void)
     }else{
         out=false;
     }
-
+    return out;
 }
 
 

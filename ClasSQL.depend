@@ -3298,7 +3298,7 @@
 
 1362680082 /usr/include/wx-2.8/wx/msw/popupwin.h
 
-1363069496 source:c:\users\bitehack\cbprojects\classql\classgendialog.cpp
+1363159802 source:c:\users\bitehack\cbprojects\classql\classgendialog.cpp
 	"ClassgenDialog.h"
 	<wx/settings.h>
 	<wx/font.h>
@@ -3308,15 +3308,6 @@
 	<cstring>
 	<cstdlib>
 	<memory>
-	<climits>
-	<cstring>
-	<cstdlib>
-	<cstddef>
-	<memory>
-	<iostream>
-	<list>
-	<vector>
-	<wx/app.h>
 
 1363156968 c:\users\bitehack\cbprojects\classql\classgendialog.h
 	<wx/notebook.h>
@@ -6618,7 +6609,7 @@
 1309439458 c:\sourcecode\libraries\wxwidgets2.8\include\wx\univ\theme.h
 	"wx/string.h"
 
-1363058962 source:c:\users\bitehack\cbprojects\classql\classql.cpp
+1363160133 source:c:\users\bitehack\cbprojects\classql\classql.cpp
 	<sdk.h>
 	<wx/fs_zip.h>
 	<wx/intl.h>
