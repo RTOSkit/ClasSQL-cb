@@ -3298,7 +3298,7 @@
 
 1362680082 /usr/include/wx-2.8/wx/msw/popupwin.h
 
-1363159802 source:c:\users\bitehack\cbprojects\classql\classgendialog.cpp
+1363160791 source:c:\users\bitehack\cbprojects\classql\classgendialog.cpp
 	"ClassgenDialog.h"
 	<wx/settings.h>
 	<wx/font.h>
@@ -6609,7 +6609,7 @@
 1309439458 c:\sourcecode\libraries\wxwidgets2.8\include\wx\univ\theme.h
 	"wx/string.h"
 
-1363160133 source:c:\users\bitehack\cbprojects\classql\classql.cpp
+1363160789 source:c:\users\bitehack\cbprojects\classql\classql.cpp
 	<sdk.h>
 	<wx/fs_zip.h>
 	<wx/intl.h>
@@ -8007,7 +8007,7 @@
 
 1362981449 c:\users\bitehack\cbprojects\classql\runlibs\sqlite3\include\wx\wxsqlite3dyn.h
 
-1363156111 source:c:\users\bitehack\cbprojects\classql\filestemplate.cpp
+1363638130 source:c:\users\bitehack\cbprojects\classql\filestemplate.cpp
 	<wx/string.h>
 	<climits>
 	<cstring>
