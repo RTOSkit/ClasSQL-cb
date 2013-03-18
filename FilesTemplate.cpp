@@ -62,17 +62,16 @@ wxString Bridge<tablename_capital>::<tablename_capital>DeleteRecordsQueryWhere(c
                                                  const wxString\\& postquery)\n\
 {\n\
     try{\n\
-        if(wxSQLite3Database* db = OpenDB())\n\
+        if((m_db!=NULL)\\&\\&(m_db->IsOpen()))\n\
         {\n\
-           db->Begin();\n\
+           m_db->Begin();\n\
            wxString _query;\n\
            _query.sprintf(_T(\"DELETE FROM <tablename> WHERE %s%s%s ;\"),\n\
                          prequery.c_str(),\n\
                          query.c_str(),\n\
                          postquery.c_str());\n\
-           int result = db->ExecuteUpdate(_query);\n\
-           db->Commit();\n\
-           db->Close();\n\
+           int result = m_db->ExecuteUpdate(_query);\n\
+           m_db->Commit();\n\
            if(result){\n\
              wxString out;\n\
              out.sprintf(_T(\" %s \\n delete records: %d\"), _query.c_str(), result);\n\
@@ -102,14 +101,14 @@ _T("\n\
 {\n\
   <tablename_capital>List out;\n\
   try{\n\
-     if(wxSQLite3Database* db = OpenDB())\n\
+     if((m_db!=NULL)\\&\\&(m_db->IsOpen()))\n\
      {\n\
        wxString _query;\n\
        _query.sprintf(_T(\"%s%s%s LIMIT %d ;\"),\n\
                       prequery.c_str(),\n\
                       query.c_str(),\n\
                       postquery.c_str(), limit);\n\
-       wxSQLite3ResultSet q = db->ExecuteQuery(_query);\n\
+       wxSQLite3ResultSet q = m_db->ExecuteQuery(_query);\n\
        while (q.NextRow())\n\
        {\n\
            <tablename_capital>Record ar;\n\
@@ -118,7 +117,6 @@ _T("\n\
            ar.query = _query;\n\
            out.push_back(ar);\n\
        }\n\
-       db->Close();\n\
      }\n\
      return out;\n\
   }catch (wxSQLite3Exception\\& e){\n\
@@ -139,18 +137,17 @@ wxString Bridge<tablename_capital>::<tablename_capital>UpdateRecordsQueryWhere(c
                                                 <tablename_capital>Record record)\n\
 {\n\
     try{\n\
-        if(wxSQLite3Database* db = OpenDB())\n\
+        if((m_db!=NULL)\\&\\&(m_db->IsOpen()))\n\
         {\n\
-           db->Begin();\n\
+           m_db->Begin();\n\
            wxString _query;\n\
            _query.sprintf(_T(\"UPDATE <tablename> SET <fieldslist_updatemethod_p1> WHERE %s%s%s ;\"),\n\
                          <fieldslist_updatemethod_p2>\
                          prequery.c_str(),\n\
                          query.c_str(),\n\
                          postquery.c_str());\n\
-           int result = db->ExecuteUpdate(_query);\n\
-           db->Commit();\n\
-           db->Close();\n\
+           int result = m_db->ExecuteUpdate(_query);\n\
+           m_db->Commit();\n\
            if(result){\n\
              wxString out;\n\
              out.sprintf(_T(\" %s \\n changed records: %d\"), _query.c_str(), result);\n\
@@ -180,9 +177,9 @@ _T("\n\
 wxString Bridge<tablename_capital>::<tablename_capital>InsertRecordsQuery(<tablename_capital>List records)\n\
 {\n\
     try{\n\
-        if(wxSQLite3Database* db = OpenDB())\n\
+        if((m_db!=NULL)\\&\\&(m_db->IsOpen()))\n\
         {\n\
-           db->Begin();\n\
+           m_db->Begin();\n\
            <tablename_capital>Iterator it;\n\
            int result = 0 ,i=0;\n\
            for (it = records.begin(); it!=records.end(); ++it,i++){\n\
@@ -191,10 +188,9 @@ wxString Bridge<tablename_capital>::<tablename_capital>InsertRecordsQuery(<table
                _query.sprintf(_T(\"INSERT INTO <tablename> (<fieldslist_insertmethod_p1>) VALUES ( <backslash><fieldslist_insertmethod_p2>) ;\"),\n\
               <fieldslist_insertmethod_p3>\
                              );\n\
-               result += db->ExecuteUpdate(_query);\n\
+               result += m_db->ExecuteUpdate(_query);\n\
            }\n\
-           db->Commit();\n\
-           db->Close();\n\
+           m_db->Commit();\n\
            if(result){\n\
              wxString out;\n\
              out.sprintf(_T(\" insert records: %d/%d \"),result, i);\n\
@@ -220,16 +216,15 @@ _T("\n\
 wxString Bridge<tablename_capital>::<tablename_capital>InsertRecordQuery(<tablename_capital>Record record)\n\
 {\n\
     try{\n\
-        if(wxSQLite3Database* db = OpenDB())\n\
+        if((m_db!=NULL)\\&\\&(m_db->IsOpen()))\n\
         {\n\
-           db->Begin();\n\
+           m_db->Begin();\n\
            wxString _query;\n\
            _query.sprintf(_T(\"INSERT INTO <tablename> (<fieldslist_insertmethod_p1>) VALUES ( <backslash><fieldslist_insertmethod_p2>) ;\"),\n\
               <fieldslist_insertmethod_p3>\
                          );\n\
-           int result = db->ExecuteUpdate(_query);\n\
-           db->Commit();\n\
-           db->Close();\n\
+           int result = m_db->ExecuteUpdate(_query);\n\
+           m_db->Commit();\n\
            if(result){\n\
              wxString out;\n\
              out.sprintf(_T(\" %s \\n insert record: %d\"), _query.c_str(), result);\n\
@@ -435,16 +430,25 @@ _T("\n\
 class Bridge<tablename_capital>\n\
 {\n\
     public:\n\
-        Bridge<tablename_capital>(const wxString dbPath= _T(\"<default_dbpath>\"))\n\
-        {m_dbPath = dbPath; }\n\
-        ~Bridge<tablename_capital>();\n\
+        Bridge<tablename_capital>(const wxString dbPath= _T(\"<default_dbpath>\"),wxSQLite3Database* db=NULL)\n\
+        {m_dbPath = dbPath; m_db = (db!=NULL)?db:OpenDB();}\n\
+        ~Bridge<tablename_capital>()\n\
+        {if((m_db!=NULL)\\&\\&(m_db->IsOpen())){m_db->Close();}}\n\
 \n\
         //TRANSPORT METHODS\n\
         wxString GetDBpath(void){ return m_dbPath; };\n\
         void SetDBpath(wxString value){m_dbPath = value; }\n\
+        wxSQLite3Database* GetDB(void) {return m_db;}\n\
+        void SetDB(wxSQLite3Database* value){ m_db = value; }\n\
 \n\
         //SQL GENERATE METHODS\n\
         wxSQLite3Database* OpenDB(void);\n\
+        void ReopenDB(void)\n\
+        {if((m_db!=NULL)\\&\\&(m_db->IsOpen())){m_db->Close();} m_db = OpenDB();}\n\
+        void CloseDB(void)\n\
+        {if((m_db!=NULL)\\&\\&(m_db->IsOpen())){m_db->Close();}}\n\
+        bool IsOpenDB(void)\n\
+        { return ((m_db!=NULL)?m_db->IsOpen():false);}\n\
         wxString <tablename_capital>InsertRecordQuery(<tablename_capital>Record record);\n\
         wxString <tablename_capital>InsertRecordsQuery(<tablename_capital>List records);\n\
         <tablename_capital>List <tablename_capital>GetListFromQuery(const wxString\\& prequery,\n\
@@ -463,6 +467,7 @@ class Bridge<tablename_capital>\n\
 \n\
     private:\n\
         wxString m_dbPath;\n\
+        wxSQLite3Database* m_db;\n\
 };\n\
 \n\
 \n\

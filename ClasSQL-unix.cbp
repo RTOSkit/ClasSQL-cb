@@ -18,6 +18,7 @@
 					<Add directory="runlibs/sqlite3/include" />
 					<Add directory="runlibs/sqlite3/api" />
 					<Add directory="sqlbridges" />
+					<Add directory="runlibs/sqlite3/include/" />
 				</Compiler>
 				<Linker>
 					<Add option="`pkg-config --libs codeblocks`" />
